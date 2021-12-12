@@ -8,6 +8,12 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './Miscellaneous/miscellaneous.module';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ParametrageComponent } from './parametrage/parametrage.component';
+import { TypeComponent } from './parametrage/type/type.component';
+import { DommageComponent } from './parametrage/dommage/dommage.component';
+import { WebcamModule } from 'ngx-webcam';
+import { InspecteurComponent } from './inspecteur/inspecteur.component';
 
 @NgModule({
   imports: [
@@ -17,11 +23,17 @@ import { UtilisateurComponent } from './utilisateur/utilisateur.component';
     DashboardModule,
     ECommerceModule,
     MiscellaneousModule,
-    NbCardModule
+    NbCardModule,
+    Ng2SmartTableModule,
+    WebcamModule
   ],
   declarations: [
     PagesComponent,
     UtilisateurComponent,
+    ParametrageComponent,
+    TypeComponent,
+    DommageComponent,
+    InspecteurComponent,
   ],
 })
 export class PagesModule {
