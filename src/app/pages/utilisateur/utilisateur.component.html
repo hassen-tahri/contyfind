@@ -1,9 +1,14 @@
 <nb-card>
     <nb-card-header>
-        Liste des utilisateurs
+    Liste des utilisateurs
     </nb-card-header>
-
-    <nb-card-body>
-
+  
+    <nb-card-body style="padding-left: 0px;">
+      <ng2-smart-table [settings]="settings" [source]="source" 
+      (editConfirm)="onSaveConfirm($event)"
+      (createConfirm)="onCreateConfirm($event)"
+      (deleteConfirm)="onDeleteConfirm($event)">
+      </ng2-smart-table>
     </nb-card-body>
-</nb-card>
+  </nb-card>
+  
