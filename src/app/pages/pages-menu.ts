@@ -15,6 +15,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'utilisateur',
     icon: 'home-outline',
-    link: '/pages/utilisatuer',
+    link: '/pages/utilisateur',
+  },
+  {
+    title: 'Paramétrage',
+    icon: 'home-outline',
+    link: '/pages/parametrage',
   },
 ];

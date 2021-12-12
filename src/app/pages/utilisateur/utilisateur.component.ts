@@ -43,15 +43,26 @@ export class UtilisateurComponent implements OnInit {
         title: 'Mot de passe',
         type: 'string',
       },
-      rolepseudo: {
+      role: {
         title: 'Role',
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Role',
+            list: [
+              { value: 'admin', title: 'administrateur' },
+              { value: 'user', title: 'Agent' },
+              { value: 'client', title: 'Client' }
+          ],
+          },
+        },
         editor: {
           type: 'list',
           config: {
             selectText: 'Select',
             list: [
               { value: 'admin', title: 'administrateur' },
-              { value: 'user', title: 'Agent' },
+              { value: 'inspecteur', title: 'inspecteur' },
               { value: 'client', title: 'Client' }
             ],
           },

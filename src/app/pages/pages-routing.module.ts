@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './Miscellaneous/not-found/not-found.component';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { ParametrageComponent } from './parametrage/parametrage.component';
 
 const routes: Routes = [{
   path: '',
@@ -20,8 +21,12 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
-      path: 'utilisatuer',
+      path: 'utilisateur',
       component: UtilisateurComponent,
+    },
+    {
+      path: 'parametrage',
+      component: ParametrageComponent,
     },
    /*  {
       path: 'layout',
