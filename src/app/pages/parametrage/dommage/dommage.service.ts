@@ -18,12 +18,12 @@ export class DommageService {
     return this.httpclient.get<Dommage[]>(this.url).toPromise();
   }
 
-  async addDommage(user: Dommage) {
-    return this.httpclient.post(this.url, user).toPromise();
+  async addDommage(dommage: Dommage) {
+    return this.httpclient.post(this.url, dommage).toPromise();
   }
 
-  async editDommage(user: Dommage) {
-    return this.httpclient.put(this.url + '/' + user.id, user).toPromise();
+  async editDommage(dommage: Dommage) {
+    return this.httpclient.put(this.url + '/' + dommage.id, dommage).toPromise();
   }
 
   async deleteDommage(id: number) {

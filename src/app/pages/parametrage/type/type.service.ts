@@ -18,12 +18,12 @@ export class TypeService {
     return this.httpclient.get<TypeRemorque[]>(this.url).toPromise();
   }
 
-  async addType(user: TypeRemorque) {
-    return this.httpclient.post(this.url, user).toPromise();
+  async addType(type: TypeRemorque) {
+    return this.httpclient.post(this.url, type).toPromise();
   }
 
-  async editType(user: TypeRemorque) {
-    return this.httpclient.put(this.url + '/' + user.id, user).toPromise();
+  async editType(type: TypeRemorque) {
+    return this.httpclient.put(this.url + '/' + type.id, type).toPromise();
   }
 
   async deleteType(id: number) {
