@@ -25,6 +25,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalDommageItemComponent } from './constat/modal-dommage-item/modal-dommage-item.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { VoyageComponent } from './voyage/voyage.component';
+import { PortComponent } from './parametrage/port/port.component';
+import { BateauComponent } from './parametrage/bateau/bateau.component';
 
 
 
@@ -67,6 +69,8 @@ import { VoyageComponent } from './voyage/voyage.component';
     ConstatComponent,
     ModalDommageItemComponent,
     VoyageComponent,
+    PortComponent,
+    BateauComponent,
   ],
 })
 export class PagesModule {
