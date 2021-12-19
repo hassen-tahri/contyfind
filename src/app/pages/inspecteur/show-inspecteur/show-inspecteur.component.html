@@ -1,0 +1,58 @@
+<form class="form-group"  #form="ngForm"  #monFormulairej = ngForm autocomplete="off">
+    <nb-card>
+        <nb-card-body>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputNom" class="label">Nom</label>
+                        <input type="text" nbInput fullWidth id="Remorque" disabled placeholder="Nom" [(ngModel)]="inspecteur.nom" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputPrenom" class="label">Prenom</label>
+                        <input type="text" nbInput fullWidth id="Prenom" placeholder="Prenom" disabled [(ngModel)]="inspecteur.prenom" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputEmail" class="label">Email</label>
+                        <input type="email" nbInput fullWidth id="Email" placeholder="Email" disabled [(ngModel)]="inspecteur.email" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputTel" class="label">Tel</label>
+                        <input type="text" nbInput fullWidth id="Tel" placeholder="Tel" disabled [(ngModel)]="inspecteur.numTel" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputPseudo" class="label">Pseudo</label>
+                        <input type="text" nbInput fullWidth id="Pseudo" placeholder="Pseudo" disabled [(ngModel)]="user.pseudo" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputmdp" class="label">Mot de passe</label>
+                        <input type="text" nbInput fullWidth id="mdp" placeholder="Mot de passe" disabled [(ngModel)]="user.mpd" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <div style="text-align:right;">
+                <button nbButton status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+            </div>
+        </nb-card-footer>
+    </nb-card>
+</form>

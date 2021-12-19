@@ -7,6 +7,9 @@ import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './Miscellaneous/not-found/not-found.component';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
 import { ParametrageComponent } from './parametrage/parametrage.component';
+import { InspecteurComponent } from './inspecteur/inspecteur.component';
+import { ChargeurComponent } from './chargeur/chargeur.component';
+import { ConstatComponent } from './constat/constat.component';
 
 const routes: Routes = [{
   path: '',
@@ -27,6 +30,18 @@ const routes: Routes = [{
     {
       path: 'parametrage',
       component: ParametrageComponent,
+    },
+    {
+      path: 'inspecteur',
+      component: InspecteurComponent,
+    },
+    {
+      path: 'chargeur',
+      component: ChargeurComponent,
+    },
+    {
+      path: 'constat',
+      component: ConstatComponent,
     },
    /*  {
       path: 'layout',

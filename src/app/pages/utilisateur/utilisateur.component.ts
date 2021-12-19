@@ -51,8 +51,8 @@ export class UtilisateurComponent implements OnInit {
             selectText: 'Role',
             list: [
               { value: 'admin', title: 'administrateur' },
-              { value: 'user', title: 'Agent' },
-              { value: 'client', title: 'Client' }
+              { value: 'inspecteur', title: 'Inspecteur' },
+              { value: 'chargeur', title: 'Chargeur' }
           ],
           },
         },
@@ -61,9 +61,9 @@ export class UtilisateurComponent implements OnInit {
           config: {
             selectText: 'Select',
             list: [
-              { value: 'admin', title: 'administrateur' },
-              { value: 'inspecteur', title: 'inspecteur' },
-              { value: 'client', title: 'Client' }
+              { value: 'admin', title: 'Administrateur' },
+              { value: 'inspecteur', title: 'Inspecteur' },
+              { value: 'chargeur', title: 'Chargeur' }
             ],
           },
         },

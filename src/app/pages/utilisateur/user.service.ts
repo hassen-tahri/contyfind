@@ -30,4 +30,8 @@ export class UserService {
     return this.httpclient.delete(this.url + '/' + id).toPromise();
   }
 
+  async getByPseudo(pseudo : string) {
+    return this.httpclient.get<User>(this.url + '/pseudo/' + pseudo).toPromise();
+  }
+
 }

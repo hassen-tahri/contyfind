@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbCardModule, NbMenuModule } from '@nebular/theme';
+import { NbAccordionModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbInputModule, NbLayoutModule, NbMenuModule, NbToastrModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -14,6 +14,19 @@ import { TypeComponent } from './parametrage/type/type.component';
 import { DommageComponent } from './parametrage/dommage/dommage.component';
 import { WebcamModule } from 'ngx-webcam';
 import { InspecteurComponent } from './inspecteur/inspecteur.component';
+import { ModalInspecteurComponent } from './inspecteur/modal-inspecteur/modal-inspecteur.component';
+import { ShowInspecteurComponent } from './inspecteur/show-inspecteur/show-inspecteur.component';
+import { FormsModule } from '@angular/forms';
+import { ChargeurComponent } from './chargeur/chargeur.component';
+import { ModalChargeurComponent } from './chargeur/modal-chargeur/modal-chargeur.component';
+import { ShowChargeurComponent } from './chargeur/show-chargeur/show-chargeur.component';
+import { ConstatComponent } from './constat/constat.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalDommageItemComponent } from './constat/modal-dommage-item/modal-dommage-item.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { VoyageComponent } from './voyage/voyage.component';
+
+
 
 @NgModule({
   imports: [
@@ -25,7 +38,19 @@ import { InspecteurComponent } from './inspecteur/inspecteur.component';
     MiscellaneousModule,
     NbCardModule,
     Ng2SmartTableModule,
-    WebcamModule
+    WebcamModule, 
+    NbToastrModule,
+    NbButtonModule,
+    FormsModule,
+    NbLayoutModule,
+    NbInputModule,
+    NgSelectModule,
+    NbCheckboxModule,
+    NbDatepickerModule,
+    NbAccordionModule,
+    ImageCropperModule
+    
+    
   ],
   declarations: [
     PagesComponent,
@@ -34,6 +59,14 @@ import { InspecteurComponent } from './inspecteur/inspecteur.component';
     TypeComponent,
     DommageComponent,
     InspecteurComponent,
+    ModalInspecteurComponent,
+    ShowInspecteurComponent,
+    ChargeurComponent,
+    ModalChargeurComponent,
+    ShowChargeurComponent,
+    ConstatComponent,
+    ModalDommageItemComponent,
+    VoyageComponent,
   ],
 })
 export class PagesModule {

@@ -22,4 +22,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'home-outline',
     link: '/pages/parametrage',
   },
+  {
+    title: 'Inspecteur',
+    icon: 'home-outline',
+    link: '/pages/inspecteur',
+  },
+  {
+    title: 'Chargeur',
+    icon: 'home-outline',
+    link: '/pages/chargeur',
+  },
+  {
+    title: 'Constat',
+    icon: 'home-outline',
+    link: '/pages/constat',
+  },
 ];
