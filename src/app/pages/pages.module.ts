@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbInputModule, NbLayoutModule, NbMenuModule, NbToastrModule } from '@nebular/theme';
+import { NbAccordionModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbInputModule, NbLayoutModule, NbMenuModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -50,7 +50,9 @@ import { BateauComponent } from './parametrage/bateau/bateau.component';
     NbCheckboxModule,
     NbDatepickerModule,
     NbAccordionModule,
-    ImageCropperModule
+    ImageCropperModule,
+    NbTooltipModule,
+    NbToggleModule
     
     
   ],

@@ -16,4 +16,5 @@ export class PagesComponent {
 
   menu = MENU_ITEMS;
   public static urlConfig = 'http://localhost:9099/';
+  public static urlDomaine = 'http://localhost:4200/';
 }
