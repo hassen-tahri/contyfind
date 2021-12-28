@@ -63,7 +63,6 @@ export class InspecteurComponent implements OnInit {
       nom: {
         title: 'Nom',
         type: 'text',
-        width: '150px'
       },
       prenom: {
         title: 'Prenom',

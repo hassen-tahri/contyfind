@@ -5,14 +5,14 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputNom" class="label">Nom</label>
-                        <input type="text" nbInput fullWidth id="Remorque" placeholder="Nom" [(ngModel)]="inspecteur.nom" [ngModelOptions]="{standalone: true}">
+                        <input type="text" nbInput fullWidth id="Remorque" placeholder="Nom" name="nom" (change)="calculateUser($event)"  [(ngModel)]="inspecteur.nom" >
                     </div>
                 </div>
 
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputPrenom" class="label">Prenom</label>
-                        <input type="text" nbInput fullWidth id="Prenom" placeholder="Prenom" [(ngModel)]="inspecteur.prenom" [ngModelOptions]="{standalone: true}">
+                        <input type="text" nbInput fullWidth id="Prenom" name="prenom" placeholder="Prenom"  (change)="calculateUser($event)"  [(ngModel)]="inspecteur.prenom" >
                     </div>
                 </div>
             </div>
@@ -21,14 +21,14 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputEmail" class="label">Email</label>
-                        <input type="email" nbInput fullWidth id="Email" placeholder="Email" [(ngModel)]="inspecteur.email" [ngModelOptions]="{standalone: true}">
+                        <input type="email" nbInput fullWidth id="Email" name="email" placeholder="Email" required [(ngModel)]="inspecteur.email" >
                     </div>
                 </div>
 
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputTel" class="label">Tel</label>
-                        <input type="text" nbInput fullWidth id="Tel" placeholder="Tel" [(ngModel)]="inspecteur.numTel" [ngModelOptions]="{standalone: true}">
+                        <input type="text" nbInput fullWidth id="Tel" placeholder="Tel" name="tel" [(ngModel)]="inspecteur.numTel" >
                     </div>
                 </div>
             </div>
@@ -37,14 +37,14 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputPseudo" class="label">Pseudo</label>
-                        <input type="text" nbInput fullWidth id="Pseudo" placeholder="Pseudo"  [(ngModel)]="user.pseudo" [ngModelOptions]="{standalone: true}">
+                        <input type="text" nbInput fullWidth id="Pseudo" placeholder="Pseudo" name="pseudo"   [(ngModel)]="user.pseudo"  [disabled]="editingUser">
                     </div>
                 </div>
 
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputmdp" class="label">Mot de passe</label>
-                        <input type="text" nbInput fullWidth id="mdp" placeholder="Mot de passe" [(ngModel)]="user.mpd" [ngModelOptions]="{standalone: true}">
+                        <input type="text" nbInput fullWidth id="mdp" placeholder="Mot de passe" name="mpd" [(ngModel)]="user.mpd" [disabled]="true">
                     </div>
                 </div>
             </div>

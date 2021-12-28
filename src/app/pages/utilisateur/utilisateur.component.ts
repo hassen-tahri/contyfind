@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NbToastrService } from '@nebular/theme';
 import { UserService } from './user.service';
 
 @Component({
@@ -8,7 +9,8 @@ import { UserService } from './user.service';
 })
 export class UtilisateurComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+    private toastrService: NbToastrService) { }
   source: any
   async ngOnInit() {
     this.source = await this.userService.getAll()
@@ -93,11 +95,16 @@ export class UtilisateurComponent implements OnInit {
     //     event.confirm.reject();
     // }
     // else {
-    this.userService.addUser(event.newData);
-    setTimeout(async () => {
-      this.source = await this.userService.getAll()
-    }, 3000);
-    event.confirm.resolve(event.newData);
+    if (!!await this.userService.getByPseudo(event.newData.pseudo))
+    { this.toastrService.danger("Alert", "Pseudo invalide il faut le changer") }
+    else {
+      this.userService.addUser(event.newData);
+      setTimeout(async () => {
+        this.source = await this.userService.getAll()
+        this.toastrService.success("Succès", "Utilisateur ajouté avec Succès")
+      }, 3000);
+      event.confirm.resolve(event.newData);
+    }
   }
 
   async onSaveConfirm(event) {
