@@ -10,6 +10,7 @@ import { ParametrageComponent } from './parametrage/parametrage.component';
 import { InspecteurComponent } from './inspecteur/inspecteur.component';
 import { ChargeurComponent } from './chargeur/chargeur.component';
 import { ConstatComponent } from './constat/constat.component';
+import { VoyageComponent } from './voyage/voyage.component';
 
 const routes: Routes = [{
   path: '',
@@ -42,6 +43,10 @@ const routes: Routes = [{
     {
       path: 'constat',
       component: ConstatComponent,
+    },
+    {
+      path: 'voyage',
+      component: VoyageComponent,
     },
    /*  {
       path: 'layout',
