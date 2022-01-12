@@ -71,7 +71,6 @@ export class ModalInspecteurComponent implements OnInit {
       }
     }
     if (e === '1') {
-      this.userService.editUser(this.user)
       this.inspecteurService.editInspecteur(this.inspecteur, this.user.id)
       localStorage.removeItem('e');
       localStorage.removeItem('id');
