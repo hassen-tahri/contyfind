@@ -1,1 +1,70 @@
-<p>show-chargeur works!</p>
+<form class="form-group"  #form="ngForm"  #monFormulairej = ngForm autocomplete="off">
+    <nb-card>
+        <nb-card-body>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputNom" class="label">Intitule</label>
+                        <input type="text" nbInput fullWidth id="Intitule" placeholder="Intitule" name="Intitule" [(ngModel)]="chargeur.intitule"  readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputPrenom" class="label">Pays</label>
+                        <input type="text" nbInput fullWidth id="Pays" placeholder="Pays" name="Pays" [(ngModel)]="chargeur.pays" readonly >
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputEmail" class="label">Adresse</label>
+                        <input type="text" nbInput fullWidth id="Adresse" placeholder="Adresse" name="Adresse" [(ngModel)]="chargeur.adresse" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputEmail" class="label">Email</label>
+                        <input type="email" nbInput fullWidth id="Email" placeholder="Email" name="Email" required [(ngModel)]="chargeur.email" readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputTel" class="label">Tel</label>
+                        <input type="text" nbInput fullWidth id="Tel" placeholder="Tel" name="Tel" [(ngModel)]="chargeur.numTel" readonly>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" *ngIf="haveUser">
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputPseudo" class="label">Pseudo</label>
+                        <input type="text" nbInput fullWidth id="Pseudo" placeholder="Pseudo" name="pseudo" [(ngModel)]="user.pseudo" readonly> 
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputmdp" class="label">Mot de passe</label>
+                        <input type="text" nbInput fullWidth id="mdp" placeholder="Mot de passe" name="mpd" [(ngModel)]="user.mpd" readonly>
+                    </div>
+                </div>
+
+            </div>
+
+        </nb-card-body>
+        <nb-card-footer>
+            <div style="text-align:right;">
+                <button nbButton status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+            </div>
+        </nb-card-footer>
+    </nb-card>
+</form>

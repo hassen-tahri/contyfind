@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { NbToastrService, NbWindowRef } from '@nebular/theme';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { createWorker } from "tesseract.js";
+import { runInThisContext } from 'vm';
+import { Mail } from '../../mailing/mail';
+import { MailService } from '../../mailing/mail.service';
+import { PagesComponent } from '../../pages.component';
 import { User } from '../../utilisateur/user';
 import { UserService } from '../../utilisateur/user.service';
 import { Chargeur } from '../chargeur';
@@ -22,12 +26,15 @@ export class ModalChargeurComponent implements OnInit {
   checked: any
   editingUser: boolean
   haveUser: boolean
+  mail: Mail
+  urlDomaine = PagesComponent.urlDomaine
 
   constructor(private toastrService: NbToastrService,
     private router: Router,
     public windowRef: NbWindowRef,
     private chargeurService: ChargeurService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private mailService: MailService) { }
 
   async ngOnInit() {
     this.haveUser = false
@@ -66,7 +73,6 @@ export class ModalChargeurComponent implements OnInit {
     let e = localStorage.getItem('e');
     //add
     if (e === '0') {
-      //user to be add
       if (this.toBeAdd) {
         this.user.role = "chargeur"
         if (!!await this.userService.getByPseudo(this.user.pseudo)) {
@@ -77,44 +83,72 @@ export class ModalChargeurComponent implements OnInit {
           this.userService.addUser(this.user)
           await this.delay(1000)
           this.user = await this.userService.getByPseudo(this.user.pseudo)
+          this.chargeurService.addChargeur(this.chargeur, this.user.id)
+          this.mail = this.calculateMail(this.user, this.chargeur)
+          this.mailService.sendMail(this.mail)
+          localStorage.removeItem('e');
+          localStorage.removeItem('id');
+          this.windowRef.close();
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+            this.router.navigate(['/pages/chargeur']));
+          this.toastrService.success("Succès", "Chargeur ajouté");
         }
       }
-      //without user
-      else { this.user.id = -1 }
-      //add chargeur
-      this.chargeurService.addChargeur(this.chargeur, this.user.id)
-      //mailing
-      localStorage.removeItem('e');
-      localStorage.removeItem('id');
-      this.windowRef.close();
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-        this.router.navigate(['/pages/chargeur']));
-      this.toastrService.success("Succès", "Chargeur ajouté");
+      else {
+        this.user = await this.userService.getByPseudo(this.user.pseudo)
+        this.chargeurService.addChargeur(this.chargeur, -1)
+        localStorage.removeItem('e');
+        localStorage.removeItem('id');
+        this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+          this.router.navigate(['/pages/chargeur']));
+        this.toastrService.success("Succès", "Chargeur ajouté");
+      }
     }
     //update
     if (e === '1') {
-      if (!!await this.userService.getByPseudo(this.user.pseudo)) {
-        this.toastrService.danger("Alert", "Pseudo invalide il faut le changer")
-        this.editingUser = false
+      //ken 3andou user
+      if (this.haveUser) {
+        this.editingUser = true
+        this.chargeurService.editChargeur(this.chargeur, this.user.id)
+        localStorage.removeItem('e');
+        localStorage.removeItem('id');
+        this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+          this.router.navigate(['/pages/chargeur']));
+        this.toastrService.success("Succès", "Chargeur modifié");
+      }//ken bech izid user
+      else if (!this.haveUser && this.toBeAdd) {
+        if (!!await this.userService.getByPseudo(this.user.pseudo)) {
+          this.toastrService.danger("Alert", "Pseudo invalide il faut le changer")
+          this.editingUser = false
+        }
+        else {
+          this.user.role = "chargeur"
+          this.userService.addUser(this.user)
+          await this.delay(1000)
+          this.user = await this.userService.getByPseudo(this.user.pseudo)
+          this.chargeurService.editChargeur(this.chargeur, this.user.id)
+          this.mail = this.calculateMail(this.user, this.chargeur)
+          this.mailService.sendMail(this.mail)
+          localStorage.removeItem('e');
+          localStorage.removeItem('id');
+          this.windowRef.close();
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+            this.router.navigate(['/pages/chargeur']));
+          this.toastrService.success("Succès", "Chargeur modifié");
+        }
       }
-      if (!this.haveUser && this.toBeAdd) {
-        this.user.role = "chargeur"
-        this.userService.addUser(this.user)
-        await this.delay(1000)
-        this.user = await this.userService.getByPseudo(this.user.pseudo)
+      // ken bech ibadel ou yo93ed blech user
+      else if (!this.haveUser && !this.toBeAdd) {
+        this.chargeurService.editChargeur(this.chargeur, -1)
+        localStorage.removeItem('e');
+        localStorage.removeItem('id');
+        this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+          this.router.navigate(['/pages/chargeur']));
+        this.toastrService.success("Succès", "Chargeur modifié");
       }
-      else if (this.haveUser) {
-        this.user = this.chargeur.user
-      }
-      else if (!this.toBeAdd) { this.user.id = -1 }
-      this.chargeurService.editChargeur(this.chargeur, this.user.id)
-      //mailing
-      localStorage.removeItem('e');
-      localStorage.removeItem('id');
-      this.windowRef.close();
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-        this.router.navigate(['/pages/chargeur']));
-      this.toastrService.success("Succès", "Chargeur modifié");
     }
   }
 
@@ -141,5 +175,14 @@ export class ModalChargeurComponent implements OnInit {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+
+  calculateMail(user: User, chargeur: Chargeur) {
+    this.mail = new Mail()
+    this.mail.subject = "Compte Esurveys"
+    this.mail.message = "Bonjour, Nous vous souhaitons la bienvenue à ESURVEYS.\nVotre identifiant : " + user.pseudo + " \nMot de passe pour se connecter à votre éspace : " + user.mpd +" via ce lien "+this.urlDomaine +"\nBien a vous ! \n\n\n\nN.B: Ceci est un mail automatique Merci de ne pas répondre."
+    this.mail.email = chargeur.email
+    return this.mail
   }
 }
