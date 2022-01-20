@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbInputModule, NbLayoutModule, NbMenuModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
+import { NbAccordionModule, NbAlertModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -13,20 +13,24 @@ import { ParametrageComponent } from './parametrage/parametrage.component';
 import { TypeComponent } from './parametrage/type/type.component';
 import { DommageComponent } from './parametrage/dommage/dommage.component';
 import { WebcamModule } from 'ngx-webcam';
-import { InspecteurComponent } from './inspecteur/inspecteur.component';
+import { ButtonViewConstatInspecteur, InspecteurComponent } from './inspecteur/inspecteur.component';
 import { ModalInspecteurComponent } from './inspecteur/modal-inspecteur/modal-inspecteur.component';
 import { ShowInspecteurComponent } from './inspecteur/show-inspecteur/show-inspecteur.component';
 import { FormsModule } from '@angular/forms';
-import { ChargeurComponent } from './chargeur/chargeur.component';
+import { ButtonViewConstatChargeur, ChargeurComponent } from './chargeur/chargeur.component';
 import { ModalChargeurComponent } from './chargeur/modal-chargeur/modal-chargeur.component';
 import { ShowChargeurComponent } from './chargeur/show-chargeur/show-chargeur.component';
 import { ConstatComponent } from './constat/constat.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalDommageItemComponent } from './constat/modal-dommage-item/modal-dommage-item.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { VoyageComponent } from './voyage/voyage.component';
+import { ButtonViewConstatVoyage, VoyageComponent } from './voyage/voyage.component';
 import { PortComponent } from './parametrage/port/port.component';
 import { BateauComponent } from './parametrage/bateau/bateau.component';
+import { ModalVoyageComponent } from './voyage/modal-voyage/modal-voyage.component';
+import { ShowVoyageComponent } from './voyage/show-voyage/show-voyage.component';
+import { TemplatePdfComponent } from './template-pdf/template-pdf.component';
+import { ButtonDownloadConstat, ListConstatComponent } from './list-constat/list-constat.component';
 
 
 
@@ -52,7 +56,10 @@ import { BateauComponent } from './parametrage/bateau/bateau.component';
     NbAccordionModule,
     ImageCropperModule,
     NbTooltipModule,
-    NbToggleModule
+    NbToggleModule,
+    NbIconModule, 
+    NbAlertModule,
+    NbPopoverModule
     
     
   ],
@@ -73,6 +80,14 @@ import { BateauComponent } from './parametrage/bateau/bateau.component';
     VoyageComponent,
     PortComponent,
     BateauComponent,
+    ModalVoyageComponent,
+    ShowVoyageComponent,
+    TemplatePdfComponent,
+    ButtonViewConstatVoyage,
+    ListConstatComponent,
+    ButtonDownloadConstat,
+    ButtonViewConstatChargeur,
+    ButtonViewConstatInspecteur,
   ],
 })
 export class PagesModule {

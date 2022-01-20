@@ -1,8 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { NbToastrService, NbWindowService } from '@nebular/theme';
+import { ViewCell } from 'ng2-smart-table';
 import { ChargeurService } from './chargeur.service';
 import { ModalChargeurComponent } from './modal-chargeur/modal-chargeur.component';
 import { ShowChargeurComponent } from './show-chargeur/show-chargeur.component';
+
+@Component({
+  selector: 'ngx-button-view',
+  template:
+    '<div class="container-btn">' +
+    '<button nbButton status="info"><nb-icon icon="file-text-outline"></nb-icon></button>' +
+    '</div>',
+
+})
+export class ButtonViewConstatChargeur implements ViewCell, OnInit {
+  renderValue: string;
+
+  @Input() value: string | number;
+  @Input() rowData: any;
+
+  @Output() save: EventEmitter<any> = new EventEmitter();
+
+  ngOnInit() {
+    this.renderValue = this.value.toString().toUpperCase();
+
+  }
+  constructor(private router: Router) {
+  }
+  onClick() {
+  }
+}
 
 @Component({
   selector: 'ngx-chargeur',
@@ -69,6 +97,16 @@ export class ChargeurComponent implements OnInit {
       pays: {
         title: 'pays',
         type: 'text',
+      },
+      constat: {
+        title: '',
+        type: 'custom',
+        renderComponent: ButtonViewConstatChargeur,
+        filter: false,
+        show: false,
+        addable: false,
+        editable: false,
+        width:'11px',
       },
     },
   }

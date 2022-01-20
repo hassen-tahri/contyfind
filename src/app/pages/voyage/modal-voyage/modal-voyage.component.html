@@ -1,0 +1,98 @@
+<form class="form-group"  #form="ngForm" (ngSubmit)="onAddVoyage()"  #monFormulairej = ngForm autocomplete="off">
+    <nb-card>
+        <nb-card-body >
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputCode" class="label">Code</label>
+                        <input type="text" nbInput fullWidth id="code" placeholder="Code" name="code"  [(ngModel)]="voyage.code">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputEtat" class="label">Etat</label>
+                        <ng-select required placeholder="Etat" name="etat" [(ngModel)]="voyage.etat">
+                            <ng-option [value]="'Chargement'">chargement</ng-option>
+                            <ng-option [value]="'Dechargement'">Dechargement</ng-option>
+                            <ng-option [value]="'En cours'">En cours</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputBateau" class="label">Bateau</label>
+                        <ng-select  placeholder="Choisissez le bateau" required
+                        bindLabel="intitule" 
+                        [items]=listeBateau
+                        bindValue="id"
+                        [(ngModel)]="selectedBateau"
+                        name="bateau"
+                        >
+                       </ng-select> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputdch" class="label">Date chargement</label>
+                        <input nbInput class="form-control" placeholder="Date chargement"
+                        [nbDatepicker]="formpicker1" name="dateChargement"  [(ngModel)]="voyage.dateChargement"> 
+                      <nb-datepicker #formpicker1></nb-datepicker>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputddch" class="label">Date Dechargement</label>
+                        <input nbInput class="form-control" placeholder="Date Dechargement"
+                        [nbDatepicker]="formpicker2" name="dateDechargement" [(ngModel)]="voyage.dateDechargement">
+                      <nb-datepicker #formpicker2></nb-datepicker>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputpch" class="label">Port chargement</label>
+                        <ng-select  placeholder="Choisissez le port" required
+                        bindLabel="intitule" 
+                        [items]=listePort
+                        bindValue="id"
+                        [(ngModel)]="selectedPortChargement"
+                        name="portChargement"
+                        >
+                       </ng-select> 
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputpdch" class="label">Port dechargement</label>
+                        <ng-select  placeholder="Choisissez le port" required
+                        bindLabel="intitule" 
+                        [items]=listePort
+                        bindValue="id"
+                        [(ngModel)]="selectedPortDechargement"
+                        name="portDechargement"
+                        status="basic">
+                       </ng-select> 
+                    </div>
+                </div>
+            </div>
+
+        </nb-card-body>
+        <nb-card-footer>
+            <div style="text-align:right;">
+                <button nbButton status="success" type="submit" [disabled]=!monFormulairej.valid>{{A}}</button>
+                <button nbButton status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+            </div>
+        </nb-card-footer>
+    </nb-card>
+</form>

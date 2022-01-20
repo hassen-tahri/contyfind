@@ -11,6 +11,8 @@ import { InspecteurComponent } from './inspecteur/inspecteur.component';
 import { ChargeurComponent } from './chargeur/chargeur.component';
 import { ConstatComponent } from './constat/constat.component';
 import { VoyageComponent } from './voyage/voyage.component';
+import { TemplatePdfComponent } from './template-pdf/template-pdf.component';
+import { ListConstatComponent } from './list-constat/list-constat.component';
 
 const routes: Routes = [{
   path: '',
@@ -41,12 +43,20 @@ const routes: Routes = [{
       component: ChargeurComponent,
     },
     {
-      path: 'constat',
+      path: 'constatPage',
       component: ConstatComponent,
     },
     {
       path: 'voyage',
       component: VoyageComponent,
+    },
+    {
+      path: 'test',
+      component: TemplatePdfComponent,
+    },
+    {
+      path: 'constat',
+      component: ListConstatComponent,
     },
    /*  {
       path: 'layout',

@@ -35,13 +35,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/chargeur',
   },
   {
-    title: 'Constat',
-    icon: 'archive',
-    link: '/pages/constat',
-  },
-  {
     title: 'Gestion voyage',
     icon: 'paper-plane',
     link: '/pages/voyage',
+  },
+  {
+    title: 'Nouveau constat',
+    icon: 'file-add-outline',
+    link: '/pages/constatPage',
+  },
+  {
+    title: 'Gestion constats',
+    icon: 'clipboard',
+    link: '/pages/constat',
+  },
+  {
+    title: 'Gestion constats',
+    icon: 'clipboard',
+    link: '/pages/test',
   },
 ];

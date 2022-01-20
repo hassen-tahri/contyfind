@@ -2,21 +2,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService, NbWindowService } from '@nebular/theme';
 import { ViewCell } from 'ng2-smart-table';
-import { ButtonViewConstatChargeur } from '../chargeur/chargeur.component';
-import { InspecteurService } from './inspecteur.service';
-import { ModalInspecteurComponent } from './modal-inspecteur/modal-inspecteur.component';
-import { ShowInspecteurComponent } from './show-inspecteur/show-inspecteur.component';
-
+import { ConstatService } from './constat.service';
 
 @Component({
   selector: 'ngx-button-view',
   template:
     '<div class="container-btn">' +
-    '<button nbButton status="info"><nb-icon icon="file-text-outline"></nb-icon></button>' +
+    '<button nbButton status="success"><nb-icon icon="download"></nb-icon></button>' +
     '</div>',
 
 })
-export class ButtonViewConstatInspecteur implements ViewCell, OnInit {
+export class ButtonDownloadConstat implements ViewCell, OnInit {
   renderValue: string;
 
   @Input() value: string | number;
@@ -35,23 +31,21 @@ export class ButtonViewConstatInspecteur implements ViewCell, OnInit {
 }
 
 
-
 @Component({
-  selector: 'ngx-inspecteur',
-  templateUrl: './inspecteur.component.html',
-  styleUrls: ['./inspecteur.component.scss']
+  selector: 'ngx-list-constat',
+  templateUrl: './list-constat.component.html',
+  styleUrls: ['./list-constat.component.scss']
 })
-export class InspecteurComponent implements OnInit {
+export class ListConstatComponent implements OnInit {
 
-  constructor(private inspecteurService : InspecteurService,
-    private windowService: NbWindowService,
-    private toastrService : NbToastrService) { }
+  constructor(private windowService: NbWindowService,
+    private toastrService : NbToastrService,
+    private constatService : ConstatService) { }
 
   source : any;
   async ngOnInit() {
-    this.source = await this.inspecteurService.getAll()
+    this.source = await this.constatService.getAll()
   }
-
 
   settings = {
     noDataMessage: "vide",
@@ -92,18 +86,18 @@ export class InspecteurComponent implements OnInit {
     },
 
     columns: {
-      nom: {
-        title: 'Nom',
+      id: {
+        title: 'id',
         type: 'text',
       },
-      prenom: {
-        title: 'Prenom',
+      remorqueCode: {
+        title: 'remorque',
         type: 'text',
       },
       constat: {
         title: '',
         type: 'custom',
-        renderComponent: ButtonViewConstatChargeur,
+        renderComponent: ButtonDownloadConstat,
         filter: false,
         show: false,
         addable: false,
@@ -118,7 +112,7 @@ export class InspecteurComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    this.windowService.open(ModalInspecteurComponent, {title: 'Ajouter un inspecteur'},);
+    //this.windowService.open(ModalInspecteurComponent, {title: 'Ajouter un inspecteur'},);
   }
 
 
@@ -129,19 +123,20 @@ export class InspecteurComponent implements OnInit {
    localStorage.removeItem('id');
    localStorage.setItem('id' , event.data.id);
    localStorage.setItem('e', '1');
-   this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
+  // this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
    }
    if (event.action === 'showAction') {
      localStorage.removeItem('e');
      localStorage.removeItem('id');
      localStorage.setItem('id' , event.data.id);
-     this.windowService.open(ShowInspecteurComponent, {title: 'Afficher les informations de cet inspecteur'});
+    // this.windowService.open(ShowInspecteurComponent, {title: 'Afficher les informations de cet inspecteur'});
    }
  }
 
  async onDeleteConfirm(event) {
   if (window.confirm(`Vous etes sure de supprimer cet inspecteur`)) {
-    event.confirm.resolve( await this.inspecteurService.deleteInspecteur(event.data.id),
+    event.confirm.resolve( 
+      //await this.inspecteurService.deleteInspecteur(event.data.id),
     this.source.filter(p => p !== event.data),
     this.toastrService.warning("Succès","Inspecteur supprimé")
     );
@@ -149,5 +144,6 @@ export class InspecteurComponent implements OnInit {
     event.confirm.reject();
   }
 }
-  
+
+
 }

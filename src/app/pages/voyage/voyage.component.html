@@ -1,1 +1,21 @@
-<p>voyage works!</p>
+<nb-card>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xxxl-6">
+                <button nbButton status="success" (click)="openWindow()">Ajouter un voyage</button>
+            </div>
+        </div>
+
+        <nb-card>
+            <nb-card-header>
+                Liste des voyages
+            </nb-card-header>
+
+            <nb-card-body>
+                <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="listeVoyage"
+                    (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCostum($event)">
+                </ng2-smart-table>
+            </nb-card-body>
+        </nb-card>
+    </nb-card-body>
+</nb-card>

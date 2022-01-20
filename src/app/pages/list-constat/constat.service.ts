@@ -1,0 +1,41 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { PagesComponent } from '../pages.component';
+import { Constat } from './constat';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ConstatService {
+  url = PagesComponent.urlConfig + 'constat'
+
+  constructor(protected httpclient: HttpClient) { }
+
+  async getById(id: Number) {
+    return this.httpclient.get<Constat>(this.url + '/' + id).toPromise();
+  }
+
+  async getAll() {
+    return this.httpclient.get<Constat[]>(this.url).toPromise();
+  }
+
+  async getByVoyage(id: Number) {
+    return this.httpclient.get<Constat[]>(this.url + '/voyage/' + id).toPromise();
+  }
+
+  async getByChargeur(id: Number) {
+    return this.httpclient.get<Constat[]>(this.url + '/chargeur/' + id).toPromise();
+  }
+
+  async getByInspecteurCh(id: Number) {
+    return this.httpclient.get<Constat[]>(this.url + '/inspecteurChargement/' + id).toPromise();
+  }
+
+  async getByInspecteurDch(id: Number) {
+    return this.httpclient.get<Constat[]>(this.url + '/inspecteurDechargement/' + id).toPromise();
+  }
+
+  async getByEtat(etat : string) {
+    return this.httpclient.get<Constat[]>(this.url + '/etat/' + etat).toPromise();
+  }
+}

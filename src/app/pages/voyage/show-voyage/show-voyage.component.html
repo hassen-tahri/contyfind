@@ -1,0 +1,72 @@
+<form class="form-group"  #form="ngForm"   #monFormulairej = ngForm autocomplete="off">
+    <nb-card>
+        <nb-card-body >
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputCode" class="label">Code</label>
+                        <input type="text" nbInput fullWidth id="code" placeholder="Code" name="code"  [(ngModel)]="voyage.code" readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputEtat" class="label">Etat</label>
+                        <input type="text" nbInput fullWidth id="code" placeholder="etat" name="etat"  [(ngModel)]="voyage.etat" readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputBateau" class="label">Bateau</label>
+                        <input type="text" nbInput fullWidth id="bateau" placeholder="bateau" name="bateau"  [(ngModel)]="selectedBateau" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputdch" class="label">Date chargement</label>
+                        <input nbInput class="form-control" placeholder="Date chargement" [readonly]="true" fullWidth 
+                        [nbDatepicker]="formpicker1" name="dateChargement"  [(ngModel)]="voyage.dateChargement"> 
+                      <nb-datepicker #formpicker1 ></nb-datepicker>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputddch" class="label">Date Dechargement</label>
+                        <input nbInput class="form-control" placeholder="Date Dechargement" readonly fullWidth 
+                        [nbDatepicker]="formpicker2" name="dateDechargement" [(ngModel)]="voyage.dateDechargement">
+                      <nb-datepicker #formpicker2 ></nb-datepicker>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputpch" class="label">Port chargement</label>
+                        <input type="text" nbInput fullWidth id="selectedPortChargement" placeholder="selectedPortChargement" name="selectedPortChargement"  [(ngModel)]="selectedPortChargement" readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputpdch" class="label">Port dechargement</label>
+                        <input type="text" nbInput fullWidth id="selectedPortDechargement" placeholder="selectedPortDechargement" name="selectedPortDechargement"  [(ngModel)]="selectedPortDechargement" readonly>
+                    </div>
+                </div>
+            </div>
+
+        </nb-card-body>
+        <nb-card-footer>
+            <div style="text-align:right;">
+                <button nbButton status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+            </div>
+        </nb-card-footer>
+    </nb-card>
+</form>
