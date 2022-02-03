@@ -1,0 +1,33 @@
+<nb-card-body>
+    <nb-flip-card>
+        <nb-card-front>
+            <nb-card status="danger">
+                <nb-card-header>les constat charge par {{inspecteurNomPrenom}}</nb-card-header>
+                <nb-card-body>
+                    <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="sourceCH"
+                        (deleteConfirm)="onDeleteConfirmCh($event)" (custom)="onCostum($event)">
+                    </ng2-smart-table>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </nb-card-body>
+            </nb-card>
+        </nb-card-front>
+        <nb-card-back>
+            <nb-card status="info">
+                <nb-card-header>les constat decharge par {{inspecteurNomPrenom}}</nb-card-header>
+                <nb-card-body>
+                    <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="sourceDCH"
+                        (deleteConfirm)="onDeleteConfirmDCH($event)" (custom)="onCostum($event)">
+                    </ng2-smart-table>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </nb-card-body>
+            </nb-card>
+        </nb-card-back>
+    </nb-flip-card>
+
+</nb-card-body>

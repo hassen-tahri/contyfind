@@ -14,18 +14,18 @@ import { VoyageService } from '../voyage.service';
 export class ModalVoyageComponent implements OnInit {
   A: string
   voyage: Voyage
-  listeBateau=[]
-  listePort=[]
-  selectedBateau : any
-  selectedPortChargement : any
-  selectedPortDechargement : any
-  
+  listeBateau = []
+  listePort = []
+  selectedBateau: any
+  selectedPortChargement: any
+  selectedPortDechargement: any
+
   constructor(private toastrService: NbToastrService,
     private router: Router,
     public windowRef: NbWindowRef,
     private voyageService: VoyageService,
-    private portService : PortService,
-    private bateauService : BateauService) { }
+    private portService: PortService,
+    private bateauService: BateauService) { }
 
 
   async ngOnInit() {
@@ -46,15 +46,34 @@ export class ModalVoyageComponent implements OnInit {
     }
   }
 
-  async onAddVoyage()
-  {
-    this.voyageService.addVoyage(this.voyage,this.selectedBateau,this.selectedPortChargement,this.selectedPortDechargement)
-    localStorage.removeItem('e');
-    localStorage.removeItem('id');
-    this.windowRef.close();
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-      this.router.navigate(['/pages/voyage']));
-    this.toastrService.success("Succès", "Voyage ajouté");
+  async onAddVoyage() {
+    let e = localStorage.getItem('e');
+    if (e === '0') {
+      if (await this.voyageService.getByCode(this.voyage.code) != null) {
+        this.toastrService.danger("Le code : " + this.voyage.code + " existe déjà", "Vérifier le code");
+      }
+      else {
+        this.voyage.archive = false
+        console.log(this.voyage)
+        this.voyageService.addVoyage(this.voyage, this.selectedBateau, this.selectedPortChargement, this.selectedPortDechargement)
+        localStorage.removeItem('e');
+        localStorage.removeItem('id');
+        this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+          this.router.navigate(['/pages/voyage']));
+        this.toastrService.success("Succès", "Voyage Ajoutée")
+      }
+    } if (e === '1') {
+      this.voyageService.editVoyage(this.voyage, this.voyage.id, this.selectedBateau, this.selectedPortChargement, this.selectedPortDechargement)
+      localStorage.removeItem('e');
+      localStorage.removeItem('id');
+      this.windowRef.close();
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/voyage']));
+      this.toastrService.success("Succès", "Voyage modifiée");
+    }
+
+
   }
 
   fermer() {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbAlertModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
+import { NbAccordionModule, NbAlertModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbStepperModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -31,6 +31,12 @@ import { ModalVoyageComponent } from './voyage/modal-voyage/modal-voyage.compone
 import { ShowVoyageComponent } from './voyage/show-voyage/show-voyage.component';
 import { TemplatePdfComponent } from './template-pdf/template-pdf.component';
 import { ButtonDownloadConstat, ListConstatComponent } from './list-constat/list-constat.component';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { ConstatChargeurComponent } from './chargeur/constat-chargeur/constat-chargeur.component';
+import { ConstatVoyageComponent } from './voyage/constat-voyage/constat-voyage.component';
+import { ConstatInspecteurComponent } from './inspecteur/constat-inspecteur/constat-inspecteur.component';
+import { AppCameraComponent } from './template-pdf/app-camera/app-camera.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -59,7 +65,12 @@ import { ButtonDownloadConstat, ListConstatComponent } from './list-constat/list
     NbToggleModule,
     NbIconModule, 
     NbAlertModule,
-    NbPopoverModule
+    NbPopoverModule,
+    NbEvaIconsModule,
+    NbStepperModule,
+    NbCalendarRangeModule,
+    NbButtonGroupModule,
+    
     
     
   ],
@@ -88,6 +99,11 @@ import { ButtonDownloadConstat, ListConstatComponent } from './list-constat/list
     ButtonDownloadConstat,
     ButtonViewConstatChargeur,
     ButtonViewConstatInspecteur,
+    ConstatChargeurComponent,
+    ConstatVoyageComponent,
+    ConstatInspecteurComponent,
+    AppCameraComponent,
+    LoginComponent,
   ],
 })
 export class PagesModule {

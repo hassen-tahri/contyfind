@@ -23,12 +23,28 @@ export class VoyageService {
     return this.httpclient.delete(this.url + '/' + id).toPromise();
   }
 
-  async addVoyage(voyage: Voyage, idB: number, idPCh: number, idPDch) {
+  async addVoyage(voyage: Voyage, idB: number, idPCh: number, idPDch : number) {
     return this.httpclient.post(this.url + "/bateau/" + idB + "/portCh/" + idPCh + "/portDch/" + idPDch, voyage).toPromise();
   }
 
-  async editVoyage(voyage: Voyage, idv: number, idB: number, idPCh: number, idPDch) {
+  async editVoyage(voyage: Voyage, idv: number, idB: number, idPCh: number, idPDch : number) {
     return this.httpclient.put(this.url + "/" + idv + "/bateau/" + idB + "/portCh/" + idPCh + "/portDch/" + idPDch, voyage).toPromise();
+  }
+
+  async getByEtat(etat : string) {
+    return this.httpclient.get<Voyage[]>(this.url+'/etat/'+etat).toPromise();
+  }
+
+  async getByArchive(archive : boolean) {
+    return this.httpclient.get<Voyage[]>(this.url+'/archive/'+archive).toPromise();
+  }
+
+  async getByCode(code : string) {
+    return this.httpclient.get<Voyage>(this.url + '/code/' + code).toPromise();
+  }
+
+  async getByDateChargementInRange(dateDeb : string , dateFin : string) {
+    return this.httpclient.get<Voyage[]>(this.url+"/RangeChargement/"+dateDeb+"/"+dateFin).toPromise();
   }
 
 }

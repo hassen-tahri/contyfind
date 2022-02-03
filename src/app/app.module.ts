@@ -21,7 +21,9 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [AppComponent],
   imports: [

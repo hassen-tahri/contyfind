@@ -56,18 +56,18 @@ export class ModalInspecteurComponent implements OnInit {
       }
       else if (!!this.user.pseudo && !!this.user.mpd) {
         this.userService.addUser(this.user)
-        await this.delay(1000)
+        await this.delay(500)
         this.user = await this.userService.getByPseudo(this.user.pseudo)
         console.log(this.user.id)
         this.inspecteurService.addInspecteur(this.inspecteur, this.user.id)
-        this.mail = this.calculateMail(this.user, this.inspecteur)
-        this.mailService.sendMail(this.mail)
         localStorage.removeItem('e');
         localStorage.removeItem('id');
         this.windowRef.close();
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/pages/inspecteur']));
         this.toastrService.success("Succès", "Inspecteur ajouté");
+        this.mail = this.calculateMail(this.user, this.inspecteur)
+        this.mailService.sendMail(this.mail)
       }
     }
     if (e === '1') {

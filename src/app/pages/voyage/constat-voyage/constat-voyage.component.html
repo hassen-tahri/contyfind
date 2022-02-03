@@ -1,0 +1,39 @@
+<nb-card>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xxxl-6">
+                <button hero nbButton status="success" (click)="redirectToConstatPage()">Ajouter un constat</button>
+            </div>
+        </div>
+        <br>
+        <nb-stepper #stepper [(selectedIndex)]="stepperIndex" [linear]="true" disableStepNavigation>
+            <nb-step [stepControl]="firstForm" label="Chargement" [completed]="completed1" >
+            </nb-step>
+            <nb-step [stepControl]="secondForm" label="En cours" [completed]="completed2">
+            </nb-step>
+            <nb-step [stepControl]="thirdForm" label="Dechargement" [completed]="completed3">
+            </nb-step>
+          </nb-stepper>
+        <nb-card>
+            <nb-card-header>
+                <div class="row">
+                    <div class="col-sm-4">
+                        Les constats de <b class="text-info">{{voyage.code}}</b>
+                    </div>
+                    <div class="col-sm-4">
+                        Bateau : <b class="text-info">{{bateau.intitule}}</b>
+                    </div>
+                    <div class="col-sm-4">
+                        Date départ : <b class="text-info">{{voyage.dateChargement}}</b>
+                    </div>
+                </div>
+            </nb-card-header>
+
+            <nb-card-body>
+                <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="source"
+                    (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCostum($event)">
+                </ng2-smart-table>
+            </nb-card-body>
+        </nb-card>
+    </nb-card-body>
+</nb-card>

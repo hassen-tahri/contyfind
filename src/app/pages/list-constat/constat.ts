@@ -16,7 +16,9 @@ export class Constat {
 
     interchange: boolean
 
-    file: string
+    dateChargement : Date;
+	
+	dateDechargement : Date;
 
     etat : string
 

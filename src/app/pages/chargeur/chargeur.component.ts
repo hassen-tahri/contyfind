@@ -10,7 +10,7 @@ import { ShowChargeurComponent } from './show-chargeur/show-chargeur.component';
   selector: 'ngx-button-view',
   template:
     '<div class="container-btn">' +
-    '<button nbButton status="info"><nb-icon icon="file-text-outline"></nb-icon></button>' +
+    '<button nbButton hero status="info" (click)="onClick()"><nb-icon icon="file-text-outline"></nb-icon></button>' +
     '</div>',
 
 })
@@ -29,6 +29,8 @@ export class ButtonViewConstatChargeur implements ViewCell, OnInit {
   constructor(private router: Router) {
   }
   onClick() {
+    localStorage.setItem('idChargeur', this.rowData.id);
+    this.router.navigate(['/pages/constat/chargeur']);
   }
 }
 
@@ -94,9 +96,16 @@ export class ChargeurComponent implements OnInit {
         title: 'intitule',
         type: 'text',
       },
-      pays: {
-        title: 'pays',
-        type: 'text',
+      user: {
+        title: "Compte",
+        type: "html",
+        width:'11px',
+        valuePrepareFunction: (user) =>{
+          if(user != null)
+          {return '<span class="caption status-success"><b>✔</b></span>'}
+          else 
+          {return '<span class="caption status-danger"><b>X</b></span>'}
+        },
       },
       constat: {
         title: '',

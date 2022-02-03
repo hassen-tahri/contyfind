@@ -5,6 +5,7 @@ export class Voyage {
     id: number
     code: string
     etat: string
+    archive : Boolean
     dateChargement: Date
     dateDechargement: Date
     bateau: Bateau

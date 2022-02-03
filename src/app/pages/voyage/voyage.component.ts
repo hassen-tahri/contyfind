@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbToastrService, NbWindowService } from '@nebular/theme';
+import { NbCalendarRange, NbDateService, NbToastrService, NbWindowService } from '@nebular/theme';
 import { ViewCell } from 'ng2-smart-table';
 import { ModalVoyageComponent } from './modal-voyage/modal-voyage.component';
 import { ShowVoyageComponent } from './show-voyage/show-voyage.component';
@@ -12,7 +13,7 @@ import { VoyageService } from './voyage.service';
   selector: 'ngx-button-view',
   template:
     '<div class="container-btn">' +
-    '<button nbButton status="info"><nb-icon icon="file-text-outline"></nb-icon></button>' +
+    '<button nbButton hero status="info" (click)="onClick()"><nb-icon icon="file-text-outline"></nb-icon></button>' +
     '</div>',
 
 })
@@ -30,8 +31,12 @@ export class ButtonViewConstatVoyage implements ViewCell, OnInit {
   }
   constructor(private router: Router) {
   }
+
   onClick() {
+    localStorage.setItem('idVoyage', this.rowData.id);
+    this.router.navigate(['/pages/constat/voyage']);
   }
+
 }
 
 
@@ -42,14 +47,39 @@ export class ButtonViewConstatVoyage implements ViewCell, OnInit {
 })
 export class VoyageComponent implements OnInit {
 
+  listeVoyage: any;
+  range: NbCalendarRange<Date>;
+  pipe = new DatePipe('en-US');
+  now = Date.now();
+  myFormattedDate = this.pipe.transform(this.now, 'yyyy-MM-dd');
+  SelectGroupValue = [];
+
   constructor(private voyageService: VoyageService,
     private windowService: NbWindowService,
     private toastrService: NbToastrService,
-    private router: Router) { }
+    private router: Router,
+    protected dateService: NbDateService<Date>,
+    //groupe buton
+    private cdGButon: ChangeDetectorRef) {
+    this.range = {
+      start: this.dateService.addDay(this.monthStart, 3),
+      end: this.dateService.addDay(this.monthEnd, -3),
+    };
+  }
 
-  listeVoyage: any;
+  get monthStart(): Date {
+    return this.dateService.getMonthStart(new Date());
+  }
+
+  get monthEnd(): Date {
+    return this.dateService.getMonthEnd(new Date());
+  }
+
+
   async ngOnInit() {
-    this.listeVoyage = await this.voyageService.getAll()
+    this.range.start = new Date(this.now)
+    this.range.end = new Date(this.now)
+    this.listeVoyage = await this.voyageService.getByArchive(false)
   }
 
 
@@ -92,13 +122,26 @@ export class VoyageComponent implements OnInit {
     },
 
     columns: {
-      code: {
-        title: 'Code',
+      dateChargement: {
+        title: 'Départ',
         type: 'text',
+        sort: true,
+        sortDirection: 'desc',
+        valuePrepareFunction: (date) => {
+          var raw = new Date(date);
+          var formatted = new DatePipe('fr').transform(raw, 'dd MMM yyyy');
+          return formatted;
+        }
       },
-      etat: {
-        title: 'Etat',
+      bateau: {
+        title: 'Bateau',
         type: 'text',
+        valuePrepareFunction: (value) => { return value.intitule },
+        filterFunction(obj?: any, search?: string): boolean {
+          if (obj.intitule.toLowerCase().indexOf(search) > -1 || obj.intitule.toUpperCase().indexOf(search) > -1)
+            return true;
+          return false;
+        },
       },
       constat: {
         title: '',
@@ -108,7 +151,7 @@ export class VoyageComponent implements OnInit {
         show: false,
         addable: false,
         editable: false,
-        width:'11px',
+        width: '11px',
       },
     },
   }
@@ -154,21 +197,29 @@ export class VoyageComponent implements OnInit {
     if (window.confirm(`Vous etes sure de supprimer ce voyage`)) {
       await this.voyageService.deleteById(id)
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-      this.router.navigate(['/pages/voyage']))
+        this.router.navigate(['/pages/voyage']))
       this.toastrService.warning("Succès", "Voyage supprimé");
     } else {
       event.confirm.reject();
     }
   }
 
-  onEditById(id : number){
-    localStorage.removeItem('e');
-    localStorage.removeItem('id');
-    localStorage.setItem('id', "6");
-    localStorage.setItem('e', '1');
-    this.windowService.open(ModalVoyageComponent, { title: 'Modifier les informations de ce voyage' });
+  async handleRangeChange(SimpleChange) {
+    if (this.SelectGroupValue[0] != "All" && this.SelectGroupValue[0] != "Archive") {
+      if (this.range.end != null) {
+        this.listeVoyage = await this.voyageService.getByDateChargementInRange(this.pipe.transform(this.range.start, 'yyyy-MM-dd'), this.pipe.transform(this.range.end, 'yyyy-MM-dd'))
+      }
+    }
+  }
+
+  async updateSelectGroupValue(value) {
+    this.SelectGroupValue = value;
+    this.cdGButon.markForCheck();
+    if (this.SelectGroupValue[0] === "All") { this.listeVoyage = await this.voyageService.getByArchive(false) }
+    if (this.SelectGroupValue[0] === "Archive") { this.listeVoyage = await this.voyageService.getByArchive(true) }
   }
 
 
-  }
+
+}
 

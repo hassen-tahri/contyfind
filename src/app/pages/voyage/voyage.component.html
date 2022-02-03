@@ -1,21 +1,29 @@
-<nb-card>
-    <nb-card-body>
-        <div class="row">
-            <div class="col-md-12 col-lg-12 col-xxxl-6">
-                <button nbButton status="success" (click)="openWindow()">Ajouter un voyage</button>
-            </div>
-        </div>
-
+<div class="row">
+    <nb-card class="col-md-4">
+        <nb-card-body>
+                <nb-calendar-range [(range)]="range"   (rangeChange)="handleRangeChange($event)"></nb-calendar-range>
+        </nb-card-body>
+    </nb-card>
+    <nb-card class="col-md-8">
         <nb-card>
             <nb-card-header>
-                Liste des voyages
+                <div class="row">
+                    <div class="col-md-6">
+                        <button nbButton hero status="success" (click)="openWindow()">Ajouter un voyage</button>
+                    </div>
+                    <div class="col-md-6" style="text-align:right;">
+                        <nb-button-group status="warning" hero (valueChange)="updateSelectGroupValue($event)">
+                            <button nbButtonToggle value="All">En cours</button>
+                            <button nbButtonToggle value="Archive">Archivés</button>
+                          </nb-button-group>
+                   </div>
+                </div>
             </nb-card-header>
-
             <nb-card-body>
                 <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="listeVoyage"
                     (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCostum($event)">
                 </ng2-smart-table>
             </nb-card-body>
         </nb-card>
-    </nb-card-body>
-</nb-card>
+    </nb-card>
+    </div>

@@ -14,8 +14,8 @@
                         <label for="inputEtat" class="label">Etat</label>
                         <ng-select required placeholder="Etat" name="etat" [(ngModel)]="voyage.etat">
                             <ng-option [value]="'Chargement'">chargement</ng-option>
-                            <ng-option [value]="'Dechargement'">Dechargement</ng-option>
                             <ng-option [value]="'En cours'">En cours</ng-option>
+                            <ng-option [value]="'Dechargement'">Dechargement</ng-option>
                         </ng-select>
                     </div>
                 </div>
@@ -90,8 +90,8 @@
         </nb-card-body>
         <nb-card-footer>
             <div style="text-align:right;">
-                <button nbButton status="success" type="submit" [disabled]=!monFormulairej.valid>{{A}}</button>
-                <button nbButton status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+                <button nbButton hero status="success" type="submit" [disabled]=!monFormulairej.valid>{{A}}</button>
+                <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
             </div>
         </nb-card-footer>
     </nb-card>

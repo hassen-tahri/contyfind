@@ -31,4 +31,8 @@ export class InspecteurService {
     return this.httpclient.delete(this.url + '/' + id).toPromise();
   }
 
+  async getByUserId(id: Number) {
+    return this.httpclient.get<Inspecteur>(this.url + '/user/' + id).toPromise();
+  }
+
 }

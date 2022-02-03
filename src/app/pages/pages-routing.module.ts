@@ -13,6 +13,9 @@ import { ConstatComponent } from './constat/constat.component';
 import { VoyageComponent } from './voyage/voyage.component';
 import { TemplatePdfComponent } from './template-pdf/template-pdf.component';
 import { ListConstatComponent } from './list-constat/list-constat.component';
+import { ConstatVoyageComponent } from './voyage/constat-voyage/constat-voyage.component';
+import { ConstatChargeurComponent } from './chargeur/constat-chargeur/constat-chargeur.component';
+import { ConstatInspecteurComponent } from './inspecteur/constat-inspecteur/constat-inspecteur.component';
 
 const routes: Routes = [{
   path: '',
@@ -57,6 +60,18 @@ const routes: Routes = [{
     {
       path: 'constat',
       component: ListConstatComponent,
+    },
+    {
+      path: 'constat/voyage',
+      component: ConstatVoyageComponent,
+    },
+    {
+      path: 'constat/chargeur',
+      component: ConstatChargeurComponent,
+    },
+    {
+      path: 'constat/inspecteur',
+      component: ConstatInspecteurComponent,
     },
    /*  {
       path: 'layout',

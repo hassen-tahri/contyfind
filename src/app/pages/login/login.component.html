@@ -1,0 +1,42 @@
+<h1 id="title" class="title">Connexion</h1>
+<!-- <p class="sub-title">Hello! Log in with your email.</p> -->
+
+<!-- <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <p class="alert-title"><b>Oh snap!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert> -->
+
+<!-- <nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+  <p class="alert-title"><b>Hooray!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert> -->
+
+<form aria-labelledby="title" (ngSubmit)="connecter()" #form="ngForm" #monFormulairej=ngForm autocomplete="off">
+  <!-- <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title"> -->
+  <div class="row full-name-inputs label nvForm">
+    <label class="label" for="input-password">Login</label>
+    <input type="text" [(ngModel)]="session.pseudo" class="form-control" nbInput required fullWidth
+      placeholder="Login" name="login" />
+  </div>
+
+  <div class="row full-name-inputs label nvForm">
+    <label class="label" for="input-password">Mot de passe</label>
+    <input type="password" [(ngModel)]="session.mpd" class="form-control" nbInput required fullWidth
+      placeholder="Mot de passe" name="password" />
+   
+  </div>
+  <br>
+  <div class="row full-name-inputs label nvForm">
+    <p class="caption status-danger sub-title" *ngIf="msg !='' ">
+      {{msg}}
+    </p>
+    <nb-checkbox status="success" *ngIf="msg == null" [value]="checked" (change)="setCheckedStatus($event)">i'm not a robot</nb-checkbox>
+  </div>
+  <button nbButton fullWidth status="primary" type="submit" [disabled]=!monFormulairej.valid size="large">
+    Connexion
+  </button>
+</form>

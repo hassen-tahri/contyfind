@@ -1,0 +1,19 @@
+<nb-card>
+    <nb-card-body>
+        <nb-card>
+            <nb-card-header>
+                <div class="row">
+                <div class="col-sm-6">
+                    Liste des constats du chargeur <b><u>{{intituleChargeur}}</u></b>
+                </div>
+            </div>
+            </nb-card-header>
+
+            <nb-card-body>
+                <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="source"
+                    (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCostum($event)">
+                </ng2-smart-table>
+            </nb-card-body>
+        </nb-card>
+    </nb-card-body>
+</nb-card>

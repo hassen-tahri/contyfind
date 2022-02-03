@@ -12,7 +12,7 @@ import { ShowInspecteurComponent } from './show-inspecteur/show-inspecteur.compo
   selector: 'ngx-button-view',
   template:
     '<div class="container-btn">' +
-    '<button nbButton status="info"><nb-icon icon="file-text-outline"></nb-icon></button>' +
+    '<button nbButton hero status="info" (click)="onClick()"><nb-icon icon="file-text-outline"></nb-icon></button>' +
     '</div>',
 
 })
@@ -31,6 +31,8 @@ export class ButtonViewConstatInspecteur implements ViewCell, OnInit {
   constructor(private router: Router) {
   }
   onClick() {
+    localStorage.setItem('idInspecteur', this.rowData.id);
+    this.router.navigate(['/pages/constat/inspecteur']);
   }
 }
 
@@ -103,7 +105,7 @@ export class InspecteurComponent implements OnInit {
       constat: {
         title: '',
         type: 'custom',
-        renderComponent: ButtonViewConstatChargeur,
+        renderComponent: ButtonViewConstatInspecteur,
         filter: false,
         show: false,
         addable: false,

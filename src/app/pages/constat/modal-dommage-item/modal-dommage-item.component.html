@@ -1,9 +1,9 @@
 <form class="form-group"  #form="ngForm" (click)="onAddDommageItem()"  #monFormulairej = ngForm autocomplete="off">
 <nb-card>
         <nb-card-body>
-            <div class="row">
+            
 
-                <div class="col-sm-4">
+                
                     <div class="form-group">
                         <label for="inputDescription" class="label">Description</label>
                         <ng-select required placeholder="Description" name="Description">
@@ -12,9 +12,9 @@
                         </ng-select>
 
                     </div>
-                </div>
+               
 
-                <div class="col-sm-4">
+                
                     <div class="form-group">
                         <label for="inputPosition" class="label">Position</label>
                         <ng-select required placeholder="Position" name="Position">
@@ -22,9 +22,9 @@
                             <ng-option [value]="'G'">Gauche</ng-option>
                         </ng-select>
                     </div>
-                </div>
+               
 
-                <div class="col-sm-4">
+                
                     <div class="form-group">
                         <label for="inputWebsite" class="label">Dommage</label>
                         <ng-select [items]="dommages"
@@ -37,14 +37,14 @@
                                    [ngModelOptions]="{standalone: true}">
                         </ng-select>
                     </div>
-                </div>
+                
 
-            </div>
+         
         </nb-card-body>
         <nb-card-footer>
             <div style="text-align:right;">
-                <button nbButton status="success" type="submit" [disabled]=!monFormulairej.valid>Ajouter</button>
-                <button nbButton status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+                <button nbButton hero status="success" type="submit" [disabled]=!monFormulairej.valid>Ajouter</button>
+                <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
             </div>
         </nb-card-footer>
     </nb-card>
