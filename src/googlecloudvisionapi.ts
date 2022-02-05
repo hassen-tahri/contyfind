@@ -1,3 +1,3 @@
 export const googlecloudvisionapi = {
-    googleCloudVisionAPIKey: "key.json"
+    googleCloudVisionAPIKey: "AIzaSyCDyn1yCKlutlT5dDkLFavE4iK3FOidL7I"
 };

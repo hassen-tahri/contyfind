@@ -127,20 +127,18 @@ export class TemplatePdfComponent implements OnInit {
       this.base64Image = this.webcamImage.imageAsBase64
       this.vision.getText(this.base64Image).subscribe((result) => {
         this.base64Image = "data:image/jpg;base64," + this.base64Image;
-        document.open(this.base64Image)
-        // Get the response from the check
-        const logos = result['responses'][0]['logoAnnotations'];
+      console.log(result['responses'][0])
+        const texts = result['responses'][0]['fullTextAnnotation']['text']
+        //const texts = result['responses'][0]['textAnnotations'];
 
-        // check if logo exist
-        if (logos === undefined || logos === null) {
+        // check if text exist
+        if (texts === undefined || texts === null) {
             // prompt no data
-             this.visionresponse = logos;
+             this.visionresponse = texts;
              this.textShow = "rien"
         } else {
-          logos.forEach(logo =>
-              this.visionresponse = logo.description
-          );
-         this.textShow = this.visionresponse
+          
+         this.textShow = texts
         }
         
     }, error => {
