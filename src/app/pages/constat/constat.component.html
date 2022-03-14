@@ -1,32 +1,21 @@
-<form class="form-group" #form="ngForm" (ngSubmit)="onSave()" #monFormulairej=ngForm autocomplete="off">
+<form class="form-group" #form="ngForm"  #monFormulairej=ngForm autocomplete="off">
     <nb-card>
         <nb-card-header>
-            
+
             <div class="row">
-                <div class="col-sm-4"> <h5 class="text-info">constat de surveillance</h5></div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="inputRemorque" class="label">Phase</label>
-                    <ng-select required placeholder="Choisissez la phase" name="Phase" [(ngModel)]="constat.etat" (change)="calculateInspecteur($event)">
-                        <ng-option [value]="'Chargement'">Chargement</ng-option>
-                        <ng-option [value]="'Déchargement'">Déchargement</ng-option>
-                    </ng-select>
+                <div class="col-sm-6">
+                    <h5 class="text-info">Constat de surveillance</h5>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputRemorque" class="label">Voyage</label>
+                        <ng-select placeholder="Choisissez le voyage" required bindLabel="code"
+                            [items]=listeVoyageNonArchive bindValue="id" [(ngModel)]="selectedVoyage" name="voyage"
+                            (change)="calculateAttr($event)">
+                        </ng-select>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="inputRemorque" class="label">Voyage</label>
-                    <ng-select  placeholder="Choisissez le voyage" required
-                    bindLabel="code" 
-                    [items]=listeVoyageNonArchive
-                    bindValue="id"
-                    [(ngModel)]="selectedVoyage"
-                    name="voyage"
-                    (change)="calculateAttr($event)">
-                   </ng-select> 
-                </div>
-            </div>
-        </div>
         </nb-card-header>
         <nb-card-header>
 
@@ -34,52 +23,55 @@
 
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="inputRemorque" class="label">Remorque n°</label>
-                        <input type="text" nbInput fullWidth id="Remorque" placeholder="Remorque n°">
+                        <label for="unite" class="label">Unité</label>
+                        <ng-select [items]="listeUnite"
+                                   bindLabel="matricule"
+                                   bindValue="id"
+                                   [addTag]="addNewUnite"
+                                   [multiple]="false"
+                                   placeholder="selectionner ou ajouter"
+                                   [(ngModel)]="selectedUnite"
+                                   [ngModelOptions]="{standalone: true}"
+                                   (change)="changeType($event)">
+                        </ng-select>
                     </div>
                 </div>
 
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="inputPlomb" class="label">Plomb</label>
-                        <input type="text" nbInput fullWidth id="Plomb" placeholder="Plomb">
+                        <label for="input" class="label">Categorie</label>
+                        <ng-select placeholder="Choisissez la Categorie" required bindLabel="intitule" [items]=listeType
+                            bindValue="id" [(ngModel)]="selectedType" name="type"
+                            [disabled]="disabledTypeInput">
+                        </ng-select>
+
                     </div>
                 </div>
+
 
             </div>
 
             <div class="row">
+
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="input" class="label">Type</label>
-                        <ng-select  placeholder="Choisissez le type" required
-                        bindLabel="intitule" 
-                        [items]=listeType
-                        bindValue="id"
-                        [(ngModel)]="selectedType"
-                        name="type"
-                        >
-                       </ng-select> 
-
+                        <label for="inputPlomb" class="label">Plomb</label>
+                        <input type="text" nbInput fullWidth id="Plomb" placeholder="Plomb">
                     </div>
                 </div>
-
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="inputWebsite" class="label">Bateau</label> 
-                        <input type="text" nbInput fullWidth id="bateau" name="bateau"  placeholder="Bateau" [(ngModel)]="bateau.intitule" readonly>
+                        <label for="inputWebsite" class="label">Bateau</label>
+                        <input type="text" nbInput fullWidth id="bateau" name="bateau" placeholder="Bateau"
+                            [(ngModel)]="bateau.intitule" readonly>
                     </div>
                 </div>
 
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="inputWebsite" class="label">Chargeur</label>
-                        <ng-select required placeholder="Chargeur" name="typeclient" 
-                        bindLabel="intitule" 
-                        [items]=listeChargeur
-                        bindValue="id"
-                        [(ngModel)]="selectedChargeur"
-                        name="chargeur">
+                        <ng-select required placeholder="Chargeur" name="typeclient" bindLabel="intitule"
+                            [items]=listeChargeur bindValue="id" [(ngModel)]="selectedChargeur" name="chargeur">
                         </ng-select>
                     </div>
                 </div>
@@ -115,22 +107,25 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="inputInspecteur" class="label">Inspecteur</label>
-                                            <input type="text" nbInput fullWidth id="Inspecteur" name="Inspecteur"  placeholder="Inspecteur" [(ngModel)]="inspecteurCh.nom" readonly>
+                                        <input type="text" nbInput fullWidth id="Inspecteur" name="Inspecteur"
+                                            placeholder="Inspecteur" [(ngModel)]="inspecteurCh.nom" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="inputPort" class="label">Port</label>
-                                        <input type="text" nbInput fullWidth id="portChargement" name="portChargement"  placeholder="Port" [(ngModel)]="portChargement.intitule" readonly>
+                                        <input type="text" nbInput fullWidth id="portChargement" name="portChargement"
+                                            placeholder="Port" [(ngModel)]="portChargement.intitule" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="inputDate" class="label">Date</label>
-                                        <input type="text" nbInput fullWidth id="dateChargement" [nbDatepicker]="pickerChargement"
-                                            status="danger" placeholder="Date" name="dateChargement" [(ngModel)] = "constat.dateChargement">
+                                        <input type="text" nbInput fullWidth id="dateChargement"
+                                            [nbDatepicker]="pickerChargement" status="danger" placeholder="Date"
+                                            name="dateChargement" [(ngModel)]="constat.dateChargement">
                                         <nb-datepicker #pickerChargement></nb-datepicker>
                                     </div>
                                 </div>
@@ -138,24 +133,25 @@
                             </div>
 
 
-                      
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-12 col-xxxl-6">
-                                            <button nbButton hero status="success" (click)="openWindow()">Ajouter Dommage</button>
-                                        </div>
-                                    </div>
 
-                                    <nb-accordion multi>
-                                        <nb-accordion-item >
-                                         <nb-accordion-item-header >
-                                             Dommage description
-                                            </nb-accordion-item-header>
-                                         <nb-accordion-item-body>
-                                           Item Content
-                                         </nb-accordion-item-body>
-                                        </nb-accordion-item>
-                                       </nb-accordion>
-                     
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-xxxl-6">
+                                    <!-- <button nbButton hero status="success" (click)="openWindow()">Ajouter
+                                        Dommage</button> -->
+                                </div>
+                            </div>
+
+                            <nb-accordion multi>
+                                <nb-accordion-item>
+                                    <nb-accordion-item-header>
+                                        Dommage description
+                                    </nb-accordion-item-header>
+                                    <nb-accordion-item-body>
+                                        Item Content
+                                    </nb-accordion-item-body>
+                                </nb-accordion-item>
+                            </nb-accordion>
+
 
                             <br>
                             <br>
@@ -163,10 +159,15 @@
                             <br>
                             <br>
                             <br>
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-xxxl-6">
+                                     <button nbButton hero status="success" (click)="openWindowImage()">Ajouter image</button> 
+                                </div>
+                            </div>
                         </nb-card-body>
                     </nb-card>
                 </nb-card-front>
-                <nb-card-back >
+                <nb-card-back>
                     <nb-card status="info">
                         <nb-card-header>Déchargement</nb-card-header>
                         <nb-card-body>
@@ -192,14 +193,17 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="inputInspecteur" class="label">Inspecteur</label>
-                                        <input type="text" nbInput fullWidth id="Inspecteur" name="Inspecteur"  placeholder="Inspecteur" [(ngModel)]="inspecteurDCh.nom" readonly>
+                                        <input type="text" nbInput fullWidth id="Inspecteur" name="Inspecteur"
+                                            placeholder="Inspecteur" [(ngModel)]="inspecteurDCh.nom" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="inputPort" class="label">Port</label>
-                                        <input type="text" nbInput fullWidth id="portDechargement" name="portDechargement"  placeholder="Port" [(ngModel)]="portDechargement.intitule" readonly>
+                                        <input type="text" nbInput fullWidth id="portDechargement"
+                                            name="portDechargement" placeholder="Port"
+                                            [(ngModel)]="portDechargement.intitule" readonly>
                                     </div>
                                 </div>
 
@@ -219,9 +223,11 @@
                 </nb-card-back>
             </nb-flip-card>
             <div style="text-align:right;">
-                <button nbButton hero status="success" type="submit">{{A}} </button>
-                <button nbButton hero status="warning" >Valider</button>
-                <button nbButton hero status="primary" ><nb-icon icon="download"></nb-icon></button>
+                <button nbButton hero status="success" (click)="onSave()">{{A}} </button>
+                <button nbButton hero status="warning">Valider</button>
+                <button nbButton hero status="primary">
+                    <nb-icon icon="download"></nb-icon>
+                </button>
             </div>
         </nb-card-body>
     </nb-card>

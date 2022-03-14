@@ -1,6 +1,7 @@
 import { Chargeur } from "../chargeur/chargeur"
 import { Inspecteur } from "../inspecteur/inspecteur"
-import { TypeRemorque } from "../parametrage/type/typeRemorque"
+import { TypeRemorque } from "../type/type-remorque"
+import { Unite } from "../unite/unite"
 import { Voyage } from "../voyage/voyage"
 
 export class Constat {
@@ -24,7 +25,7 @@ export class Constat {
 
     voyage: Voyage
 
-    typeRemorque: TypeRemorque
+    unite : Unite
 
     chargeur: Chargeur
 

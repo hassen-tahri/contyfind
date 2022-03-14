@@ -23,6 +23,7 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { FileUploadModule } from 'ng2-file-upload';
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [AppComponent],
@@ -43,6 +44,7 @@ registerLocaleData(localeFr, 'fr');
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     NgSelectModule,
+    FileUploadModule
   ],
   bootstrap: [AppComponent],
 })

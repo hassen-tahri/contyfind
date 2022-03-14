@@ -1,0 +1,81 @@
+<nb-card>
+    <nb-card-header>
+      Information générale
+      </nb-card-header>
+    <nb-card-body>
+      <form class="form-group">
+        <div class="row full-name-inputs label nvForm">
+          <div class="input-group col-md-3   input-group-lg">
+            <label for="adr">Pseudo</label>
+          </div>
+          <div class="input-group col-md-6   input-group-sm">
+            <input type="text" class="form-control" nbInput  placeholder="Pseudo" name="adr" [(ngModel)]="user.pseudo" />
+          </div>
+        </div>
+
+        <div class="row full-name-inputs label nvForm">
+            <div class="input-group col-md-3   input-group-lg">
+              <label for="mdp">Mot de passe</label>
+            </div>
+            <div class="input-group col-md-6   input-group-sm">
+                <nb-form-field style="width: 100%;">
+                    <input [type]="getInputType()" nbInput class="form-control" placeholder="Mot de passe" name="password" [(ngModel)]="user.mpd" >
+                    <button nbSuffix nbButton ghost (click)="toggleShowPassword()">
+                      <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+                               pack="eva"
+                               [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+                      </nb-icon>
+                    </button>
+                  </nb-form-field>
+            </div>
+          </div>
+
+        
+
+        <div class="row full-name-inputs label nvForm">
+          <div class="input-group col-md-3   input-group-lg">
+            <label for="email">Email</label>
+          </div>
+          <div class="input-group col-md-6   input-group-sm">
+            <input type="text" class="form-control" nbInput  placeholder="Email"
+              name="email" [(ngModel)]="chargeur.email" />
+          </div>
+        </div>
+
+        <div class="row full-name-inputs label nvForm">
+          <div class="input-group col-md-3   input-group-lg">
+            <label for="Pays">Pays</label>
+          </div>
+          <div class="input-group col-md-6   input-group-sm">
+            <input type="text" class="form-control" nbInput  placeholder="Pays"
+              name="Pays" [(ngModel)]="chargeur.pays"/>
+          </div>
+        </div>
+
+        <div class="row full-name-inputs label nvForm">
+          <div class="input-group col-md-3   input-group-lg">
+            <label for="tel">Telephone</label>
+          </div>
+          <div class="input-group col-md-6   input-group-sm">
+            <input type="text" class="form-control" nbInput  placeholder="telephone"
+              name="tel" [(ngModel)]="chargeur.numTel" />
+          </div>
+        </div>
+        
+        <div class="row full-name-inputs label nvForm">
+          <div class="input-group col-md-3   input-group-lg">
+            <label for="Adresse">Adresse</label>
+          </div>
+          <div class="input-group col-md-6   input-group-sm">
+            <input type="text" class="form-control" nbInput  placeholder="Adresse"
+              name="Adresse" [(ngModel)]="chargeur.adresse" />
+          </div>
+        </div>
+
+
+        <div style="text-align:right;">
+          <button nbButton status="success"  (click)="save()" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>

@@ -2,34 +2,12 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbCalendarRange, NbDateService, NbToastrService, NbWindowService } from '@nebular/theme';
-import { ViewCell } from 'ng2-smart-table';
+import { PagePdfViewrComponent } from '../page-pdf-viewr/page-pdf-viewr.component';
+import { PagesComponent } from '../pages.component';
+import { PdfPageCreatorComponent } from '../pdf-page-creator/pdf-page-creator.component';
 import { ConstatService } from './constat.service';
 
-@Component({
-  selector: 'ngx-button-view',
-  template:
-    '<div class="container-btn">' +
-    '<button nbButton status="success"><nb-icon icon="download"></nb-icon></button>' +
-    '</div>',
 
-})
-export class ButtonDownloadConstat implements ViewCell, OnInit {
-  renderValue: string;
-
-  @Input() value: string | number;
-  @Input() rowData: any;
-
-  @Output() save: EventEmitter<any> = new EventEmitter();
-
-  ngOnInit() {
-    this.renderValue = this.value.toString().toUpperCase();
-
-  }
-  constructor(private router: Router) {
-  }
-  onClick() {
-  }
-}
 
 
 @Component({
@@ -47,6 +25,7 @@ export class ListConstatComponent implements OnInit {
   myFormattedDate = this.pipe.transform(this.now, 'yyyy-MM-dd');
   checked: any
   SelectGroupValue = [];
+  role : string
 
 
   constructor(private windowService: NbWindowService,
@@ -73,6 +52,7 @@ export class ListConstatComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.role = localStorage.getItem(PagesComponent.role)
     this.range.start = new Date(this.now)
     this.range.end = new Date(this.now)
     this.source = await this.constatService.getByDateChargementInRange(this.myFormattedDate, this.myFormattedDate)
@@ -122,14 +102,20 @@ export class ListConstatComponent implements OnInit {
         title: 'id',
         type: 'text',
       },
-      remorqueCode: {
-        title: 'remorque',
+      unite: {
+        title: 'Unite',
         type: 'text',
+        valuePrepareFunction: (value) => { return value.matricule },
+        filterFunction(obj?: any, search?: string): boolean {
+          if (obj.intitule.toLowerCase().indexOf(search) > -1 || obj.intitule.toUpperCase().indexOf(search) > -1)
+            return true;
+          return false;
+        },
       },
       constat: {
         title: '',
         type: 'custom',
-        renderComponent: ButtonDownloadConstat,
+        renderComponent: PdfPageCreatorComponent,
         filter: false,
         show: false,
         addable: false,
@@ -161,7 +147,7 @@ export class ListConstatComponent implements OnInit {
       localStorage.removeItem('e');
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
-      // this.windowService.open(ShowInspecteurComponent, {title: 'Afficher les informations de cet inspecteur'});
+      this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
     }
   }
 
@@ -178,7 +164,7 @@ export class ListConstatComponent implements OnInit {
   }
 
   redirectToConstatPage() {
-    localStorage.setItem("SConstat", "0")
+    localStorage.setItem("EstorageConstat", "0")
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate(['/pages/constatPage']));
   }

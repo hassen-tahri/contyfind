@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService, NbWindowService } from '@nebular/theme';
 import { ConstatService } from '../../list-constat/constat.service';
-import { ButtonDownloadConstat } from '../../list-constat/list-constat.component';
+import { PagePdfViewrComponent } from '../../page-pdf-viewr/page-pdf-viewr.component';
+import { PdfPageCreatorComponent } from '../../pdf-page-creator/pdf-page-creator.component';
 import { ChargeurService } from '../chargeur.service';
 
 @Component({
@@ -69,14 +70,20 @@ export class ConstatChargeurComponent implements OnInit {
         title: 'id',
         type: 'text',
       },
-      remorqueCode: {
-        title: 'remorque',
+      unite: {
+        title: 'Unite',
         type: 'text',
+        valuePrepareFunction: (value) => { return value.matricule },
+        filterFunction(obj?: any, search?: string): boolean {
+          if (obj.intitule.toLowerCase().indexOf(search) > -1 || obj.intitule.toUpperCase().indexOf(search) > -1)
+            return true;
+          return false;
+        },
       },
       constat: {
         title: '',
         type: 'custom',
-        renderComponent: ButtonDownloadConstat,
+        renderComponent: PdfPageCreatorComponent,
         filter: false,
         show: false,
         addable: false,
@@ -100,10 +107,10 @@ export class ConstatChargeurComponent implements OnInit {
   // this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
    }
    if (event.action === 'showAction') {
-     localStorage.removeItem('e');
-     localStorage.removeItem('id');
-     localStorage.setItem('id' , event.data.id);
-    // this.windowService.open(ShowInspecteurComponent, {title: 'Afficher les informations de cet inspecteur'});
+    localStorage.removeItem('e');
+    localStorage.removeItem('id');
+    localStorage.setItem('id', event.data.id);
+    this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
    }
  }
 
@@ -120,7 +127,7 @@ export class ConstatChargeurComponent implements OnInit {
 }
 
   redirectToConstatPage() {
-    localStorage.setItem("SConstat","0")
+    localStorage.setItem("EstorageConstat","0")
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate(['/pages/constatPage']));
   }

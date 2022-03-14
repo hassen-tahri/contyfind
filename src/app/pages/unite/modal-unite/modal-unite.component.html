@@ -1,0 +1,29 @@
+<form class="form-group" #form="ngForm" (ngSubmit)="onSave()" #monFormulairej=ngForm autocomplete="off">
+    <nb-card>
+        <nb-card-body>                
+            <div class="form-group">
+                <label for="Matricule" class="label">Matricule</label>
+                <input type="text" class="form-control" nbInput  placeholder="Matricule"
+                name="Matricule" [(ngModel)]="unite.matricule" />
+            </div>
+
+            <div class="form-group">
+                <label for="Intitule" class="label">Type</label>
+                <ng-select  placeholder="Choisissez la Categorie" required
+                bindLabel="intitule" 
+                [items]=listeType
+                bindValue="id"
+                [(ngModel)]="selectedType"
+                name="type"
+                >
+               </ng-select> 
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <div style="text-align:right;">
+                <button nbButton hero status="success" type="submit" [disabled]=!monFormulairej.valid>{{A}}</button>
+                <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+            </div>
+        </nb-card-footer>
+    </nb-card>
+</form>

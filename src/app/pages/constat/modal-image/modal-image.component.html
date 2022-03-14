@@ -1,0 +1,39 @@
+<nb-tabset>
+    <nb-tab tabTitle="Parcourir une image">
+        <input id="fileInput"  type='file' (change)="onFileChanged($event)"  nbInput accept="image/png, image/jpeg"  name="Image" >
+       
+        <div class="container row">
+            <div class="col-md-12">
+                <div *ngIf=retrievedImage>
+                    <div style="border-style: outset;
+                    width: 220px;
+                    height : 215.5px;
+                    position: relative;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    left: 211px;">
+                    <img  width="210px" style="align-content: center; max-width: 100%;
+                    max-height: 100%; " height="auto" [src]="retrievedImage">
+                </div></div>
+            </div>    
+      
+        </div>
+       
+       
+        <button nbButton hero status="info" (click)="onSave()">
+            <nb-icon icon="camera-outline"></nb-icon> 
+           </button>
+    </nb-tab>
+    <nb-tab tabTitle="Prendre une photo">
+        <webcam [height]="350" [width]="400"></webcam>
+        <div class="row">
+        <div class=".col-md-6 .offset-md-3">
+            <button nbButton hero status="info">
+             <nb-icon icon="camera-outline"></nb-icon> 
+            </button>
+        </div>
+        <div class="actionBtn"  title="Take Picture">📸</div>
+        </div>
+    </nb-tab>
+</nb-tabset>

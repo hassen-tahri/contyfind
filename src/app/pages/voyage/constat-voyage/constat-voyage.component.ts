@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbToastrService, NbWindowService } from '@nebular/theme';
+import { Bateau } from '../../bateau/bateau';
 import { ConstatService } from '../../list-constat/constat.service';
-import { ButtonDownloadConstat } from '../../list-constat/list-constat.component';
-import { Bateau } from '../../parametrage/bateau/bateau';
+import { PagePdfViewrComponent } from '../../page-pdf-viewr/page-pdf-viewr.component';
+import { PdfPageCreatorComponent } from '../../pdf-page-creator/pdf-page-creator.component';
 import { Voyage } from '../voyage';
 import { VoyageService } from '../voyage.service';
 
@@ -131,7 +132,7 @@ export class ConstatVoyageComponent implements OnInit {
       constat: {
         title: '',
         type: 'custom',
-        renderComponent: ButtonDownloadConstat,
+        renderComponent: PdfPageCreatorComponent,
         filter: false,
         show: false,
         addable: false,
@@ -160,10 +161,10 @@ export class ConstatVoyageComponent implements OnInit {
   // this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
    }
    if (event.action === 'showAction') {
-     localStorage.removeItem('e');
-     localStorage.removeItem('id');
-     localStorage.setItem('id' , event.data.id);
-    // this.windowService.open(ShowInspecteurComponent, {title: 'Afficher les informations de cet inspecteur'});
+    localStorage.removeItem('e');
+    localStorage.removeItem('id');
+    localStorage.setItem('id', event.data.id);
+    this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
    }
  }
 
@@ -180,7 +181,7 @@ export class ConstatVoyageComponent implements OnInit {
 }
 
   redirectToConstatPage() {
-    localStorage.setItem("SConstat","0")
+    localStorage.setItem("EstorageConstat","0")
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate(['/pages/constatPage']));
   }

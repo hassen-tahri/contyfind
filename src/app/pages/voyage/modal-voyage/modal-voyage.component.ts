@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService, NbWindowRef } from '@nebular/theme';
-import { BateauService } from '../../parametrage/bateau/bateau.service';
-import { PortService } from '../../parametrage/port/port.service';
+import { BateauService } from '../../bateau/bateau.service';
+import { PortService } from '../../port/port.service';
 import { Voyage } from '../voyage';
 import { VoyageService } from '../voyage.service';
 

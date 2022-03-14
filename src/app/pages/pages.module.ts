@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbAlertModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbStepperModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
+import { NbAccordionModule, NbAlertModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbStepperModule, NbTabsetModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -9,9 +9,6 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './Miscellaneous/miscellaneous.module';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { ParametrageComponent } from './parametrage/parametrage.component';
-import { TypeComponent } from './parametrage/type/type.component';
-import { DommageComponent } from './parametrage/dommage/dommage.component';
 import { WebcamModule } from 'ngx-webcam';
 import { ButtonViewConstatInspecteur, InspecteurComponent } from './inspecteur/inspecteur.component';
 import { ModalInspecteurComponent } from './inspecteur/modal-inspecteur/modal-inspecteur.component';
@@ -25,18 +22,40 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalDommageItemComponent } from './constat/modal-dommage-item/modal-dommage-item.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ButtonViewConstatVoyage, VoyageComponent } from './voyage/voyage.component';
-import { PortComponent } from './parametrage/port/port.component';
-import { BateauComponent } from './parametrage/bateau/bateau.component';
 import { ModalVoyageComponent } from './voyage/modal-voyage/modal-voyage.component';
 import { ShowVoyageComponent } from './voyage/show-voyage/show-voyage.component';
 import { TemplatePdfComponent } from './template-pdf/template-pdf.component';
-import { ButtonDownloadConstat, ListConstatComponent } from './list-constat/list-constat.component';
+import { ListConstatComponent } from './list-constat/list-constat.component';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ConstatChargeurComponent } from './chargeur/constat-chargeur/constat-chargeur.component';
 import { ConstatVoyageComponent } from './voyage/constat-voyage/constat-voyage.component';
 import { ConstatInspecteurComponent } from './inspecteur/constat-inspecteur/constat-inspecteur.component';
 import { AppCameraComponent } from './template-pdf/app-camera/app-camera.component';
 import { LoginComponent } from './login/login.component';
+import { BateauComponent } from './bateau/bateau.component';
+import { ShowBateauComponent } from './bateau/show-bateau/show-bateau.component';
+import { ModalBateauComponent } from './bateau/modal-bateau/modal-bateau.component';
+import { PortComponent } from './port/port.component';
+import { ModalPortComponent } from './port/modal-port/modal-port.component';
+import { ShowPortComponent } from './port/show-port/show-port.component';
+import { TypeComponent } from './type/type.component';
+import { DommageComponent } from './dommage/dommage.component';
+import { UniteComponent } from './unite/unite.component';
+import { ModalDommageComponent } from './dommage/modal-dommage/modal-dommage.component';
+import { ShowDommageComponent } from './dommage/show-dommage/show-dommage.component';
+import { ModalTypeComponent } from './type/modal-type/modal-type.component';
+import { ShowModalComponent } from './type/show-modal/show-modal.component';
+import { ModalUniteComponent } from './unite/modal-unite/modal-unite.component';
+import { ShowUniteComponent } from './unite/show-unite/show-unite.component';
+import { PdfPageCreatorComponent } from './pdf-page-creator/pdf-page-creator.component';
+import { ModalImageComponent } from './constat/modal-image/modal-image.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { ConstatForchargeurComponent } from './constat-forchargeur/constat-forchargeur.component';
+import { ProfilChargeurComponent } from './profil-chargeur/profil-chargeur.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PagePdfViewrComponent } from './page-pdf-viewr/page-pdf-viewr.component';
+import { Page404Component } from './page404/page404.component';
+
 
 
 
@@ -70,6 +89,10 @@ import { LoginComponent } from './login/login.component';
     NbStepperModule,
     NbCalendarRangeModule,
     NbButtonGroupModule,
+    NbTabsetModule,
+    NbFormFieldModule,
+    PdfViewerModule
+    
     
     
     
@@ -77,9 +100,6 @@ import { LoginComponent } from './login/login.component';
   declarations: [
     PagesComponent,
     UtilisateurComponent,
-    ParametrageComponent,
-    TypeComponent,
-    DommageComponent,
     InspecteurComponent,
     ModalInspecteurComponent,
     ShowInspecteurComponent,
@@ -89,14 +109,11 @@ import { LoginComponent } from './login/login.component';
     ConstatComponent,
     ModalDommageItemComponent,
     VoyageComponent,
-    PortComponent,
-    BateauComponent,
     ModalVoyageComponent,
     ShowVoyageComponent,
     TemplatePdfComponent,
     ButtonViewConstatVoyage,
     ListConstatComponent,
-    ButtonDownloadConstat,
     ButtonViewConstatChargeur,
     ButtonViewConstatInspecteur,
     ConstatChargeurComponent,
@@ -104,6 +121,27 @@ import { LoginComponent } from './login/login.component';
     ConstatInspecteurComponent,
     AppCameraComponent,
     LoginComponent,
+    BateauComponent,
+    ShowBateauComponent,
+    ModalBateauComponent,
+    PortComponent,
+    ModalPortComponent,
+    ShowPortComponent,
+    TypeComponent,
+    DommageComponent,
+    UniteComponent,
+    ModalDommageComponent,
+    ShowDommageComponent,
+    ModalTypeComponent,
+    ShowModalComponent,
+    ModalUniteComponent,
+    ShowUniteComponent,
+    PdfPageCreatorComponent,
+    ModalImageComponent,
+    ConstatForchargeurComponent,
+    ProfilChargeurComponent,
+    PagePdfViewrComponent,
+    Page404Component
   ],
 })
 export class PagesModule {

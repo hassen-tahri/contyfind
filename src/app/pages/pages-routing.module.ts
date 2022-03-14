@@ -6,7 +6,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './Miscellaneous/not-found/not-found.component';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
-import { ParametrageComponent } from './parametrage/parametrage.component';
 import { InspecteurComponent } from './inspecteur/inspecteur.component';
 import { ChargeurComponent } from './chargeur/chargeur.component';
 import { ConstatComponent } from './constat/constat.component';
@@ -16,6 +15,18 @@ import { ListConstatComponent } from './list-constat/list-constat.component';
 import { ConstatVoyageComponent } from './voyage/constat-voyage/constat-voyage.component';
 import { ConstatChargeurComponent } from './chargeur/constat-chargeur/constat-chargeur.component';
 import { ConstatInspecteurComponent } from './inspecteur/constat-inspecteur/constat-inspecteur.component';
+import { BateauComponent } from './bateau/bateau.component';
+import { TypeRemorque } from './type/type-remorque';
+import { UniteComponent } from './unite/unite.component';
+import { DommageComponent } from './dommage/dommage.component';
+import { PortComponent } from './port/port.component';
+import { TypeComponent } from './type/type.component';
+import { PdfPageCreatorComponent } from './pdf-page-creator/pdf-page-creator.component';
+import { ConstatForchargeurComponent } from './constat-forchargeur/constat-forchargeur.component';
+import { ProfilChargeurComponent } from './profil-chargeur/profil-chargeur.component';
+import { Page404Component } from './page404/page404.component';
+import { AdminGuard } from './login/admin.guard';
+
 
 const routes: Routes = [{
   path: '',
@@ -32,14 +43,12 @@ const routes: Routes = [{
     {
       path: 'utilisateur',
       component: UtilisateurComponent,
-    },
-    {
-      path: 'parametrage',
-      component: ParametrageComponent,
+      canActivate : [AdminGuard]
     },
     {
       path: 'inspecteur',
       component: InspecteurComponent,
+      canActivate : [AdminGuard]
     },
     {
       path: 'chargeur',
@@ -62,6 +71,26 @@ const routes: Routes = [{
       component: ListConstatComponent,
     },
     {
+      path: 'bateau',
+      component: BateauComponent,
+    },
+    {
+      path: 'type',
+      component: TypeComponent,
+    },
+    {
+      path: 'unite',
+      component: UniteComponent,
+    },
+    {
+      path: 'dommage',
+      component: DommageComponent,
+    },
+    {
+      path: 'port',
+      component: PortComponent,
+    },
+    {
       path: 'constat/voyage',
       component: ConstatVoyageComponent,
     },
@@ -73,6 +102,24 @@ const routes: Routes = [{
       path: 'constat/inspecteur',
       component: ConstatInspecteurComponent,
     },
+    {
+      path: 'pdf',
+      component: PdfPageCreatorComponent,
+    },
+    {
+      path: 'constatChargeur',
+      component: ConstatForchargeurComponent,
+    },
+    {
+      path: 'profilChargeur',
+      component: ProfilChargeurComponent,
+    },
+    {
+      path: 'doNotAccess',
+      component: Page404Component,
+    },
+    
+    
    /*  {
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')

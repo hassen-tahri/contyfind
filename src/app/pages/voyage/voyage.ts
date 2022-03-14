@@ -1,5 +1,5 @@
-import { Bateau } from "../parametrage/bateau/bateau";
-import { Port } from "../parametrage/port/port";
+import { Bateau } from "../bateau/bateau"
+import { Port } from "../port/port"
 
 export class Voyage {
     id: number

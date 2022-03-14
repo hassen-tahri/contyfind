@@ -5,6 +5,12 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { PagesComponent } from '../../../pages/pages.component';
+import { ChargeurService } from '../../../pages/chargeur/chargeur.service';
+import { InspecteurService } from '../../../pages/inspecteur/inspecteur.service';
+import { Chargeur } from '../../../pages/chargeur/chargeur';
+import { Inspecteur } from '../../../pages/inspecteur/inspecteur';
+import { User } from '../../../pages/utilisateur/user';
 
 @Component({
   selector: 'ngx-header',
@@ -15,7 +21,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
-  user: any;
+  user: any; 
+  profilPageLink =""
+  role : string
+  customUserName : string
+  chargeur : Chargeur
+  inspecteur : Inspecteur
 
   themes = [
     {
@@ -30,17 +41,38 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [ { title: 'Profil', link : this.profilPageLink }, { title: 'Déconnexion' , link:'auth'} ];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private userService: UserData,
               private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private breakpointService: NbMediaBreakpointsService,
+              private chargeurService : ChargeurService,
+              private inspecteurService : InspecteurService) {
+                
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    //session settings
+    this.role = localStorage.getItem(PagesComponent.role)
+    let userId = localStorage.getItem(PagesComponent.userId)
+    if (this.role === PagesComponent.chargeur) {
+      this.profilPageLink = "pages/profilChargeur"
+      this.chargeur = new Chargeur()
+      this.chargeur = await this.chargeurService.getByUserId(+userId)
+      this.customUserName = this.chargeur.intitule
+    }
+    if (this.role === PagesComponent.inspecteur) {
+      this.profilPageLink = "pages/profilInspecteur"
+      this.inspecteur = new Inspecteur()
+      this.inspecteur = await this.inspecteurService.getByUserId(+userId)
+      this.customUserName = this.inspecteur.nom + " " + this.inspecteur.prenom
+    }
+    if (this.role === PagesComponent.admin) { this.customUserName = localStorage.getItem(PagesComponent.userSession) }
+    this.userMenu = [ { title: 'Profil', link : this.profilPageLink }, { title: 'Déconnexion' , link:'auth'} ];
+
     this.currentTheme = this.themeService.currentTheme;
 
     this.userService.getUsers()

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService, NbWindowRef } from '@nebular/theme';
-import { DommageService } from '../../parametrage/dommage/dommage.service';
+import { DommageService } from '../../dommage/dommage.service';
 
 @Component({
   selector: 'ngx-modal-dommage-item',

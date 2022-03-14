@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-md-6" style="text-align:right;">
                         <nb-button-group status="warning" hero (valueChange)="updateSelectGroupValue($event)">
-                            <button nbButtonToggle value="owner">Mes constats</button>
+                            <button nbButtonToggle value="owner" *ngIf="role == 'inspecteur' ">Mes constats</button>
                             <button nbButtonToggle value="All">Afficher tout</button>
                           </nb-button-group>
                    </div>

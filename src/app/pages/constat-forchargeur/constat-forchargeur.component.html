@@ -1,0 +1,19 @@
+<nb-card>
+    <nb-card-body>
+
+        <nb-tabset>
+            <!-- liste des nouveau constats -->
+            <nb-tab tabTitle="Nouveaux constats" [badgeText]=nbrNews badgeStatus="danger">
+                <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="newsConstat" (custom)="onCostum($event)">
+                </ng2-smart-table>
+            </nb-tab>
+
+            <!-- liste des tout les constats -->
+            <nb-tab tabTitle="Tous mes constats" [badgeText]=nbrAll badgeStatus="success">
+                <ng2-smart-table class="full-width text-center" [settings]="settings" [source]="allConstat" (custom)="onCostum($event)">
+                </ng2-smart-table>
+            </nb-tab>
+        </nb-tabset>
+
+    </nb-card-body>
+</nb-card>

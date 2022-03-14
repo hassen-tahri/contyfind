@@ -15,28 +15,36 @@
   </ul>
 </nb-alert> -->
 
-<form aria-labelledby="title" (ngSubmit)="connecter()" #form="ngForm" #monFormulairej=ngForm autocomplete="off">
+<form aria-labelledby="title"  #form="ngForm" #monFormulairej=ngForm autocomplete="off">
   <!-- <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title"> -->
   <div class="row full-name-inputs label nvForm">
-    <label class="label" for="input-password">Login</label>
-    <input type="text" [(ngModel)]="session.pseudo" class="form-control" nbInput required fullWidth
-      placeholder="Login" name="login" />
+    <!-- <label class="label" for="input-password">Login</label> -->
+    <input type="text" [(ngModel)]="session.pseudo" class="form-control" nbInput required fullWidth placeholder="Login"
+      name="login" />
   </div>
 
   <div class="row full-name-inputs label nvForm">
-    <label class="label" for="input-password">Mot de passe</label>
-    <input type="password" [(ngModel)]="session.mpd" class="form-control" nbInput required fullWidth
-      placeholder="Mot de passe" name="password" />
-   
+    <nb-form-field style="width: 246%;">
+      <!-- <label class="label" for="input-password">Mot de passe</label> -->
+      <input [type]="getInputType()" nbInput required fullWidth class="form-control" placeholder="Mot de passe" name="password" [(ngModel)]="session.mpd" >
+      <button nbSuffix nbButton ghost (click)="toggleShowPassword()">
+        <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+                 pack="eva"
+                 [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+        </nb-icon>
+      </button>
+    </nb-form-field>
+    <!-- <input type="password" [(ngModel)]="session.mpd" class="form-control" nbInput required fullWidth
+      placeholder="Mot de passe" name="password" /> -->
+
   </div>
   <br>
-  <div class="row full-name-inputs label nvForm">
-    <p class="caption status-danger sub-title" *ngIf="msg !='' ">
+  <div class="row full-name-inputs label nvForm"  *ngIf="msg.length > 0 ">
+    <p class="caption status-danger sub-title">
       {{msg}}
     </p>
-    <nb-checkbox status="success" *ngIf="msg == null" [value]="checked" (change)="setCheckedStatus($event)">i'm not a robot</nb-checkbox>
   </div>
-  <button nbButton fullWidth status="primary" type="submit" [disabled]=!monFormulairej.valid size="large">
+  <button nbButton fullWidth status="primary" type="submit"  (click)="connecter()" [disabled]=!monFormulairej.valid size="large">
     Connexion
   </button>
 </form>

@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { WebcamImage } from 'ngx-webcam';
 import { FILE } from 'dns';
 import { GoogleCloudVisionService } from './google-cloud-vision.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-template-pdf',
@@ -18,7 +19,7 @@ import { GoogleCloudVisionService } from './google-cloud-vision.service';
 })
 export class TemplatePdfComponent implements OnInit {
 
-  constructor(private voyageService: VoyageService,
+  constructor(private voyageService: VoyageService,  private router: Router,
     private vision: GoogleCloudVisionService  ) { }
   listeVoyage : any
   textShow : string
@@ -104,7 +105,7 @@ export class TemplatePdfComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable: ElementRef;
    
   public downloadAsPDF() {
-    const doc = new jsPDF();
+    const doc = new jsPDF('p', 'mm', 'a4');
     
     const pdfTable = this.pdfTable.nativeElement;
     
@@ -113,6 +114,12 @@ export class TemplatePdfComponent implements OnInit {
     const documentDefinition = { content: html };
     pdfMake.createPdf(documentDefinition).open(); 
       
+  }
+
+  testReditrect()
+  { localStorage.setItem("menu","true")
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+    this.router.navigate(['/pages/voyage']));
   }
 
 

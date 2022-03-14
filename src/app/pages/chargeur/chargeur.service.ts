@@ -30,4 +30,8 @@ export class ChargeurService {
   async deleteChargeur(id: number) {
     return this.httpclient.delete(this.url + '/' + id).toPromise();
   }
+
+  async getByUserId(id: Number) {
+    return this.httpclient.get<Chargeur>(this.url + '/user/' + id).toPromise();
+  }
 }

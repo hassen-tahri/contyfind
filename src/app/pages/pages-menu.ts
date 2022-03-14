@@ -1,25 +1,72 @@
 import { NbMenuItem } from '@nebular/theme';
-
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'E-commerce',
     icon: 'shopping-cart-outline',
     link: '/pages/dashboard',
     home: true,
-    hidden : true,
+    hidden: true,
   },
+
   {
     title: 'IoT Dashboard',
     icon: 'home-outline',
     link: '/pages/iot-dashboard',
-    hidden : true,
+    hidden: true,
+
+  },
+  {
+    title: 'Gestion constats',
+    icon: 'clipboard',
+    link: '/pages/constat',
+    data : 'admin'
+  },
+  {
+    title: 'Gestion voyage',
+    icon: 'paper-plane',
+    link: '/pages/voyage',
+    data : 'admin'
+  },
+  {
+    title: 'Unite',
+    link: '/pages/unite',
+    icon: 'cube',
+    data : 'admin'
+  },
+  {
+    title: 'Paramétrage',
+    icon: 'options',
+    data : 'admin',
+    children: [
+      {
+        title: 'Bateaux',
+        link: '/pages/bateau',
+        icon: 'arrowhead-right'
+      },
+      {
+        title: 'Port',
+        link: '/pages/port',
+        icon: 'arrowhead-right'
+      },
+      {
+        title: 'Dommage',
+        link: '/pages/dommage',
+        icon: 'arrowhead-right'
+      },
+      {
+        title: 'Categorie',
+        link: '/pages/type',
+        icon: 'arrowhead-right'
+      },
+    ]
   },
   {
     title: 'Gestion utilisateurs',
     icon: 'people',
     link: '/pages/utilisateur',
+    data : 'admin',
     children:
-      [  {
+      [{
         title: 'Gestion inspecteur',
         icon: 'person',
         link: '/pages/inspecteur',
@@ -31,36 +78,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Gestion des comptes',
-    icon: 'lock',
-    link: '/pages/utilisateur',
-      }
+        icon: 'lock',
+        link: '/pages/utilisateur',
+      },
 
       ]
   },
   {
-    title: 'Paramétrage',
-    icon: 'options',
-    link: '/pages/parametrage',
-  },
-  {
-    title: 'Gestion voyage',
-    icon: 'paper-plane',
-    link: '/pages/voyage',
-  },
-  // {
-  //   title: 'Nouveau constat',
-  //   icon: 'file-add-outline',
-  //   link: '/pages/constatPage',
-  // },
-  {
-    title: 'Gestion constats',
+    title: 'Mes Constat',
     icon: 'clipboard',
-    link: '/pages/constat',
-  },
-  {
-    title: 'Test',
-    icon: 'home',
-    link: '/pages/test',
+    link: '/pages/constatChargeur',
+    data: 'chargeur'
   },
 
 ];

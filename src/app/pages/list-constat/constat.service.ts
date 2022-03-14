@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { Byte } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { PagesComponent } from '../pages.component';
 import { Constat } from './constat';
@@ -39,12 +40,12 @@ export class ConstatService {
     return this.httpclient.get<Constat[]>(this.url + '/etat/' + etat).toPromise();
   }
 
-  async addConstat(constat: Constat, idV: Number, idCh: Number, idTr: Number, idInsCh: Number, idInsDch: Number) {
-    return this.httpclient.post(this.url + '/voyage/' + idV + '/chargeur/' + idCh + '/typeRemorque/' + idTr + '/inspecteurCh/' + idInsCh + '/inspecteurDch/' + idInsDch, constat).toPromise();
+  async addConstat(constat: Constat, idV: Number, idCh: Number, idU: Number, idInsCh: Number, idInsDch: Number) {
+    return this.httpclient.post(this.url + '/voyage/' + idV + '/chargeur/' + idCh + '/unite/' + idU + '/inspecteurCh/' + idInsCh + '/inspecteurDch/' + idInsDch, constat).toPromise();
   }
 
-  async editConstat(constat: Constat, idV: Number, idCh: Number, idTr: Number, idInsCh: Number, idInsDch: Number) {
-    return this.httpclient.put(this.url + "/" + constat.id + '/voyage/' + idV + '/chargeur/' + idCh + '/typeRemorque/' + idTr + '/inspecteurCh/' + idInsCh + '/inspecteurDch/' + idInsDch, constat).toPromise();
+  async editConstat(constat: Constat, idV: Number, idCh: Number, idU: Number, idInsCh: Number, idInsDch: Number) {
+    return this.httpclient.put(this.url + "/" + constat.id + '/voyage/' + idV + '/chargeur/' + idCh + '/unite/' + idU + '/inspecteurCh/' + idInsCh + '/inspecteurDch/' + idInsDch, constat).toPromise();
   }
 
   async getByDateChargementInRange(dateDeb : string , dateFin : string) {
@@ -61,6 +62,35 @@ export class ConstatService {
 
   async getByInspecteurDechargementAndDateChargementInRange(id : number ,dateDeb : string , dateFin : string){
     return this.httpclient.get<Constat[]>(this.url+"/InspecteurDechargement/RangeChargement/"+id+"/"+dateDeb+"/"+dateFin).toPromise();
+  }
+
+  async getByChargeurAndEtat(id: Number , etat : string) {
+    return this.httpclient.get<Constat[]>(this.url + '/chargeur/' + id +"/etat/"+ etat).toPromise();
+  }
+
+  uploadimage(id: number, uploadImageData: FormData) {
+    return this.httpclient.post(this.url + '/' + id + '/image/upload', uploadImageData, { observe: 'response' })
+      .subscribe((response) => {
+        if (response.status === 200) {
+          console.log('Image uploaded successfully');
+        } else {
+          console.log('Image not uploaded successfully');
+        }
+      }
+      );
+  }
+
+  async getimage(id: number) {
+    return this.httpclient.get(this.url + '/' + id + '/image/get').toPromise();
+  }
+
+
+  async deleteImage(id: number) {
+    return this.httpclient.delete(this.url + '/image/' + id).toPromise();
+  }
+
+  async getimages(id: number) {
+    return this.httpclient.get<Byte>(this.url + '/' + id + '/image/get').toPromise();
   }
   
 }

@@ -1,17 +1,20 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NbToastrService, NbWindowService } from '@nebular/theme';
+import { Bateau } from '../bateau/bateau';
 import { ChargeurService } from '../chargeur/chargeur.service';
 import { Inspecteur } from '../inspecteur/inspecteur';
 import { InspecteurService } from '../inspecteur/inspecteur.service';
 import { Constat } from '../list-constat/constat';
 import { ConstatService } from '../list-constat/constat.service';
-import { Bateau } from '../parametrage/bateau/bateau';
-import { Port } from '../parametrage/port/port';
-import { TypeService } from '../parametrage/type/type.service';
+import { Port } from '../port/port';
+import { TypeService } from '../type/type.service';
+import { Unite } from '../unite/unite';
+import { UniteService } from '../unite/unite.service';
 import { Voyage } from '../voyage/voyage';
 import { VoyageService } from '../voyage/voyage.service';
 import { ModalDommageItemComponent } from './modal-dommage-item/modal-dommage-item.component';
+import { ModalImageComponent } from './modal-image/modal-image.component';
 
 @Component({
   selector: 'ngx-constat',
@@ -22,11 +25,13 @@ export class ConstatComponent implements OnInit {
 
   A: string
   listeVoyageNonArchive=[]
+  listeUnite=[]
   listeType=[]
   listeChargeur=[]
   selectedVoyage : any
-  selectedType : any
+  selectedUnite : any
   selectedChargeur : any
+  selectedType : any
   constat : Constat
   inspecteurCh : Inspecteur
   inspecteurDCh : Inspecteur
@@ -34,6 +39,8 @@ export class ConstatComponent implements OnInit {
   bateau : Bateau
   portChargement : Port
   portDechargement : Port
+  isNewType : boolean
+  disabledTypeInput
 
 
   constructor(private windowService: NbWindowService,
@@ -42,9 +49,11 @@ export class ConstatComponent implements OnInit {
     private voyageService : VoyageService,
     private typeService : TypeService,
     private inspecteurService : InspecteurService,
-    private constatService : ConstatService) { }
+    private constatService : ConstatService,
+    private uniteService : UniteService) { }
 
   async ngOnInit() {
+    this.disabledTypeInput = false
     this.constat = new Constat()
     this.inspecteurCh = new Inspecteur()
     this.inspecteurDCh = new Inspecteur()
@@ -52,10 +61,13 @@ export class ConstatComponent implements OnInit {
     this.bateau = new Bateau()
     this.portChargement = new Port()
     this.portDechargement = new Port()
-    let e = localStorage.getItem("SConstat")    
+    let e = localStorage.getItem("EstorageConstat")    
     this.listeChargeur = await this.chargeurService.getAll()
     this.listeType = await this.typeService.getAll()
+    this.listeUnite = await this.uniteService.getAll()
     this.listeVoyageNonArchive = await this.voyageService.getByArchive(false)
+
+
 
     //format liste voyage
     for (let i = 0; i < this.listeVoyageNonArchive.length; i++) {
@@ -81,21 +93,21 @@ export class ConstatComponent implements OnInit {
       this.constat = await this.constatService.getById(+id)
       this.selectedChargeur = this.constat.chargeur.id
       this.selectedVoyage = this.constat.voyage.id
-      this.selectedType = this.constat.typeRemorque.id
+      this.selectedUnite = this.constat.unite.id
     }
   }
 
   async onSave() {
     let e = localStorage.getItem('e');
     if (e === '0') {
-      console.log(this.constat)
-        this.constatService.addConstat(this.constat , this.selectedVoyage , this.selectedChargeur , this.selectedType , 9 , 10)
+       await this.constatService.addConstat(this.constat , this.selectedVoyage,this.selectedChargeur,this.selectedUnite, null ,null)
         localStorage.removeItem('e');
         localStorage.removeItem('id');
+        console.log(this.constat)
         this.toastrService.success("Succès", "Constat Ajoutée")
     } if (e === '1') {
       console.log(this.constat)
-      //this.constatService.editConstat(this.constat , this.selectedVoyage , this.selectedChargeur , this.selectedType , this.inspecteurCh.id , this.inspecteurDCh.id)
+      await this.constatService.editConstat(this.constat , this.selectedVoyage,this.selectedChargeur,this.selectedUnite, this.inspecteurCh.id ,this.inspecteurDCh.id)
       localStorage.removeItem('e');
       localStorage.removeItem('id');
       this.toastrService.success("Succès", "Voyage modifiée");
@@ -104,16 +116,19 @@ export class ConstatComponent implements OnInit {
 
   }
 
-  openWindow() {
+  openWindowDommage() {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
+    localStorage.setItem("constatCourant", this.constat.id.toString())
     this.windowService.open(ModalDommageItemComponent, { title: 'Ajouter un dommage' });
   }
 
 
    async calculateAttr(ev : any)
-  { this.voyage = await this.voyageService.getById(this.selectedVoyage)
+   
+  { 
+    this.voyage = await this.voyageService.getById(this.selectedVoyage)
     this.bateau =  this.voyage.bateau
     this.portChargement = this.voyage.portChargement
     this.portDechargement =  this.voyage.portDechargement
@@ -136,5 +151,33 @@ export class ConstatComponent implements OnInit {
       
     }
   }
+
+  async changeType(en: any){
+  if(!this.isNewType && this.selectedUnite != null)
+  {this.selectedType = (await (this.uniteService.getById(this.selectedUnite))).type.id
+    this.disabledTypeInput = true}
+  
+  }
+
+  openWindowImage() {
+   //localStorage.removeItem('e');
+   //localStorage.removeItem('id');
+   // localStorage.setItem('e', '0');
+   //localStorage.setItem("constatCourant", this.constat.id.toString())
+    this.windowService.open(ModalImageComponent, { title: 'Ajouter une image' });
+  }
+
+  addNewUnite = (term) => {
+    this.selectedUnite = new Unite()
+    this.selectedUnite.matricule = term
+    if(!!this.selectedType)
+    {this.disabledTypeInput = false
+      this.uniteService.add(this.selectedUnite, this.selectedType)}
+      this.isNewType = true
+    console.log("new type "+this.isNewType)
+    console.log("disabled "+this.disabledTypeInput) 
+    
+    return ({ matricule: term, type: this.selectedType, });
+  };
 
 }
