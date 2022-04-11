@@ -14,38 +14,65 @@ import { UserService } from '../utilisateur/user.service';
 })
 export class ProfilChargeurComponent implements OnInit {
   showPassword = false;
-  chargeur : Chargeur
-  user : User
-  constructor(private chargeurService : ChargeurService ,
-    private userService : UserService,
-    private router : Router,
-    private toastrService:NbToastrService) { }
+  chargeur: Chargeur
+  user: User
+  oldPseudo: string
 
-  async ngOnInit()  {
+  constructor(private chargeurService: ChargeurService,
+    private userService: UserService,
+    private router: Router,
+    private toastrService: NbToastrService) { }
+
+  async ngOnInit() {
     let userId = localStorage.getItem(PagesComponent.userId)
     this.chargeur = new Chargeur()
     this.user = new User()
     this.user = await this.userService.getById(+userId)
     this.chargeur = await this.chargeurService.getByUserId(+userId)
+    this.oldPseudo = this.user.pseudo
   }
 
-  async save()
-  { this.chargeurService.editChargeur(this.chargeur, this.user.id)
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-    this.router.navigate(['/pages/profilChargeur']));
-    this.toastrService.success("Succès","Détails sauvgardé");
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-    //input password
-    getInputType() {
-      if (this.showPassword) {
-        return 'text';
+  async save() {
+    if (this.user.pseudo != this.oldPseudo) {
+      if (!!await this.userService.getByPseudo(this.user.pseudo)) {
+        this.toastrService.danger("Le pseudo "+this.user.pseudo+" existe déjà", "Pseudo invalide il faut le changer")
       }
-      return 'password';
+      else {
+        this.userService.editUser(this.user)
+        this.chargeurService.editChargeur(this.chargeur, this.user.id)
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/profilChargeur']));
+        this.toastrService.success("Succès", "Détails sauvgardé");
+        //actualiser la page 
+        await this.delay(500)
+        window.location.reload()
+      }
     }
-  
-    toggleShowPassword() {
-      this.showPassword = !this.showPassword;
+    else {
+      this.chargeurService.editChargeur(this.chargeur, this.user.id)
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/profilChargeur']));
+      this.toastrService.success("Succès", "Détails sauvgardé");
+      //actualiser la page 
+      await this.delay(500)
+      window.location.reload()
     }
+  }
+
+  //input password
+  getInputType() {
+    if (this.showPassword) {
+      return 'text';
+    }
+    return 'password';
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 
 }

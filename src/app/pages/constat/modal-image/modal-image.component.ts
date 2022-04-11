@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { NbToastrService, NbWindowRef } from '@nebular/theme';
 import { FileUploader } from 'ng2-file-upload';
 import { ConstatService } from '../../list-constat/constat.service';
 import { PagesComponent } from '../../pages.component';
@@ -23,10 +24,12 @@ export class ModalImageComponent implements OnInit {
   imgURL: any;
   url = PagesComponent.urlConfig
 
-  constructor(private constatService: ConstatService) { }
+  constructor(private constatService: ConstatService,
+    public windowRef: NbWindowRef,
+    private toastrService: NbToastrService) { }
 
   ngOnInit() {
-    this.retrievedImage = this.url + "downloadFile/actualite None.gif";
+    this.retrievedImage = this.url + "downloadFile\\None.gif";
   }
 
   public onFileChanged(event) {
@@ -41,12 +44,14 @@ export class ModalImageComponent implements OnInit {
   }
 
   onSave()
-  {this.onUpload(1)}
+  { let idC = localStorage.getItem("ccId")
+    this.onUpload(+idC)
+    this.windowRef.close();
+    this.toastrService.success("Succès", "image enregistrée");}
 
 
   async onUpload(id: number) {
-    //console.log(this.selectedFile);
-
+    console.log(this.selectedFile);
     //FormData API provides methods and properties to allow us easily prepare form data to be sent with POST HTTP requests.
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);

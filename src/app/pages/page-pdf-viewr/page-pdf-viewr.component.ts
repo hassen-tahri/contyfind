@@ -5,7 +5,6 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Constat } from '../list-constat/constat';
 import { ConstatService } from '../list-constat/constat.service';
-import { PdfPageCreatorComponent } from '../pdf-page-creator/pdf-page-creator.component';
 import { PdfTemplateService } from '../pdf-page-creator/pdf-template.service';
 
 @Component({
@@ -15,10 +14,6 @@ import { PdfTemplateService } from '../pdf-page-creator/pdf-template.service';
 })
 export class PagePdfViewrComponent implements OnInit {
   constat: Constat
-  base64Image: any;
-  insCh : string
-  insDch : string
-  documentName : string
   pdftoShow : any
 
   constructor(private constatService: ConstatService,
@@ -36,8 +31,8 @@ export class PagePdfViewrComponent implements OnInit {
 
 
 
-  generatePdf() {
-    const documentDefinition = this.pdfTemplate.getDocumentDefinition(this.constat);
+  async generatePdf() {
+    const documentDefinition = await this.pdfTemplate.getDocumentDefinition(this.constat);
     const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
     pdfDocGenerator.getBuffer((buffer) => {
       this.pdftoShow = buffer

@@ -63,15 +63,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.chargeur = new Chargeur()
       this.chargeur = await this.chargeurService.getByUserId(+userId)
       this.customUserName = this.chargeur.intitule
+      this.userMenu = [ { title: 'Profil', link : this.profilPageLink, }, { title: 'Déconnexion' , link:'auth'} ];
     }
     if (this.role === PagesComponent.inspecteur) {
       this.profilPageLink = "pages/profilInspecteur"
       this.inspecteur = new Inspecteur()
       this.inspecteur = await this.inspecteurService.getByUserId(+userId)
       this.customUserName = this.inspecteur.nom + " " + this.inspecteur.prenom
+      this.userMenu = [ { title: 'Profil', link : this.profilPageLink, }, { title: 'Déconnexion' , link:'auth'} ];
     }
-    if (this.role === PagesComponent.admin) { this.customUserName = localStorage.getItem(PagesComponent.userSession) }
-    this.userMenu = [ { title: 'Profil', link : this.profilPageLink }, { title: 'Déconnexion' , link:'auth'} ];
+    if (this.role === PagesComponent.admin) { 
+      this.customUserName = localStorage.getItem(PagesComponent.userSession)
+      this.userMenu = [{ title: 'Déconnexion' , link:'auth'} ];
+    }
+
 
     this.currentTheme = this.themeService.currentTheme;
 

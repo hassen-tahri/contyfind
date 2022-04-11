@@ -28,10 +28,10 @@ export class MenuService {
 
   setMenuItemVisibility(dataToFind: string, permission: string, resource: string, menuItems: NbMenuItem[]) {
     var menuItem = this.getSubMenuItem(dataToFind, menuItems);
-    console.log('menu searched:' + dataToFind);
-    console.log('menu found:' + menuItem);
+    // console.log('menu searched:' + dataToFind);
+    // console.log('menu found:' + menuItem);
     if (menuItem == null) return;
-    console.log('setting auth for menu:' + menuItem.data);
+    // console.log('setting auth for menu:' + menuItem.data);
     this.accessChecker.isGranted(permission, resource).subscribe(res => { menuItem.hidden = !res });
   }
 
@@ -48,19 +48,19 @@ export class MenuService {
   //set visibility for one item
   enableMenuItem(dataToFind: string, permission: string, resource: string, menuItems: NbMenuItem) {
     var menuItem = this.getItemSubMenu(dataToFind, menuItems);
-    console.log('menu searched:' + dataToFind);
-    console.log('menu found:' + menuItem);
+    //console.log('menu searched:' + dataToFind);
+    //console.log('menu found:' + menuItem);
     if (menuItem == null) return;
-    console.log('setting auth for menu:' + menuItem.data);
+    //console.log('setting auth for menu:' + menuItem.data);
     this.accessChecker.isGranted(permission, resource).subscribe(res => { menuItem.hidden = res });
   }
 
   disableMenuItem(dataToFind: string, permission: string, resource: string, menuItems: NbMenuItem) {
     var menuItem = this.getItemSubMenu(dataToFind, menuItems);
-    console.log('menu searched:' + dataToFind);
-    console.log('menu found:' + menuItem);
+    //console.log('menu searched:' + dataToFind);
+    //console.log('menu found:' + menuItem);
     if (menuItem == null) return;
-    console.log('setting auth for menu:' + menuItem.data);
+    //console.log('setting auth for menu:' + menuItem.data);
     this.accessChecker.isGranted(permission, resource).subscribe(res => { menuItem.hidden = !res });
   }
 

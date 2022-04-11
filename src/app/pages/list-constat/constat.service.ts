@@ -41,7 +41,7 @@ export class ConstatService {
   }
 
   async addConstat(constat: Constat, idV: Number, idCh: Number, idU: Number, idInsCh: Number, idInsDch: Number) {
-    return this.httpclient.post(this.url + '/voyage/' + idV + '/chargeur/' + idCh + '/unite/' + idU + '/inspecteurCh/' + idInsCh + '/inspecteurDch/' + idInsDch, constat).toPromise();
+    return this.httpclient.post<Constat>(this.url + '/voyage/' + idV + '/chargeur/' + idCh + '/unite/' + idU + '/inspecteurCh/' + idInsCh + '/inspecteurDch/' + idInsDch, constat).toPromise();
   }
 
   async editConstat(constat: Constat, idV: Number, idCh: Number, idU: Number, idInsCh: Number, idInsDch: Number) {

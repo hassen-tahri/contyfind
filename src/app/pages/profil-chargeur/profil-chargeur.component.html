@@ -3,14 +3,27 @@
       Information générale
       </nb-card-header>
     <nb-card-body>
-      <form class="form-group">
+      <form class="form-group" #form="ngForm" #monFormulairej=ngForm>
         <div class="row full-name-inputs label nvForm">
           <div class="input-group col-md-3   input-group-lg">
             <label for="adr">Pseudo</label>
           </div>
           <div class="input-group col-md-6   input-group-sm">
-            <input type="text" class="form-control" nbInput  placeholder="Pseudo" name="adr" [(ngModel)]="user.pseudo" />
+            <input type="text" class="form-control" nbInput required placeholder="Pseudo"  [(ngModel)]="user.pseudo"
+              #Pseudo="ngModel"  maxlength="60" name="Pseudo" />
           </div>
+          <ng-container *ngIf="Pseudo.invalid && Pseudo.touched">
+            <p style="top: 7px; position: relative;" class="caption status-danger"
+              *ngIf="Pseudo.errors?.required">
+              Vous devez indiquer le Pseudo
+            </p>
+          </ng-container>
+          <ng-container *ngIf="!Pseudo.invalid && Pseudo.touched">
+            <p style="top: 7px; position: relative;" class="caption status-success"
+              *ngIf="!Pseudo.errors?.pattern">
+              <!-- ✔ -->
+            </p>
+          </ng-container>
         </div>
 
         <div class="row full-name-inputs label nvForm">
@@ -19,7 +32,7 @@
             </div>
             <div class="input-group col-md-6   input-group-sm">
                 <nb-form-field style="width: 100%;">
-                    <input [type]="getInputType()" nbInput class="form-control" placeholder="Mot de passe" name="password" [(ngModel)]="user.mpd" >
+                    <input [type]="getInputType()"  #mdp="ngModel" nbInput class="form-control" required placeholder="Mot de passe" name="password" [(ngModel)]="user.mpd" >
                     <button nbSuffix nbButton ghost (click)="toggleShowPassword()">
                       <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
                                pack="eva"
@@ -28,38 +41,106 @@
                     </button>
                   </nb-form-field>
             </div>
+            <ng-container *ngIf="mdp.invalid && mdp.touched">
+              <p style="top: 7px; position: relative;" class="caption status-danger"
+                *ngIf="mdp.errors?.required">
+                Vous devez indiquer le mot de passe
+              </p>
+            </ng-container>
+            <ng-container *ngIf="!mdp.invalid && mdp.touched">
+              <p style="top: 7px; position: relative;" class="caption status-success"
+                *ngIf="!mdp.errors?.pattern">
+                <!-- ✔ -->
+              </p>
+            </ng-container>
           </div>
 
         
+          <div class="row full-name-inputs label nvForm">
+            <div class="input-group col-md-3   input-group-lg">
+              <label for="intitule">Intitule</label>
+            </div>
+            <div class="input-group col-md-6   input-group-sm">
+              <input type="text" class="form-control" nbInput required placeholder="Intitule"
+                name="intitule" [(ngModel)]="chargeur.intitule"/>
+            </div>
+          </div>
+
+
+
+
+
 
         <div class="row full-name-inputs label nvForm">
           <div class="input-group col-md-3   input-group-lg">
             <label for="email">Email</label>
           </div>
           <div class="input-group col-md-6   input-group-sm">
-            <input type="text" class="form-control" nbInput  placeholder="Email"
-              name="email" [(ngModel)]="chargeur.email" />
+            <input   type="text" class="form-control" nbInput required [(ngModel)]="chargeur.email"
+              placeholder="Email" name="emailformateur" #emailChargeur="ngModel" 
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
           </div>
+          <ng-container *ngIf="emailChargeur.invalid && emailChargeur.touched">
+            <p style="top: 7px; position: relative;" class="caption status-danger"
+              *ngIf="emailChargeur.errors?.required">
+              Vous devez indiquer l'adresse e-mail
+            </p>
+            <p style="top: 7px; position: relative;" class="caption status-danger"
+              *ngIf="emailChargeur.errors?.pattern">
+              L'adresse e-mail n'est pas valide
+            </p>
+          </ng-container>
+          <ng-container *ngIf="!emailChargeur.invalid && emailChargeur.touched">
+            <p style="top: 7px; position: relative;" class="caption status-success"
+              *ngIf="!emailChargeur.errors?.pattern">
+              <!-- ✔ -->
+            </p>
+          </ng-container>
         </div>
+
+
+
+
+
+
 
         <div class="row full-name-inputs label nvForm">
           <div class="input-group col-md-3   input-group-lg">
             <label for="Pays">Pays</label>
           </div>
           <div class="input-group col-md-6   input-group-sm">
-            <input type="text" class="form-control" nbInput  placeholder="Pays"
+            <input type="text" class="form-control" required nbInput  placeholder="Pays"
               name="Pays" [(ngModel)]="chargeur.pays"/>
           </div>
         </div>
 
+
+
         <div class="row full-name-inputs label nvForm">
           <div class="input-group col-md-3   input-group-lg">
-            <label for="tel">Telephone</label>
+            <label for="telformateur">Telephone</label>
           </div>
           <div class="input-group col-md-6   input-group-sm">
-            <input type="text" class="form-control" nbInput  placeholder="telephone"
-              name="tel" [(ngModel)]="chargeur.numTel" />
+            <input type="text" class="form-control" nbInput required [(ngModel)]="chargeur.numTel"
+              placeholder="Telephone" name="telformateur" maxlength="20"
+              pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{3})(( x| ext)\d{1,5}){0,1}$"
+              #telformateur="ngModel" />
           </div>
+          <ng-container *ngIf="telformateur.invalid && telformateur.touched">
+            <p style="top: 7px; position: relative;" class="caption status-danger"
+              *ngIf="telformateur.errors?.required">
+              Vous devez indiquer le Téléphone
+            </p>
+            <p style="top: 7px; position: relative;" class="caption status-danger" *ngIf="telformateur.errors?.pattern">
+              Téléphone n'est pas valide
+            </p>
+          </ng-container>
+          <ng-container *ngIf="!telformateur.invalid && telformateur.touched">
+            <p style="top: 7px; position: relative;" class="caption status-success"
+              *ngIf="!telformateur.errors?.pattern">
+              <!-- ✔ -->
+            </p>
+          </ng-container>
         </div>
         
         <div class="row full-name-inputs label nvForm">
@@ -67,14 +148,14 @@
             <label for="Adresse">Adresse</label>
           </div>
           <div class="input-group col-md-6   input-group-sm">
-            <input type="text" class="form-control" nbInput  placeholder="Adresse"
+            <input type="text" class="form-control" required nbInput  placeholder="Adresse"
               name="Adresse" [(ngModel)]="chargeur.adresse" />
           </div>
         </div>
 
 
         <div style="text-align:right;">
-          <button nbButton status="success"  (click)="save()" type="submit">Enregistrer</button>
+          <button nbButton status="success" [disabled]=!monFormulairej.valid (click)="save()" type="submit">Enregistrer</button>
         </div>
       </form>
     </nb-card-body>

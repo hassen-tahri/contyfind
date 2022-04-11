@@ -19,7 +19,7 @@ export class UniteService {
   }
 
   async add(unite: Unite, idType: number) {
-    return this.httpclient.post(this.url + '/type/' + idType, unite).toPromise();
+    return this.httpclient.post<Unite>(this.url + '/type/' + idType, unite).toPromise();
   }
 
   async edit(unite: Unite, idType: number) {

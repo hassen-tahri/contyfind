@@ -11,11 +11,17 @@ export class Constat {
 
     plombCode: number
 
-    remarque: string
+    remarqueChargement: string
 
-    expertise: boolean
+    remarqueDechargement: string
 
-    interchange: boolean
+    expertiseCh : boolean
+
+    interchangeCh : boolean
+    
+    expertiseDch : boolean
+
+    interchangeDch : boolean
 
     dateChargement : Date;
 	

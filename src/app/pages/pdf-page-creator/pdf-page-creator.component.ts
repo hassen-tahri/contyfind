@@ -5,6 +5,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Constat } from '../list-constat/constat';
 import { ConstatService } from '../list-constat/constat.service';
+import { PagesComponent } from '../pages.component';
 import { PdfTemplateService } from './pdf-template.service';
 
 @Component({
@@ -39,15 +40,17 @@ export class PdfPageCreatorComponent implements ViewCell, OnInit {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
-   onClick() {
-    //if chargeur set etat old
-    this.constat.etat = "old"
-    this.constatService.editConstat(this.constat, this.constat.voyage.id ,this.constat.chargeur.id , this.constat.unite.id, this.constat.inspecteurChargement.id , this.constat.inspecteurDechargement.id)
+  onClick() {
+    let role = localStorage.getItem(PagesComponent.role)
+    if (role == "chargeur") {
+      this.constat.etat = "old"
+      this.constatService.editConstat(this.constat, this.constat.voyage.id, this.constat.chargeur.id, this.constat.unite.id, this.constat.inspecteurChargement.id, this.constat.inspecteurDechargement.id)
+    }
     this.generatePdf()
   }
 
-  generatePdf() {
-    const documentDefinition = this.pdfTemplate.getDocumentDefinition(this.constat);
+  async generatePdf() {
+    const documentDefinition = await this.pdfTemplate.getDocumentDefinition(this.constat);
     pdfMake.createPdf(documentDefinition).download(this.documentName);
   }
 

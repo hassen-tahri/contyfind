@@ -1,7 +1,7 @@
 <nb-tabset>
     <nb-tab tabTitle="Parcourir une image">
+        <div class="text-center">
         <input id="fileInput"  type='file' (change)="onFileChanged($event)"  nbInput accept="image/png, image/jpeg"  name="Image" >
-       
         <div class="container row">
             <div class="col-md-12">
                 <div *ngIf=retrievedImage>
@@ -17,23 +17,17 @@
                     max-height: 100%; " height="auto" [src]="retrievedImage">
                 </div></div>
             </div>    
-      
         </div>
-       
-       
-        <button nbButton hero status="info" (click)="onSave()">
-            <nb-icon icon="camera-outline"></nb-icon> 
-           </button>
+    </div>
+
+           <div class="text-center">
+            <button  nbButton status="primary" (click)="onSave()"><nb-icon icon="camera-outline"></nb-icon></button>
+        </div>
     </nb-tab>
     <nb-tab tabTitle="Prendre une photo">
         <webcam [height]="350" [width]="400"></webcam>
-        <div class="row">
-        <div class=".col-md-6 .offset-md-3">
-            <button nbButton hero status="info">
-             <nb-icon icon="camera-outline"></nb-icon> 
-            </button>
-        </div>
-        <div class="actionBtn"  title="Take Picture">📸</div>
+        <div class="text-center">
+            <button  nbButton status="primary"><nb-icon icon="camera-outline"></nb-icon></button>
         </div>
     </nb-tab>
 </nb-tabset>

@@ -1,49 +1,75 @@
-<form class="form-group"  #form="ngForm" (click)="onAddDommageItem()"  #monFormulairej = ngForm autocomplete="off">
-<nb-card>
+<form class="form-group" #form="ngForm" #monFormulairej=ngForm autocomplete="off">
+    <nb-card>
         <nb-card-body>
-            
 
-                
-                    <div class="form-group">
-                        <label for="inputDescription" class="label">Description</label>
-                        <ng-select required placeholder="Description" name="Description">
-                            <ng-option [value]="'Personne'">Personne</ng-option>
-                            <ng-option [value]="'Société'">Société</ng-option>
-                        </ng-select>
 
-                    </div>
-               
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="inputDescription" class="label">Description</label>
+                    <ng-select placeholder="Description" name="Description" bindLabel="intitule"
+                        [items]="descriptionList" bindValue="id" [(ngModel)]="selectedDescription">
+                    </ng-select>
+                </div>
 
-                
-                    <div class="form-group">
-                        <label for="inputPosition" class="label">Position</label>
-                        <ng-select required placeholder="Position" name="Position">
-                            <ng-option [value]="'D'">Droite</ng-option>
-                            <ng-option [value]="'G'">Gauche</ng-option>
-                        </ng-select>
-                    </div>
-               
+                <div class="form-group col-sm-6">
+                    <label for="inputPosition" class="label">Position</label>
+                    <ng-select required placeholder="Position" name="Position" [(ngModel)]="dommageItem.position" >
+                        <ng-option [value]="'D'">Droite</ng-option>
+                        <ng-option [value]="'G'">Gauche</ng-option>
+                    </ng-select>
+                </div>
+            </div>
 
-                
-                    <div class="form-group">
-                        <label for="inputWebsite" class="label">Dommage</label>
-                        <ng-select [items]="dommages"
-                                   bindLabel="name"
-                                   bindValue="id"
-                                   [addTag]="addCustomUser"
-                                   [multiple]="false"
-                                   placeholder="selectionner ou ajouter"
-                                   [(ngModel)]="dommageNgModel"
-                                   [ngModelOptions]="{standalone: true}">
-                        </ng-select>
-                    </div>
-                
 
-         
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Dommage</label>
+                    <ng-select [items]="dommages"  name="Dommage" bindLabel="name" bindValue="id" [addTag]="addCustomUser"
+                        [multiple]="false" placeholder="selectionner ou ajouter" [(ngModel)]="dommageNgModel"
+                        [ngModelOptions]="{standalone: true}">
+                    </ng-select>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Details</label>
+                    <ng-select [items]="details" bindLabel="name" bindValue="id" [addTag]="addCustomUser"
+                        [multiple]="false" placeholder="selectionner ou ajouter" [(ngModel)]="detailNgModel"
+                        [ngModelOptions]="{standalone: true}">
+                    </ng-select>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Ancienneté</label>
+                    <ng-select name="anciennete" placeholder="Ancienneté" [(ngModel)]="dommageItem.anciennete">
+                        <ng-option [value]="'RC'">RC</ng-option>
+                        <ng-option [value]="'AG'">AG</ng-option>
+                        <ng-option [value]="'AC'">AC</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Unité</label>
+                    <input type="number" class="form-control" nbInput placeholder="Unité" min="0" name="unite" [(ngModel)]="dommageItem.unite" />
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Longeur</label>
+                    <input type="number" class="form-control" nbInput placeholder="Longeur" min="0" name="Longeur" [(ngModel)]="dommageItem.longeur"/>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Largeur</label>
+                    <input type="number" class="form-control" nbInput placeholder="Largeur" min="0" name="Largeur" [(ngModel)]="dommageItem.largeur"/>
+                </div>
+            </div>
+
+
         </nb-card-body>
         <nb-card-footer>
             <div style="text-align:right;">
-                <button nbButton hero status="success" type="submit" [disabled]=!monFormulairej.valid>Ajouter</button>
+                <button nbButton hero status="success" type="submit"  (click)="onSave()" [disabled]=!monFormulairej.valid>{{A}}</button>
                 <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
             </div>
         </nb-card-footer>

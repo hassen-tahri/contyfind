@@ -1,42 +1,15 @@
 import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'E-commerce',
-    icon: 'shopping-cart-outline',
+    title: 'Dashboard',
+    icon: 'home-outline',
     link: '/pages/dashboard',
     home: true,
-    hidden: true,
-  },
-
-  {
-    title: 'IoT Dashboard',
-    icon: 'home-outline',
-    link: '/pages/iot-dashboard',
-    hidden: true,
-
-  },
-  {
-    title: 'Gestion constats',
-    icon: 'clipboard',
-    link: '/pages/constat',
-    data : 'admin'
-  },
-  {
-    title: 'Gestion voyage',
-    icon: 'paper-plane',
-    link: '/pages/voyage',
-    data : 'admin'
-  },
-  {
-    title: 'Unite',
-    link: '/pages/unite',
-    icon: 'cube',
-    data : 'admin'
   },
   {
     title: 'Paramétrage',
     icon: 'options',
-    data : 'admin',
+    data: 'admin',
     children: [
       {
         title: 'Bateaux',
@@ -64,7 +37,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Gestion utilisateurs',
     icon: 'people',
     link: '/pages/utilisateur',
-    data : 'admin',
+    data: 'admin',
     children:
       [{
         title: 'Gestion inspecteur',
@@ -81,14 +54,37 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'lock',
         link: '/pages/utilisateur',
       },
-
       ]
+  },
+  {
+    title: 'Gestion voyage',
+    icon: 'paper-plane',
+    link: '/pages/voyage',
+    data: 'admin'
+  },
+  {
+    title: 'Unite',
+    link: '/pages/unite',
+    icon: 'cube',
+    data: 'admin'
+  },
+  {
+    title: 'Gestion constats',
+    icon: 'clipboard',
+    link: '/pages/constat',
+    data: 'admin',
   },
   {
     title: 'Mes Constat',
     icon: 'clipboard',
     link: '/pages/constatChargeur',
     data: 'chargeur'
+  },
+  {
+    title: 'Documentation',
+    icon: 'clipboard',
+    link: '/pages/test',
+
   },
 
 ];

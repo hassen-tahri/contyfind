@@ -23,6 +23,17 @@
 
                 <div class="col-sm-6">
                     <div class="form-group">
+                        <label for="input" class="label">Categorie</label>
+                        <ng-select placeholder="Choisissez la Categorie" required bindLabel="intitule" [items]=listeType
+                            bindValue="id" [(ngModel)]="selectedType" name="type"
+                            [disabled]="disabledTypeInput" #categorie="ngModel">
+                        </ng-select>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
                         <label for="unite" class="label">Unité</label>
                         <ng-select [items]="listeUnite"
                                    bindLabel="matricule"
@@ -32,21 +43,13 @@
                                    placeholder="selectionner ou ajouter"
                                    [(ngModel)]="selectedUnite"
                                    [ngModelOptions]="{standalone: true}"
-                                   (change)="changeType($event)">
+                                   (change)="changeType($event)"
+                                   [disabled]="categorie.errors?.required">
                         </ng-select>
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="input" class="label">Categorie</label>
-                        <ng-select placeholder="Choisissez la Categorie" required bindLabel="intitule" [items]=listeType
-                            bindValue="id" [(ngModel)]="selectedType" name="type"
-                            [disabled]="disabledTypeInput">
-                        </ng-select>
 
-                    </div>
-                </div>
 
 
             </div>
@@ -56,7 +59,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="inputPlomb" class="label">Plomb</label>
-                        <input type="text" nbInput fullWidth id="Plomb" placeholder="Plomb">
+                        <input type="text" nbInput fullWidth id="Plomb" name="Plomb" placeholder="Plomb" [(ngModel)]="constat.plombCode">
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -80,7 +83,7 @@
 
         </nb-card-header>
         <nb-card-body>
-            <nb-flip-card>
+            <nb-flip-card [showToggleButton]="false" [flipped]="flipped">
                 <nb-card-front>
                     <nb-card status="danger">
                         <nb-card-header>Chargement</nb-card-header>
@@ -88,15 +91,15 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="danger">Expertise</nb-checkbox>
+                                    <nb-checkbox status="danger" name="expertiseCh" [(ngModel)]="constat.expertiseCh">Expertise</nb-checkbox>
                                 </div>
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="danger">Interchange</nb-checkbox>
+                                    <nb-checkbox status="danger" name="interchangeCh" [(ngModel)]="constat.interchangeCh">Interchange</nb-checkbox>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPlomb" class="label">Remarque</label>
-                                <textarea rows="3" nbInput fullWidth status="danger" placeholder="Remarque"></textarea>
+                                <textarea rows="3" nbInput fullWidth status="danger" placeholder="Remarque" name="RemarqueCh" [(ngModel)]="constat.remarqueChargement"></textarea>
                             </div>
 
 
@@ -124,9 +127,9 @@
                                     <div class="form-group">
                                         <label for="inputDate" class="label">Date</label>
                                         <input type="text" nbInput fullWidth id="dateChargement"
-                                            [nbDatepicker]="pickerChargement" status="danger" placeholder="Date"
+                                            [nbDatepicker]="pickerDechargement" status="danger" placeholder="Date"
                                             name="dateChargement" [(ngModel)]="constat.dateChargement">
-                                        <nb-datepicker #pickerChargement></nb-datepicker>
+                                        <nb-datepicker #pickerDechargement></nb-datepicker>
                                     </div>
                                 </div>
 
@@ -134,23 +137,22 @@
 
 
 
+                            <!--partie dommage -->
+                            <div *ngIf="isSaved"> 
                             <div class="row">
-                                <div class="col-md-12 col-lg-12 col-xxxl-6">
-                                    <!-- <button nbButton hero status="success" (click)="openWindow()">Ajouter
-                                        Dommage</button> -->
-                                </div>
+                                     <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)">Ajouter Dommage</button>
+                                     <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()">Ajouter image</button> 
+                                     <button class="col-sm-4" nbButton hero outline  status="success" (click)="reloadTable($event)" ><nb-icon icon="repeat"></nb-icon></button>
                             </div>
+                            <br>
+                            <div>
+                            <ng2-smart-table class="form-group" [settings]="settings" [source]="listDommageItemChargement"
+                            (deleteConfirm)="onDeleteConfirm($event)"  (custom)="onCostum($event)">
+                            </ng2-smart-table>
+                        </div>
+                           </div>
 
-                            <nb-accordion multi>
-                                <nb-accordion-item>
-                                    <nb-accordion-item-header>
-                                        Dommage description
-                                    </nb-accordion-item-header>
-                                    <nb-accordion-item-body>
-                                        Item Content
-                                    </nb-accordion-item-body>
-                                </nb-accordion-item>
-                            </nb-accordion>
+
 
 
                             <br>
@@ -158,14 +160,10 @@
                             <br>
                             <br>
                             <br>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12 col-lg-12 col-xxxl-6">
-                                     <button nbButton hero status="success" (click)="openWindowImage()">Ajouter image</button> 
-                                </div>
-                            </div>
                         </nb-card-body>
+                        <button class="nb-shuffle"  style="text-align:right;" (click)="filpCalculatePhase()" nbButton hero status="danger">switch</button>
                     </nb-card>
+
                 </nb-card-front>
                 <nb-card-back>
                     <nb-card status="info">
@@ -174,15 +172,15 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="info">Expertise</nb-checkbox>
+                                    <nb-checkbox status="info" name="expertiseDch" [(ngModel)]="constat.expertiseDch">Expertise</nb-checkbox>
                                 </div>
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="info">Interchange</nb-checkbox>
+                                    <nb-checkbox status="info" name="interchangeDch" [(ngModel)]="constat.interchangeDch">Interchange</nb-checkbox>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPlomb" class="label">Remarque</label>
-                                <textarea rows="3" nbInput fullWidth status="info" placeholder="Remarque"></textarea>
+                                <textarea rows="3" nbInput fullWidth status="info" name="remarqueDechargement" placeholder="Remarque" [(ngModel)]="constat.remarqueDechargement"></textarea>
                             </div>
 
 
@@ -211,23 +209,42 @@
                                     <div class="form-group">
                                         <label for="inputDate" class="label">Date</label>
                                         <input type="text" nbInput fullWidth id="Date" [nbDatepicker]="pickerChargement"
-                                            status="info" placeholder="Date">
+                                            status="info" placeholder="Date" name="dateDechargement" [(ngModel)]="constat.dateDechargement">
                                         <nb-datepicker #pickerChargement></nb-datepicker>
                                     </div>
                                 </div>
 
                             </div>
+
+                            <!--partie dommage -->
+                        <div *ngIf="isSaved"> 
+                           <div class="row">
+                            <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)">Ajouter Dommage</button>
+                            <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()">Ajouter image</button> 
+                            <button class="col-sm-4" nbButton hero outline  status="success" (click)="reloadTable($event)" ><nb-icon icon="repeat"></nb-icon></button>
+                            </div>
+                                <br>
+                            <div>
+                            <ng2-smart-table class="form-group" [settings]="settings" [source]="listDommageItemChargement"
+                            (deleteConfirm)="onDeleteConfirm($event)"  (custom)="onCostum($event)">
+                            </ng2-smart-table>
+                            </div>
+                            </div>
+                            
+                            <br>
+                            <br>
+                            <br>
+                            <br>
                             <br>
                         </nb-card-body>
+                     <button class="nb-shuffle" (click)="filpCalculatePhase()" nbButton hero status="info">switch</button>
                     </nb-card>
                 </nb-card-back>
             </nb-flip-card>
             <div style="text-align:right;">
+                <button *ngIf="isSaved"  nbButton hero (click)="viewPdf()"  status="primary"  ><nb-icon icon="eye-outline"></nb-icon></button>
+                <button  *ngIf="isSaved"  nbButton hero (click)="downloadPdf()"  status="warning"  ><nb-icon icon="download-outline"></nb-icon></button>
                 <button nbButton hero status="success" (click)="onSave()">{{A}} </button>
-                <button nbButton hero status="warning">Valider</button>
-                <button nbButton hero status="primary">
-                    <nb-icon icon="download"></nb-icon>
-                </button>
             </div>
         </nb-card-body>
     </nb-card>

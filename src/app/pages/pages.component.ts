@@ -29,6 +29,7 @@ export class PagesComponent {
 
   menu = MENU_ITEMS;
   public static urlConfig = 'http://localhost:9099/';
+  //public static urlConfig = 'https://springesurveys.herokuapp.com/';
   public static urlDomaine = 'http://localhost:4200/';
   roleItem: any
   constructor(

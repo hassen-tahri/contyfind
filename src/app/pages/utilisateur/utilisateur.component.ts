@@ -75,13 +75,11 @@ export class UtilisateurComponent implements OnInit {
   }
 
   async onDeleteConfirm(event) {
-    //la suppression du user par defaut 
-    // if (event.data.pseudo === "adminfcit") {
-    //   window.confirm("vous ne pouvez pas supprimer cet utilisateur par defaut"),
-    //   event.confirm.reject();
-    // }
-    //else 
-    if (window.confirm('Etes-vous sûr que vous voulez supprimer !')) {
+    if (event.data.id == 1) {
+      window.confirm("vous ne pouvez pas supprimer cet utilisateur par defaut"),
+      event.confirm.reject();
+    }
+    else if (window.confirm('Are you sure you want to delete?')) {
       await this.userService.deleteUser(event.data.id);
       event.confirm.resolve();
     } else {
@@ -90,31 +88,28 @@ export class UtilisateurComponent implements OnInit {
   }
 
   async onCreateConfirm(event) {
-    // if (event.newData.pseudo === "adminfcit") {
-    //   window.confirm("Le pseudo ''adminfcit'' est reservé pour l'utilisateur par defaut"),
-    //     event.confirm.reject();
-    // }
-    // else {
-    if (!!await this.userService.getByPseudo(event.newData.pseudo))
-    { this.toastrService.danger("Alert", "Pseudo invalide il faut le changer") }
+    if (event.newData.pseudo === "adminEsurveys") {
+      window.confirm("Le pseudo ''adminEsurveys'' est reservé pour l'utilisateur par defaut"),
+        event.confirm.reject();
+    }
     else {
       this.userService.addUser(event.newData);
       setTimeout(async () => {
         this.source = await this.userService.getAll()
-        this.toastrService.success("Succès", "Utilisateur ajouté avec Succès")
       }, 3000);
       event.confirm.resolve(event.newData);
     }
   }
 
   async onSaveConfirm(event) {
-    // if (event.data.pseudo === "adminfcit") {
-    //   window.confirm("Vous ne pouvez pas modifier cet utilisateur par defaut"),
-    //     event.confirm.reject();
-    // }
-    // else {
+    if (event.data.id == 1) {
+      window.confirm("Vous ne pouvez pas modifier cet utilisateur par defaut"),
+        event.confirm.reject();
+    }
+    else {
       await this.userService.editUser(event.newData);
       event.confirm.resolve(event.newData);
+    }
   }
 
 }

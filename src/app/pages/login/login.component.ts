@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
   loginSuccess = false;
 
 
-  constructor(private userService: UserService, private router: Router, /* private authenticationService: AuthenticationService */) { this.siteKey = "6Lcgj3EaAAAAAGEzljx0CcIPGj6yn_qawn6IuhMD" }
+  constructor(private userService: UserService, private router: Router, )
+   { this.siteKey = "6Lcgj3EaAAAAAGEzljx0CcIPGj6yn_qawn6IuhMD" }
 
   async ngOnInit() {
     localStorage.clear()
@@ -35,20 +36,12 @@ export class LoginComponent implements OnInit {
     this.msg = ''
   }
 
-  handleLogin() {
-    /*     this.authenticationService.authenticationService("adminSpringSecurity", "adminMdpSpringSecurity").subscribe((result)=> {
-          this.invalidLogin = false;
-          this.loginSuccess = true;
-          this.successMessage = 'Login Successful.';
-        }, () => {
-          this.invalidLogin = true;
-          this.loginSuccess = false;
-        });   */
-  }
+
 
 
 
   async connecter() {
+   // this.handleLogin()
     this.utilisateur = await this.userService.getByPseudo(this.session.pseudo)
     if (this.utilisateur == null) { this.msg = "Utilisateur introuvable"; }
     else {

@@ -26,6 +26,9 @@ import { ConstatForchargeurComponent } from './constat-forchargeur/constat-forch
 import { ProfilChargeurComponent } from './profil-chargeur/profil-chargeur.component';
 import { Page404Component } from './page404/page404.component';
 import { AdminGuard } from './login/admin.guard';
+import { ProfilInspecteurComponent } from './profil-inspecteur/profil-inspecteur.component';
+import { DocumentationComponent } from './documentation/documentation.component';
+import { CustomDashboardComponent } from './custom-dashboard/custom-dashboard.component';
 
 
 const routes: Routes = [{
@@ -34,7 +37,7 @@ const routes: Routes = [{
   children: [
     {
       path: 'dashboard',
-      component: ECommerceComponent,
+      component: CustomDashboardComponent,
     },
     {
       path: 'iot-dashboard',
@@ -118,6 +121,15 @@ const routes: Routes = [{
       path: 'doNotAccess',
       component: Page404Component,
     },
+    {
+      path: 'profilInspecteur',
+      component: ProfilInspecteurComponent,
+    },
+    {
+      path: 'documentation',
+      component: DocumentationComponent,
+    },
+    
     
     
    /*  {

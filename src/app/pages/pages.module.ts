@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbAlertModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbStepperModule, NbTabsetModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
+import { NbAccordionModule, NbAlertModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -55,6 +55,10 @@ import { ProfilChargeurComponent } from './profil-chargeur/profil-chargeur.compo
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PagePdfViewrComponent } from './page-pdf-viewr/page-pdf-viewr.component';
 import { Page404Component } from './page404/page404.component';
+import { ProfilInspecteurComponent } from './profil-inspecteur/profil-inspecteur.component';
+import { DocumentationComponent } from './documentation/documentation.component';
+import { CustomDashboardComponent } from './custom-dashboard/custom-dashboard.component';
+import { ShowDommageItemComponent } from './constat/show-dommage-item/show-dommage-item.component';
 
 
 
@@ -91,7 +95,8 @@ import { Page404Component } from './page404/page404.component';
     NbButtonGroupModule,
     NbTabsetModule,
     NbFormFieldModule,
-    PdfViewerModule
+    PdfViewerModule,
+    NbSelectModule
     
     
     
@@ -141,7 +146,11 @@ import { Page404Component } from './page404/page404.component';
     ConstatForchargeurComponent,
     ProfilChargeurComponent,
     PagePdfViewrComponent,
-    Page404Component
+    Page404Component,
+    ProfilInspecteurComponent,
+    DocumentationComponent,
+    CustomDashboardComponent,
+    ShowDommageItemComponent
   ],
 })
 export class PagesModule {
