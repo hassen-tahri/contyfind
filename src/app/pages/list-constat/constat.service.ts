@@ -68,6 +68,10 @@ export class ConstatService {
     return this.httpclient.get<Constat[]>(this.url + '/chargeur/' + id +"/etat/"+ etat).toPromise();
   }
 
+  async deleteConstatById(id: number) {
+    return this.httpclient.delete(this.url + '/' + id).toPromise();
+  }
+
   uploadimage(id: number, uploadImageData: FormData) {
     return this.httpclient.post(this.url + '/' + id + '/image/upload', uploadImageData, { observe: 'response' })
       .subscribe((response) => {
@@ -90,7 +94,7 @@ export class ConstatService {
   }
 
   async getimages(id: number) {
-    return this.httpclient.get<Byte>(this.url + '/' + id + '/image/get').toPromise();
+    return this.httpclient.get(this.url + '/' + id + '/image/getAll').toPromise();
   }
   
 }

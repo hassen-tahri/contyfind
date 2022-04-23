@@ -29,6 +29,7 @@ import { AdminGuard } from './login/admin.guard';
 import { ProfilInspecteurComponent } from './profil-inspecteur/profil-inspecteur.component';
 import { DocumentationComponent } from './documentation/documentation.component';
 import { CustomDashboardComponent } from './custom-dashboard/custom-dashboard.component';
+import { TestImageComponent } from './test-image/test-image.component';
 
 
 const routes: Routes = [{
@@ -128,6 +129,10 @@ const routes: Routes = [{
     {
       path: 'documentation',
       component: DocumentationComponent,
+    },
+    {
+      path: 'image',
+      component: TestImageComponent,
     },
     
     

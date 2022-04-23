@@ -82,9 +82,12 @@ export class ModalDommageItemComponent implements OnInit {
       this.dommageItem.phase = phase
       this.dommageItem.detail = this.detailNgModel
       this.dommageItem.dommageValue = this.dommageNgModel
+      console.log(idC)
       this.dommageItemService.add(this.dommageItem, this.selectedDescription, +idC)
+      console.log(this.dommageItem)
       localStorage.removeItem('e');
-      localStorage.removeItem('id');
+      localStorage.removeItem("ccId");
+      localStorage.removeItem("phase")
       this.windowRef.close();
       this.toastrService.success("Succès", "dommage ajouté");
     }
@@ -94,7 +97,7 @@ export class ModalDommageItemComponent implements OnInit {
       this.dommageItem.dommageValue = this.dommageNgModel
       this.dommageItemService.edit(this.dommageItem, this.dommageItem.dommage.id , +idC)
       localStorage.removeItem('e');
-      localStorage.removeItem('id');
+      localStorage.removeItem("ccId");
       this.windowRef.close();
       this.toastrService.success("Succès", "dommage modifé");
     }

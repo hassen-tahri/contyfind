@@ -52,6 +52,12 @@ export class ModalVoyageComponent implements OnInit {
       if (await this.voyageService.getByCode(this.voyage.code) != null) {
         this.toastrService.danger("Le code : " + this.voyage.code + " existe déjà", "Vérifier le code");
       }
+      else if (this.voyage.dateChargement > this.voyage.dateDechargement) {
+        this.toastrService.danger("La date de déchargement doit etre superieur a la date de chargement", "Alert date");
+      }
+      else if (this.selectedPortChargement == this.selectedPortDechargement) {
+        this.toastrService.danger("Le port de chargement doit etre différent du port de déchargement", "Alert port");
+      }
       else {
         this.voyage.archive = false
         console.log(this.voyage)
@@ -64,16 +70,22 @@ export class ModalVoyageComponent implements OnInit {
         this.toastrService.success("Succès", "Voyage Ajoutée")
       }
     } if (e === '1') {
-      this.voyageService.editVoyage(this.voyage, this.voyage.id, this.selectedBateau, this.selectedPortChargement, this.selectedPortDechargement)
-      localStorage.removeItem('e');
-      localStorage.removeItem('id');
-      this.windowRef.close();
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-        this.router.navigate(['/pages/voyage']));
-      this.toastrService.success("Succès", "Voyage modifiée");
+      if (this.voyage.dateChargement > this.voyage.dateDechargement) {
+        this.toastrService.danger("La date de déchargement doit etre superieur a la date de chargement", "Alert date");
+      }
+      else if (this.selectedPortChargement == this.selectedPortDechargement) {
+        this.toastrService.danger("Le port de chargement doit etre différent du port de déchargement", "Alert port");
+      }
+      else {
+        this.voyageService.editVoyage(this.voyage, this.voyage.id, this.selectedBateau, this.selectedPortChargement, this.selectedPortDechargement)
+        localStorage.removeItem('e');
+        localStorage.removeItem('id');
+        this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+          this.router.navigate(['/pages/voyage']));
+        this.toastrService.success("Succès", "Voyage modifiée");
+      }
     }
-
-
   }
 
   fermer() {

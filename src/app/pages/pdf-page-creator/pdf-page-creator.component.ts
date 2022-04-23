@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, VERSION } from '@angular/core';
+import { Compiler, Component, EventEmitter, Input, OnInit, Output, VERSION } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -36,7 +36,8 @@ export class PdfPageCreatorComponent implements ViewCell, OnInit {
 
 
   constructor(private constatService: ConstatService,
-    private pdfTemplate : PdfTemplateService) {
+    private pdfTemplateService : PdfTemplateService,
+    private _compiler: Compiler) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
@@ -50,7 +51,8 @@ export class PdfPageCreatorComponent implements ViewCell, OnInit {
   }
 
   async generatePdf() {
-    const documentDefinition = await this.pdfTemplate.getDocumentDefinition(this.constat);
+    this._compiler.clearCache();
+    const documentDefinition = await this.pdfTemplateService.getDocumentDefinition(this.constat);
     pdfMake.createPdf(documentDefinition).download(this.documentName);
   }
 

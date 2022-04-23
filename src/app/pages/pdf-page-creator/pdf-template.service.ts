@@ -10,10 +10,12 @@ import { ConstatService } from '../list-constat/constat.service';
 export class PdfTemplateService {
 
   retrievedImage: any;
+  retrievedImageList = []
   retrievedImageName: any;
   base64Data: any;
   retrieveResonse: any;
   res: any;
+  resList: any
 
 
 
@@ -24,19 +26,18 @@ export class PdfTemplateService {
     private dommageItemService: DommageItemService) { }
 
 
-  async getImage(id: number) {
-    this.res = await this.constatService.getimage(id);
-    this.retrieveResonse = this.res;
-    this.retrievedImageName = this.res.name;
-    this.base64Data = this.retrieveResonse.picByte;
-    this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
-    console.log(this.retrievedImage)
-  }
 
   getText(value: string) {
     if (value != null)
       return value
     else return ""
+  }
+
+  CalculateIdemTxt(description : string)
+  {
+    if (description.length > 11 )
+    return "Idem"
+    else {return "Idem\n"}
   }
 
   calculateCoche(value: boolean) {
@@ -56,7 +57,17 @@ export class PdfTemplateService {
     if (!!constat.inspecteurDechargement) {
       insDch = constat.inspecteurDechargement.nom.substring(0, 1).toUpperCase() + constat.inspecteurDechargement.prenom.substring(0, 1).toUpperCase()
     } else insDch = ""
-    //this.getImage(constat.id)
+
+    //paroucourire images
+    this.resList = await this.constatService.getimages(constat.id);
+    this.resList.forEach(element => {
+      this.res = element
+      this.retrieveResonse = this.res;
+      this.retrievedImageName = this.res.name;
+      this.base64Data = this.retrieveResonse.picByte;
+      this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+      this.retrievedImageList.push(this.retrievedImage)
+    });
 
 
     //***************************************************************************************************** */
@@ -64,7 +75,7 @@ export class PdfTemplateService {
     let listItemCh = await this.dommageItemService.getByConstatIdAndPhase(constat.id, "chargement")
     let dommageItemsBodyCh = []
     dommageItemsBodyCh.push([{ text: 'PHASE 1 : CHARGEMENT', color: colorCh, bold: true, colSpan: 6, alignment: 'center', fontSize: 12 }, {}, {}, {}, {}, {}])
-    dommageItemsBodyCh.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: ' Dim/Nbr\n ', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }]);
+    dommageItemsBodyCh.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: 'Dim/Nbr', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }]);
     for (let index = 0; index < listItemCh.length; index++) {
       dommageItemsBodyCh.push([
         { text: this.getText(listItemCh[index].dommage.intitule), fontSize: 8 },
@@ -80,13 +91,13 @@ export class PdfTemplateService {
     let listItemDch = await this.dommageItemService.getByConstatIdAndPhase(constat.id, "dechargement")
     let dommageItemsBodyDch = []
     dommageItemsBodyDch.push([{ text: 'PHASE 2 : DECHARGEMENT', color: colorDch, bold: true, colSpan: 6, alignment: 'center' }, {}, {}, {}, {}, {}])
-    dommageItemsBodyDch.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: ' Dim/Nbr ', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }])
+    dommageItemsBodyDch.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: 'Dim/Nbr', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }])
     //************************************************* */
     //calculer idem
     if (!!constat.inspecteurDechargement)
       for (let index = 0; index < listItemCh.length; index++) {
         dommageItemsBodyDch.push([
-          { text: 'Idem', fontSize: 8 },
+          { text: this.CalculateIdemTxt(listItemCh[index].dommage.intitule), fontSize: 8 },
           { text: this.getText(listItemCh[index].position), fontSize: 8, color: "#FFFFFF" },
           { text: this.getText(listItemCh[index].dommageValue), fontSize: 8, color: "#FFFFFF" },
           { text: "lo. " + this.getText(listItemCh[index].longeur) + this.getText(listItemCh[index].unite) + " \nla. " + this.getText(listItemCh[index].largeur), fontSize: 8, color: "#FFFFFF" },
@@ -237,7 +248,8 @@ export class PdfTemplateService {
         },
         { text: '.................................................................................................................................................................', alignment: 'center', },
         //table des dommages 
-        { columns: [
+        {
+          columns: [
             {
               width: "*",
               style: 'tableExample',
@@ -461,7 +473,7 @@ export class PdfTemplateService {
           columns: [
             {
               width: '*',
-              text: ['ID : ', { text: 'vID', bold: true },]
+              text: ['ID : ', { text: constat.unite.matricule, bold: true },]
             },
             {
               width: '*',
@@ -469,7 +481,7 @@ export class PdfTemplateService {
             },
             {
               width: '*',
-              text: ['Type : ', { text: 'vType', bold: true, italics: true },]
+              text: ['Type : ', { text: constat.unite.type.intitule, bold: true, italics: true },]
             },
             {
               width: '*',
@@ -479,62 +491,62 @@ export class PdfTemplateService {
         },
         { text: '.................................................................................................................................................................', alignment: 'center', },
         { text: 'VISUEL', alignment: 'center', bold: true, fontSize: 20 },
-        // {
-          
-        //   style: 'tableExample',
-        //   table: { 
-        //     heights: 190,
-        //     width: 250,
-        //     // body: [
-        //     //   [
-                 
-        //     //       {
-        //     //           image: this.retrievedImage,
-        //     //               width: 250,
-        //     //               height: 150,
-        //     //           margin:[0,20,0,0],
-        //     //       },
-                  
-        //     //       { 
-        //     //           image: this.retrievedImage,
-        //     //               width: 250,
-        //     //               height: 150,
-        //     //           margin:[0,20,0,0],
-        //     //       },
-        //     //   ],
-        //     //   [
-        //     //       {
-        //     //           image: this.retrievedImage,
-        //     //                  width: 250,
-        //     //               height: 150,
-        //     //           margin:[0,20,0,0],
-        //     //       },
-                  
-        //     //       {
-        //     //           image: this.retrievedImage,
-        //     //               width: 250,
-        //     //               height: 150,
-        //     //           margin:[0,20,0,0],
-        //     //       },
-        //     //   ],
-        //     //   [
-        //     //       {
-        //     //           image: this.retrievedImage,
-        //     //               width: 250,
-        //     //               height: 150,
-        //     //           margin:[0,20,0,0],
-        //     //       },
-                  
-        //     //       { 
-        //     //           image: this.retrievedImage,
-        //     //               width: 250,
-        //     //               height: 150,
-        //     //           margin:[0,20,0,0],
-        //     //       },
-        //     //   ]
-        //     // ]
-        //   }
-        // },
+        {		
+	        
+          // style: 'tableExample',
+          // table: {
+          //   heights: 190,
+          //   width: 250,
+          //   body: [
+          //     [
+
+          //       {
+          //         image: this.retrievedImageList[0],
+          //         width: 250,
+          //         height: 150,
+          //         margin: [0, 20, 0, 0],
+          //       },
+
+          //       {
+          //         image: this.retrievedImageList[1],
+          //         width: 250,
+          //         height: 150,
+          //         margin: [0, 20, 0, 0],
+          //       },
+          //     ],
+          //     [
+          //       {
+          //         image: this.retrievedImageList[0],
+          //         width: 250,
+          //         height: 150,
+          //         margin: [0, 20, 0, 0],
+          //       },
+
+          //       {
+          //         image: this.retrievedImageList[1],
+          //         width: 250,
+          //         height: 150,
+          //         margin: [0, 20, 0, 0],
+          //       },
+          //     ],
+          //     [
+          //       {
+          //         image: this.retrievedImageList[0],
+          //         width: 250,
+          //         height: 150,
+          //         margin: [0, 20, 0, 0],
+          //       },
+
+          //       {
+          //         image: this.retrievedImageList[1],
+          //         width: 250,
+          //         height: 150,
+          //         margin: [0, 20, 0, 0],
+          //       },
+          //     ]
+          //   ]
+          // }
+        },
 
 
 
@@ -583,6 +595,7 @@ export class PdfTemplateService {
       }
 
     }
+  
   }
 
 }

@@ -11,7 +11,7 @@
                         <label for="inputRemorque" class="label">Voyage</label>
                         <ng-select placeholder="Choisissez le voyage" required bindLabel="code"
                             [items]=listeVoyageNonArchive bindValue="id" [(ngModel)]="selectedVoyage" name="voyage"
-                            (change)="calculateAttr($event)">
+                            (change)="calculateAttrVoyage($event)" [readonly]="dechargementOnly">
                         </ng-select>
                     </div>
                 </div>
@@ -19,39 +19,59 @@
         </nb-card-header>
         <nb-card-header>
 
-            <div class="row">
+            <div *ngIf="isScanned">
+                <div style="text-align:center">
+                    <div>
+                        <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+                         [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+                         (initError)="handleInitError($event)"></webcam>
+                        <br/>
+                            <button class="actionBtn" nbButton fullWidth hero  status="warning" (click)="triggerSnapshot()">Valider</button>
+                        <br>
+                    </div>
+                </div>
+                <h4 *ngIf="errors.length > 0">Messages:</h4>
+                <ul *ngFor="let error of errors">
+                    <li>{{error | json}}</li>
+                </ul>
+            </div>
 
-                <div class="col-sm-6">
+
+
+            <div class="row">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <label for="input" class="label">Categorie</label>
                         <ng-select placeholder="Choisissez la Categorie" required bindLabel="intitule" [items]=listeType
                             bindValue="id" [(ngModel)]="selectedType" name="type"
-                            [disabled]="disabledTypeInput" #categorie="ngModel">
+                            [disabled]="disabledTypeInput" #categorie="ngModel" [readonly]="dechargementOnly">
                         </ng-select>
-
                     </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
+                    <br> 
+                    <button  nbButton fullWidth hero outline status="primary"  (click)="scan()" [disabled]="(dechargementOnly || categorie.errors?.required)">Scan</button>
+                </div>
+
+
+                <div class="col-sm-4">
                     <div class="form-group">
                         <label for="unite" class="label">Unité</label>
-                        <ng-select [items]="listeUnite"
+                        <ng-select  name="unite" [items]="listeUnite"
                                    bindLabel="matricule"
                                    bindValue="id"
                                    [addTag]="addNewUnite"
                                    [multiple]="false"
                                    placeholder="selectionner ou ajouter"
                                    [(ngModel)]="selectedUnite"
-                                   [ngModelOptions]="{standalone: true}"
                                    (change)="changeType($event)"
-                                   [disabled]="categorie.errors?.required">
+                                   [disabled]="categorie.errors?.required"
+                                   [readonly]="dechargementOnly"
+                                   [compareWith]="compareFn">
                         </ng-select>
                     </div>
                 </div>
-
-
-
-
             </div>
 
             <div class="row">
@@ -59,7 +79,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="inputPlomb" class="label">Plomb</label>
-                        <input type="text" nbInput fullWidth id="Plomb" name="Plomb" placeholder="Plomb" [(ngModel)]="constat.plombCode">
+                        <input type="text" [readonly]="dechargementOnly" nbInput fullWidth id="Plomb" name="Plomb" placeholder="Plomb" [(ngModel)]="constat.plombCode" required>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -74,7 +94,7 @@
                     <div class="form-group">
                         <label for="inputWebsite" class="label">Chargeur</label>
                         <ng-select required placeholder="Chargeur" name="typeclient" bindLabel="intitule"
-                            [items]=listeChargeur bindValue="id" [(ngModel)]="selectedChargeur" name="chargeur">
+                            [items]=listeChargeur bindValue="id" [readonly]="dechargementOnly" [(ngModel)]="selectedChargeur" name="chargeur">
                         </ng-select>
                     </div>
                 </div>
@@ -91,15 +111,15 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="danger" name="expertiseCh" [(ngModel)]="constat.expertiseCh">Expertise</nb-checkbox>
+                                    <nb-checkbox status="danger" [disabled]="dechargementOnly" name="expertiseCh" [(ngModel)]="constat.expertiseCh">Expertise</nb-checkbox>
                                 </div>
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="danger" name="interchangeCh" [(ngModel)]="constat.interchangeCh">Interchange</nb-checkbox>
+                                    <nb-checkbox status="danger" [disabled]="dechargementOnly" name="interchangeCh" [(ngModel)]="constat.interchangeCh">Interchange</nb-checkbox>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPlomb" class="label">Remarque</label>
-                                <textarea rows="3" nbInput fullWidth status="danger" placeholder="Remarque" name="RemarqueCh" [(ngModel)]="constat.remarqueChargement"></textarea>
+                                <label for="inputPlomb"  class="label">Remarque</label>
+                                <textarea rows="3" [readonly]="dechargementOnly" nbInput fullWidth status="danger" placeholder="Remarque" name="RemarqueCh" [(ngModel)]="constat.remarqueChargement"></textarea>
                             </div>
 
 
@@ -110,7 +130,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="inputInspecteur" class="label">Inspecteur</label>
-                                        <input type="text" nbInput fullWidth id="Inspecteur" name="Inspecteur"
+                                        <input type="text" nbInput fullWidth id="inspecteurCh" name="inspecteurCh"
                                             placeholder="Inspecteur" [(ngModel)]="inspecteurCh.nom" readonly>
                                     </div>
                                 </div>
@@ -140,8 +160,8 @@
                             <!--partie dommage -->
                             <div *ngIf="isSaved"> 
                             <div class="row">
-                                     <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)">Ajouter Dommage</button>
-                                     <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()">Ajouter image</button> 
+                                     <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)" [disabled]="dechargementOnly">Ajouter Dommage</button>
+                                     <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()" [disabled]="dechargementOnly">Ajouter image</button> 
                                      <button class="col-sm-4" nbButton hero outline  status="success" (click)="reloadTable($event)" ><nb-icon icon="repeat"></nb-icon></button>
                             </div>
                             <br>
@@ -191,7 +211,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="inputInspecteur" class="label">Inspecteur</label>
-                                        <input type="text" nbInput fullWidth id="Inspecteur" name="Inspecteur"
+                                        <input type="text" nbInput fullWidth id="inspecteurDCh" name="inspecteurDCh"
                                             placeholder="Inspecteur" [(ngModel)]="inspecteurDCh.nom" readonly>
                                     </div>
                                 </div>
@@ -225,7 +245,7 @@
                             </div>
                                 <br>
                             <div>
-                            <ng2-smart-table class="form-group" [settings]="settings" [source]="listDommageItemChargement"
+                            <ng2-smart-table class="form-group" [settings]="settings" [source]="listDommageItemDeChargement"
                             (deleteConfirm)="onDeleteConfirm($event)"  (custom)="onCostum($event)">
                             </ng2-smart-table>
                             </div>
@@ -237,14 +257,14 @@
                             <br>
                             <br>
                         </nb-card-body>
-                     <button class="nb-shuffle" (click)="filpCalculatePhase()" nbButton hero status="info">switch</button>
+                     <button class="nb-shuffle"  (click)="filpCalculatePhase()" nbButton hero status="info">switch</button>
                     </nb-card>
                 </nb-card-back>
             </nb-flip-card>
             <div style="text-align:right;">
                 <button *ngIf="isSaved"  nbButton hero (click)="viewPdf()"  status="primary"  ><nb-icon icon="eye-outline"></nb-icon></button>
                 <button  *ngIf="isSaved"  nbButton hero (click)="downloadPdf()"  status="warning"  ><nb-icon icon="download-outline"></nb-icon></button>
-                <button nbButton hero status="success" (click)="onSave()">{{A}} </button>
+                <button nbButton hero status="success" (click)="onSave()" [disabled]=!monFormulairej.valid>{{A}} </button>
             </div>
         </nb-card-body>
     </nb-card>

@@ -6,7 +6,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
@@ -24,6 +24,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { FileUploadModule } from 'ng2-file-upload';
+import { HttpInterceptorInterceptor } from './pages/login/http-interceptor.interceptor';
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [AppComponent],
@@ -47,6 +48,14 @@ registerLocaleData(localeFr, 'fr');
     FileUploadModule
   ],
   bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorInterceptor,
+      multi: true
+    }
+  ],
+
 })
 export class AppModule {
 }

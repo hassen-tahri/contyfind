@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PagesComponent } from '../pages.component';
 import { User } from '../utilisateur/user';
 import { UserService } from '../utilisateur/user.service';
+import { AuthenticationService } from './authentication.service';
 
 @Component({
   selector: 'ngx-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
   loginSuccess = false;
 
 
-  constructor(private userService: UserService, private router: Router, )
+  constructor(private userService: UserService, private router: Router,  private authenticationService: AuthenticationService)
    { this.siteKey = "6Lcgj3EaAAAAAGEzljx0CcIPGj6yn_qawn6IuhMD" }
 
   async ngOnInit() {
@@ -36,12 +37,23 @@ export class LoginComponent implements OnInit {
     this.msg = ''
   }
 
+  handleLogin() {
+    this.authenticationService.authenticationService("adminSpringSecurity", "adminMdpSpringSecurity").subscribe((result)=> {
+      this.invalidLogin = false;
+      this.loginSuccess = true;
+      this.successMessage = 'Login Successful.';
+    }, () => {
+      this.invalidLogin = true;
+      this.loginSuccess = false;
+    });
+  }
+
 
 
 
 
   async connecter() {
-   // this.handleLogin()
+   this.handleLogin()
     this.utilisateur = await this.userService.getByPseudo(this.session.pseudo)
     if (this.utilisateur == null) { this.msg = "Utilisateur introuvable"; }
     else {

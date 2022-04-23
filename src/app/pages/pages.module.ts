@@ -59,6 +59,8 @@ import { ProfilInspecteurComponent } from './profil-inspecteur/profil-inspecteur
 import { DocumentationComponent } from './documentation/documentation.component';
 import { CustomDashboardComponent } from './custom-dashboard/custom-dashboard.component';
 import { ShowDommageItemComponent } from './constat/show-dommage-item/show-dommage-item.component';
+import { ModalScanComponent } from './constat/modal-scan/modal-scan.component';
+import { TestImageComponent } from './test-image/test-image.component';
 
 
 
@@ -96,7 +98,7 @@ import { ShowDommageItemComponent } from './constat/show-dommage-item/show-domma
     NbTabsetModule,
     NbFormFieldModule,
     PdfViewerModule,
-    NbSelectModule
+    NbSelectModule,
     
     
     
@@ -150,7 +152,9 @@ import { ShowDommageItemComponent } from './constat/show-dommage-item/show-domma
     ProfilInspecteurComponent,
     DocumentationComponent,
     CustomDashboardComponent,
-    ShowDommageItemComponent
+    ShowDommageItemComponent,
+    ModalScanComponent,
+    TestImageComponent
   ],
 })
 export class PagesModule {

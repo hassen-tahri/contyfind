@@ -100,6 +100,7 @@ export class ChargeurComponent implements OnInit {
         title: "Compte",
         type: "html",
         width:'11px',
+        filter : false,
         valuePrepareFunction: (user) =>{
           if(user != null)
           {return '<span class="caption status-success"><b>✔</b></span>'}

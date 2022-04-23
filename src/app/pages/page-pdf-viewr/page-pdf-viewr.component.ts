@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, VERSION } from '@angular/core';
+import {  Component, EventEmitter, Input, OnInit, Output, VERSION } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -36,6 +36,7 @@ export class PagePdfViewrComponent implements OnInit {
     const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
     pdfDocGenerator.getBuffer((buffer) => {
       this.pdftoShow = buffer
+      buffer = null
     });
   }
 

@@ -29,6 +29,8 @@ export class Constat {
 
     etat : string
 
+    phase : string
+
     voyage: Voyage
 
     unite : Unite
@@ -38,4 +40,5 @@ export class Constat {
     inspecteurChargement: Inspecteur
 
     inspecteurDechargement: Inspecteur
+
 }

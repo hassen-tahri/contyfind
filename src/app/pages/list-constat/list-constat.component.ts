@@ -25,7 +25,7 @@ export class ListConstatComponent implements OnInit {
   myFormattedDate = this.pipe.transform(this.now, 'yyyy-MM-dd');
   checked: any
   SelectGroupValue = [];
-  role : string
+  role: string
 
 
   constructor(private windowService: NbWindowService,
@@ -126,12 +126,6 @@ export class ListConstatComponent implements OnInit {
   }
 
 
-  openWindow() {
-    localStorage.removeItem('e');
-    localStorage.removeItem('id');
-    localStorage.setItem('e', '0');
-    //this.windowService.open(ModalInspecteurComponent, {title: 'Ajouter un inspecteur'},);
-  }
 
 
 
@@ -140,8 +134,9 @@ export class ListConstatComponent implements OnInit {
       localStorage.removeItem('e');
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
-      localStorage.setItem('e', '1');
-      // this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
+      localStorage.setItem('EstorageConstat', '1');
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/constatPage']));
     }
     if (event.action === 'showAction') {
       localStorage.removeItem('e');
@@ -152,11 +147,11 @@ export class ListConstatComponent implements OnInit {
   }
 
   async onDeleteConfirm(event) {
-    if (window.confirm(`Vous etes sure de supprimer cet inspecteur`)) {
+    if (window.confirm(`Vous etes sure de supprimer cet constat`)) {
       event.confirm.resolve(
-        //await this.inspecteurService.deleteInspecteur(event.data.id),
+        await this.constatService.deleteConstatById(event.data.id),
         this.source.filter(p => p !== event.data),
-        this.toastrService.warning("Succès", "Inspecteur supprimé")
+        this.toastrService.warning("Succès", "Constat supprimé")
       );
     } else {
       event.confirm.reject();
