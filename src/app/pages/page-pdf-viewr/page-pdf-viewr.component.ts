@@ -36,10 +36,8 @@ export class PagePdfViewrComponent implements OnInit {
     const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
     pdfDocGenerator.getBuffer((buffer) => {
       this.pdftoShow = buffer
-      buffer = null
     });
   }
-
 
 
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { DommageItemService } from '../constat/modal-dommage-item/dommage-item.service';
 import { Constat } from '../list-constat/constat';
 import { ConstatService } from '../list-constat/constat.service';
+import { PagesComponent } from '../pages.component';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,12 @@ export class PdfTemplateService {
     else { return { text: 'X', bold: true, color: "#FFFFFF" } }
   }
 
+
+   prepareImage(i, listImage) {
+    if (!!listImage[i]) { return listImage[i] }
+    else { return  PagesComponent.blankImage
+    }
+  }
 
   public async getDocumentDefinition(constat: Constat) {
     let insCh
@@ -493,65 +500,62 @@ export class PdfTemplateService {
         { text: 'VISUEL', alignment: 'center', bold: true, fontSize: 20 },
         {		
 	        
-          // style: 'tableExample',
-          // table: {
-          //   heights: 190,
-          //   width: 250,
-          //   body: [
-          //     [
+          style: 'tableExample',
+          table: {
+            heights: 190,
+            width: 250,
+            body: [
+              [
 
-          //       {
-          //         image: this.retrievedImageList[0],
-          //         width: 250,
-          //         height: 150,
-          //         margin: [0, 20, 0, 0],
-          //       },
+                {
+                  image: this.prepareImage(0,this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
 
-          //       {
-          //         image: this.retrievedImageList[1],
-          //         width: 250,
-          //         height: 150,
-          //         margin: [0, 20, 0, 0],
-          //       },
-          //     ],
-          //     [
-          //       {
-          //         image: this.retrievedImageList[0],
-          //         width: 250,
-          //         height: 150,
-          //         margin: [0, 20, 0, 0],
-          //       },
+                {
+                  image: this.prepareImage(1,this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ],
+              [
+                {
+                  image: this.prepareImage(2,this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
 
-          //       {
-          //         image: this.retrievedImageList[1],
-          //         width: 250,
-          //         height: 150,
-          //         margin: [0, 20, 0, 0],
-          //       },
-          //     ],
-          //     [
-          //       {
-          //         image: this.retrievedImageList[0],
-          //         width: 250,
-          //         height: 150,
-          //         margin: [0, 20, 0, 0],
-          //       },
+                {
+                  image: this.prepareImage(3,this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ],
+              [
+                {
+                  image: this.prepareImage(4,this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
 
-          //       {
-          //         image: this.retrievedImageList[1],
-          //         width: 250,
-          //         height: 150,
-          //         margin: [0, 20, 0, 0],
-          //       },
-          //     ]
-          //   ]
-          // }
+                {
+                  image: this.prepareImage(5,this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ]
+            ]
+          }
         },
-
-
-
-
-
+        //clean list
+         this.retrievedImageList = []
       ],
 
 
@@ -595,6 +599,7 @@ export class PdfTemplateService {
       }
 
     }
+    
   
   }
 

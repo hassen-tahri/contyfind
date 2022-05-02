@@ -83,8 +83,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Documentation',
     icon: 'clipboard',
-    link: '/pages/test',
-    hidden : true
+    link: '/pages/documentation',
+    data: 'admin',
+
   },
   {
     title: 'image',
