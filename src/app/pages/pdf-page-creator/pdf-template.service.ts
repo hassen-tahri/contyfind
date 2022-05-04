@@ -53,6 +53,189 @@ export class PdfTemplateService {
     }
   }
 
+  calculateSecondPageImage(constat: Constat, colorCh: string, colorDch: string, insCh : string , insDch: string, listImage) {
+    if (listImage.length > 6) {
+      return [
+        { text: '', pageBreak: 'before' },
+        {
+          alignment: 'center',
+          columns: [
+            {
+              width: '*',
+              alignment: "left",
+              margin: [-20, 0, 0, 0],
+              fontSize: 11,
+              color: '#1d44af',
+              bold: true,
+              text: 'general@esurveys.fr\nTEL: +33 (0) 495 069 230',
+            },
+            {
+              width: 140,
+              alignment: 'center',
+              margin: [-85, -20, 0, 0],
+              text: 'CONSTAT DE SURVEILLANCE',
+              style: 'title',
+            },
+            {
+              width: 150,
+              alignment: "right",
+              margin: [0, 0, -20, 0],
+              fontSize: 11,
+              color: '#1d44af',
+              bold: true,
+              text: 'www.esurveys.fr\nFAX: +33(0) 491 467 892'
+            },
+          ]
+        },
+        {
+          canvas: [
+            {
+              type: 'rect',
+              x: -1,
+              y: 15,
+              w: 518,
+              h: 70,
+              r: 5,
+              lineColor: 'black',
+              lineWidth: 2
+            },
+          ]
+        },
+
+        {
+          style: 'headTable',
+          layout: 'headerLineOnly',
+          absolutePosition: { x: 90, y: 88 },
+          table: {
+            widths: [70, "auto", "auto"],
+            body: [
+              [{ text: constat.voyage.bateau.intitule, alignment: 'center', margin: [-100, 17, 0, 0] },
+              {
+                table: {
+                  body: [
+                    [
+                      { text: 'Chargement', bold: true, color: colorCh, alignment: 'center' },
+                      { text: 'Dechargement', bold: true, color: colorDch, alignment: 'center' }],
+                    [{
+                      table: {
+                        body: [
+                          ['Port', 'Date'],
+                          [{ text: constat.voyage.portChargement.intitule, bold: true }, { text: new DatePipe('fr').transform(constat.dateChargement, 'dd/MM/yyyy'), bold: true }]
+                        ]
+                      },
+                      layout: 'noBorders',
+                    },
+                    {
+                      table: {
+                        body: [
+                          ['Port', 'Date'],
+                          [{ text: constat.voyage.portDechargement.intitule, bold: true }, { text: new DatePipe('fr').transform(constat.dateDechargement, 'dd/MM/yyyy'), bold: true }]
+                        ]
+                      },
+                      layout: 'headerLineOnly',
+                    }
+                    ],
+                  ],
+                },
+                margin: [-10, -5, 0, 0]
+              },
+              {
+                table: {
+                  widths: ['*', "*"],
+                  body: [
+                    [{ text: 'Inspecteur', bold: true, colSpan: 2 }, ''],
+                    [{ text: '1', bold: true, color: colorCh }, { text: insCh, bold: true, color: colorCh }],
+                    [{ text: '2', bold: true, color: colorDch }, { text: insDch, bold: true, color: colorDch },]
+
+                  ]
+                },
+                layout: 'headerLineOnly',
+              }]
+            ]
+          }
+        },
+        {
+          columns: [
+            {
+              width: '*',
+              text: ['ID : ', { text: constat.unite.matricule, bold: true },]
+            },
+            {
+              width: '*',
+              text: ['Plomb : ', { text: constat.plombCode, bold: true },]
+            },
+            {
+              width: '*',
+              text: ['Type : ', { text: constat.unite.type.intitule, bold: true, italics: true },]
+            },
+            {
+              width: '*',
+              text: ['Chargeur : ', { text: constat.chargeur.intitule, bold: true },]
+            }
+          ]
+        },
+        { text: '.................................................................................................................................................................', alignment: 'center', },
+        { text: 'VISUEL', alignment: 'center', bold: true, fontSize: 20 },
+        {
+
+          style: 'tableExample',
+          table: {
+            heights: 190,
+            width: 250,
+            body: [
+              [
+
+                {
+                  image: this.prepareImage(6, this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+
+                {
+                  image: this.prepareImage(7, this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ],
+              [
+                {
+                  image: this.prepareImage(8, this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+
+                {
+                  image: this.prepareImage(9, this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ],
+              [
+                {
+                  image: this.prepareImage(10, this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+
+                {
+                  image: this.prepareImage(11, this.retrievedImageList),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ]
+            ]
+          }
+        },
+      ]
+    }
+  }
+
   public async getDocumentDefinition(constat: Constat) {
     let insCh
     let insDch
@@ -81,8 +264,10 @@ export class PdfTemplateService {
     //prepare tableau des dommage chargement
     let listItemCh = await this.dommageItemService.getByConstatIdAndPhase(constat.id, "chargement")
     let dommageItemsBodyCh = []
+    let listItemDch = await this.dommageItemService.getByConstatIdAndPhase(constat.id, "dechargement")
+    let dommageItemsBodyDch = []
     dommageItemsBodyCh.push([{ text: 'PHASE 1 : CHARGEMENT', color: colorCh, bold: true, colSpan: 6, alignment: 'center', fontSize: 12 }, {}, {}, {}, {}, {}])
-    dommageItemsBodyCh.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: 'Dim/Nbr', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }]);
+    dommageItemsBodyCh.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: 'Dim/\nNbr', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }]);
     for (let index = 0; index < listItemCh.length; index++) {
       dommageItemsBodyCh.push([
         { text: this.getText(listItemCh[index].dommage.intitule), fontSize: 8 },
@@ -93,12 +278,23 @@ export class PdfTemplateService {
         { text: this.getText(listItemCh[index].anciennete), fontSize: 8 }
       ])
     }
+    //caluculer l'espace blanc dans le tableau chargement
+    for (let index = 0; index < listItemDch.length; index++) {
+      dommageItemsBodyCh.push([
+        { text: this.getText(listItemDch[index].dommage.intitule), fontSize: 8,color: "#FFFFFF" },
+        { text: this.getText(listItemDch[index].position), fontSize: 8,color: "#FFFFFF" },
+        { text: this.getText(listItemDch[index].dommageValue), fontSize: 8 ,color: "#FFFFFF"},
+        { text: "lo. " + this.getText(listItemDch[index].longeur) + this.getText(listItemDch[index].unite) + " \nla. " + this.getText(listItemDch[index].largeur), fontSize: 8,color: "#FFFFFF" },
+        { text: this.getText(listItemDch[index].detail), fontSize: 8 ,color: "#FFFFFF"},
+        { text: this.getText(listItemDch[index].anciennete), fontSize: 8,color: "#FFFFFF" }
+      ])
+    }
+    
     //***************************************************************************************************** */
     //prepare tableau des dommage dechargement
-    let listItemDch = await this.dommageItemService.getByConstatIdAndPhase(constat.id, "dechargement")
-    let dommageItemsBodyDch = []
+
     dommageItemsBodyDch.push([{ text: 'PHASE 2 : DECHARGEMENT', color: colorDch, bold: true, colSpan: 6, alignment: 'center' }, {}, {}, {}, {}, {}])
-    dommageItemsBodyDch.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: 'Dim/Nbr', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }])
+    dommageItemsBodyDch.push([{ text: 'Description', fontSize: 9, bold: true }, { text: 'Posi', fontSize: 9, bold: true }, { text: 'Dommage', fontSize: 9, bold: true }, { text: 'Dim/\nNbr', fontSize: 9, bold: true }, { text: 'Detail', fontSize: 9, bold: true }, { text: 'Ancien', fontSize: 9, bold: true }])
     //************************************************* */
     //calculer idem
     if (!!constat.inspecteurDechargement)
@@ -130,9 +326,10 @@ export class PdfTemplateService {
 
 
     return {
-      footer:
-      {
-        margin: [20, 0, 0, 0], fontSize: 9, text: '*RG=RAGUER    DF=DEFORMER CS=CASSER   CP=COUPER   MA=MANQUANT   FR=FROTTER   DH=DECHIRER   PF=PERFORER \n  RAP=RAPIECER    RG/DF=RAGUER&DEFORMER'
+      footer: function (page) {
+        if (page == 1)
+          return { margin: [20, 0, 0, 0], fontSize: 9, text: '*RG=RAGUER    DF=DEFORMER CS=CASSER   CP=COUPER   MA=MANQUANT   FR=FROTTER   DH=DECHIRER   PF=PERFORER \n  RAP=RAPIECER    RG/DF=RAGUER&DEFORMER' }
+
       },
       watermark: { text: 'e-surveys', angle: 60, opacity: 0.1 },
       content: [
@@ -554,6 +751,8 @@ export class PdfTemplateService {
             ]
           }
         },
+        //prapare 2emme page pour image
+        this.calculateSecondPageImage(constat,colorCh,colorDch,insCh,insDch,this.retrievedImageList),
         //clean list
          this.retrievedImageList = []
       ],

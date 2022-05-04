@@ -55,7 +55,7 @@ export class ModalImageComponent implements OnInit {
     .then((mediaDevices: MediaDeviceInfo[]) => {
       this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
     });
-    this.retrievedImage =  "None.gif";
+    this.retrievedImage =  "none.jpg";
   }
 
   
@@ -79,8 +79,10 @@ export class ModalImageComponent implements OnInit {
     var fd = new FormData(document.forms[0]);
     fd.append("canvasImage", blob);
     this.constatService.uploadimage(+idC, fd);
+    localStorage.removeItem("ccId")
     //this.windowRef.close();
     this.toastrService.success("Succès", "image enregistrée");
+
 
 
 
@@ -100,7 +102,6 @@ export class ModalImageComponent implements OnInit {
     for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
     }
-
     return new Blob([ia], {type:mimeString});
 }
 
@@ -140,6 +141,7 @@ export class ModalImageComponent implements OnInit {
   onSave()
   { let idC = localStorage.getItem("ccId")
     this.onUpload(+idC)
+    localStorage.removeItem("ccId")
     this.windowRef.close();
     this.toastrService.success("Succès", "image enregistrée");}
 

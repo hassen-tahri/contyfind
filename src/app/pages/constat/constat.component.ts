@@ -28,6 +28,9 @@ import { ModalScanComponent } from './modal-scan/modal-scan.component';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { GoogleCloudVisionService } from '../template-pdf/google-cloud-vision.service';
+import { Mail } from '../mailing/mail';
+import { Chargeur } from '../chargeur/chargeur';
+import { MailService } from '../mailing/mail.service';
 
 @Component({
   selector: 'ngx-constat',
@@ -65,6 +68,7 @@ export class ConstatComponent implements OnInit {
   test: string
   dechargementOnly: boolean
   isScanned: boolean
+  mail: Mail
 
 
 
@@ -113,7 +117,8 @@ export class ConstatComponent implements OnInit {
     private userService: UserService,
     private dommageItemService: DommageItemService,
     private pdfTemplate: PdfTemplateService,
-    private vision: GoogleCloudVisionService) {
+    private vision: GoogleCloudVisionService,
+    private mailService: MailService) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
@@ -234,6 +239,13 @@ export class ConstatComponent implements OnInit {
         uniteToInsert = this.selectedUnite
       }
       this.constat = await this.constatService.addConstat(this.constat, this.selectedVoyage, this.selectedChargeur, uniteToInsert, this.inspecteurCh.id, this.inspecteurDCh.id)
+      //mailing
+      this.mail = new Mail()
+      this.mail.subject = "Nouveau Constat : "+this.constat.voyage.portChargement+"_"+this.constat.dateChargement
+      this.mail.message = "Merci de consulter votre espace afin de visualiser le nouveau constat "+this.constat.chargeur.intitule+"_"+this.constat.voyage.portChargement+"_"+this.constat.dateChargement
+      this.mail.email = this.constat.chargeur.email
+      this.mailService.sendMail(this.mail)
+
       localStorage.setItem("ccId", this.constat.id.toString())
       this.toastrService.success("Succès", "Constat Ajoutée")
     } if (e === '1') {
@@ -245,6 +257,8 @@ export class ConstatComponent implements OnInit {
       this.toastrService.success("Succès", "Dechargement enregistré");
     }
   }
+
+
 
   async onDeleteConfirm(event) {
     if (window.confirm(`Vous etes sure de supprimer ce dommage`)) {
@@ -261,6 +275,8 @@ export class ConstatComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
+    localStorage.setItem("ccId", this.constat.id.toString())
+    localStorage.setItem("phase",this.phase)
     this.windowService.open(ModalDommageItemComponent, { title: 'Ajouter un dommage' });
   }
 
@@ -332,7 +348,7 @@ export class ConstatComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    localStorage.setItem("constatCourant", this.constat.id.toString())
+    localStorage.setItem("ccId", this.constat.id.toString())
     this.windowService.open(ModalImageComponent, { title: 'Ajouter une image' });
   }
 
