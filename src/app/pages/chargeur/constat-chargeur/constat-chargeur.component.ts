@@ -98,33 +98,34 @@ export class ConstatChargeurComponent implements OnInit {
 
 
 
-  onCostum(event) :any {
+  onCostum(event): any {
     if (event.action === 'editAction') {
-   localStorage.removeItem('e');
-   localStorage.removeItem('id');
-   localStorage.setItem('id' , event.data.id);
-   localStorage.setItem('e', '1');
-  // this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
-   }
-   if (event.action === 'showAction') {
-    localStorage.removeItem('e');
-    localStorage.removeItem('id');
-    localStorage.setItem('id', event.data.id);
-    this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
-   }
- }
-
- async onDeleteConfirm(event) {
-  if (window.confirm(`Vous etes sure de supprimer cet inspecteur`)) {
-    event.confirm.resolve( 
-      //await this.inspecteurService.deleteInspecteur(event.data.id),
-    this.source.filter(p => p !== event.data),
-    this.toastrService.warning("Succès","Inspecteur supprimé")
-    );
-  } else {
-    event.confirm.reject();
+      localStorage.removeItem('e');
+      localStorage.removeItem('id');
+      localStorage.setItem('id', event.data.id);
+      localStorage.setItem('EstorageConstat', '1');
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/constatPage']));
+    }
+    if (event.action === 'showAction') {
+      localStorage.removeItem('e');
+      localStorage.removeItem('id');
+      localStorage.setItem('id', event.data.id);
+      this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
+    }
   }
-}
+
+  async onDeleteConfirm(event) {
+    if (window.confirm(`Vous etes sure de supprimer cet Constat`)) {
+      event.confirm.resolve(
+        await this.constatService.deleteConstatById(event.data.id),
+        this.source.filter(p => p !== event.data),
+        this.toastrService.warning("Succès", "Constat supprimé")
+      );
+    } else {
+      event.confirm.reject();
+    }
+  }
 
   redirectToConstatPage() {
     localStorage.setItem("EstorageConstat","0")

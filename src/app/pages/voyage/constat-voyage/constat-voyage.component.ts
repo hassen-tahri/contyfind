@@ -125,9 +125,15 @@ export class ConstatVoyageComponent implements OnInit {
         title: 'id',
         type: 'text',
       },
-      remorqueCode: {
-        title: 'remorque',
+      unite: {
+        title: 'Unite',
         type: 'text',
+        valuePrepareFunction: (value) => { return value.matricule },
+        filterFunction(obj?: any, search?: string): boolean {
+          if (obj.intitule.toLowerCase().indexOf(search) > -1 || obj.intitule.toUpperCase().indexOf(search) > -1)
+            return true;
+          return false;
+        },
       },
       constat: {
         title: '',
@@ -154,12 +160,13 @@ export class ConstatVoyageComponent implements OnInit {
 
   onCostum(event) :any {
     if (event.action === 'editAction') {
-   localStorage.removeItem('e');
-   localStorage.removeItem('id');
-   localStorage.setItem('id' , event.data.id);
-   localStorage.setItem('e', '1');
-  // this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
-   }
+      localStorage.removeItem('e');
+      localStorage.removeItem('id');
+      localStorage.setItem('id', event.data.id);
+      localStorage.setItem('EstorageConstat', '1');
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/constatPage']));
+    }
    if (event.action === 'showAction') {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
@@ -169,11 +176,11 @@ export class ConstatVoyageComponent implements OnInit {
  }
 
  async onDeleteConfirm(event) {
-  if (window.confirm(`Vous etes sure de supprimer cet inspecteur`)) {
+  if (window.confirm(`Vous etes sure de supprimer cet Constat`)) {
     event.confirm.resolve( 
-      //await this.inspecteurService.deleteInspecteur(event.data.id),
+    await this.constatService.deleteConstatById(event.data.id),
     this.source.filter(p => p !== event.data),
-    this.toastrService.warning("Succès","Inspecteur supprimé")
+    this.toastrService.warning("Succès","Constat supprimé")
     );
   } else {
     event.confirm.reject();

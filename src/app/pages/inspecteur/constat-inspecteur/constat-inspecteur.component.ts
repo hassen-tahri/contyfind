@@ -117,11 +117,11 @@ export class ConstatInspecteurComponent implements OnInit {
  }
 
  async onDeleteConfirmCh(event) {
-  if (window.confirm(`Vous etes sure de supprimer cet inspecteur`)) {
-    event.confirm.resolve( 
-      //await this.inspecteurService.deleteInspecteur(event.data.id),
-    this.sourceCH.filter(p => p !== event.data),
-    this.toastrService.warning("Succès","Inspecteur supprimé")
+  if (window.confirm(`Vous etes sure de supprimer cet constat`)) {
+    event.confirm.resolve(
+      await this.constatService.deleteConstatById(event.data.id),
+      this.sourceCH.filter(p => p !== event.data),
+      this.toastrService.warning("Succès", "Constat supprimé")
     );
   } else {
     event.confirm.reject();
@@ -129,11 +129,11 @@ export class ConstatInspecteurComponent implements OnInit {
 }
 
 async onDeleteConfirmDCH(event) {
-  if (window.confirm(`Vous etes sure de supprimer cet inspecteur`)) {
-    event.confirm.resolve( 
-      //await this.inspecteurService.deleteInspecteur(event.data.id),
-    this.sourceDCH.filter(p => p !== event.data),
-    this.toastrService.warning("Succès","Inspecteur supprimé")
+  if (window.confirm(`Vous etes sure de supprimer cet constat`)) {
+    event.confirm.resolve(
+      await this.constatService.deleteConstatById(event.data.id),
+      this.sourceDCH.filter(p => p !== event.data),
+      this.toastrService.warning("Succès", "Constat supprimé")
     );
   } else {
     event.confirm.reject();
