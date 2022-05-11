@@ -1,1 +1,51 @@
-<p>show-dommage-item works!</p>
+<form class="form-group" #form="ngForm" #monFormulairej=ngForm autocomplete="off">
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="inputDescription" class="label">Description</label>
+                    <input type="text" class="form-control" nbInput  name="Description" [(ngModel)]="desciption" readonly />
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <label for="inputPosition" class="label">Position</label>
+                    <input type="text" class="form-control" nbInput  name="Position" [(ngModel)]="dommageItem.position" readonly />
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Dommage</label>
+                    <input type="text" class="form-control" nbInput  name="Dommage" [(ngModel)]="dommageItem.dommageValue" readonly/>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Details</label>
+                    <input type="text" class="form-control" nbInput  name="Details" [(ngModel)]="dommageItem.detail" readonly/>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Ancienneté</label>
+                    <input type="text" class="form-control" nbInput  name="Ancienneté" [(ngModel)]="dommageItem.anciennete" readonly/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Unité</label>
+                    <input type="text" class="form-control" nbInput placeholder="Unité" min="0" name="unite" [(ngModel)]="dommageItem.unite" readonly />
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Longeur</label>
+                    <input type="text" class="form-control" nbInput placeholder="Longeur" min="0" name="Longeur" [(ngModel)]="dommageItem.longeur" readonly/>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="inputWebsite" class="label">Largeur</label>
+                    <input type="text" class="form-control" nbInput placeholder="Largeur" min="0" name="Largeur" [(ngModel)]="dommageItem.largeur" readonly/>
+                </div>
+            </div>
+            <div style="text-align:right;">
+                <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+            </div>
+</form>
