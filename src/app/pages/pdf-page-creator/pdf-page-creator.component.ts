@@ -20,7 +20,11 @@ export class PdfPageCreatorComponent implements ViewCell, OnInit {
   name = 'Angular ' + VERSION.major;
   base64Image: any;
   testVbateau: string
-  documentName : string
+  documentName: string
+
+  idInsCh: any
+  idInsDch: any
+  targetDate : Date
 
 
 
@@ -31,12 +35,16 @@ export class PdfPageCreatorComponent implements ViewCell, OnInit {
   async ngOnInit() {
     this.constat = new Constat()
     this.constat = await this.constatService.getById(this.rowData.id)
-    this.documentName = this.constat.chargeur.intitule+"_"+this.constat.unite.matricule
+    if(this.constat.phase == "chargement")
+    {this.targetDate = this.constat.dateChargement}
+    if(this.constat.phase == "dechargement")
+    {this.targetDate = this.constat.dateDechargement}
+    this.documentName =this.constat.phase+"_"+this.constat.unite.matricule + "_" + this.constat.chargeur.intitule+"_"+new DatePipe('fr').transform(this.constat.dateDechargement, 'dd/MMM/yyyy')
   }
 
 
   constructor(private constatService: ConstatService,
-    private pdfTemplateService : PdfTemplateService,
+    private pdfTemplateService: PdfTemplateService,
     private _compiler: Compiler) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
@@ -45,7 +53,11 @@ export class PdfPageCreatorComponent implements ViewCell, OnInit {
     let role = localStorage.getItem(PagesComponent.role)
     if (role == "chargeur") {
       this.constat.etat = "old"
-      this.constatService.editConstat(this.constat, this.constat.voyage.id, this.constat.chargeur.id, this.constat.unite.id, this.constat.inspecteurChargement.id, this.constat.inspecteurDechargement.id)
+      if (this.constat.inspecteurChargement == null) { this.idInsCh = -1 }
+      else { this.idInsCh = this.constat.inspecteurChargement.id }
+      if (this.constat.inspecteurDechargement == null) { this.idInsDch = -1 }
+      else { this.idInsDch = this.constat.inspecteurDechargement.id }
+      this.constatService.editConstat(this.constat, this.constat.voyage.id, this.constat.chargeur.id, this.constat.unite.id, this.idInsCh, this.idInsDch)
     }
     this.generatePdf()
   }

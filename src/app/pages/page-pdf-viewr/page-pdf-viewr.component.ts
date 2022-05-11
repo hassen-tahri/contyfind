@@ -5,6 +5,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Constat } from '../list-constat/constat';
 import { ConstatService } from '../list-constat/constat.service';
+import { PagesComponent } from '../pages.component';
 import { PdfTemplateService } from '../pdf-page-creator/pdf-template.service';
 
 @Component({
@@ -15,6 +16,8 @@ import { PdfTemplateService } from '../pdf-page-creator/pdf-template.service';
 export class PagePdfViewrComponent implements OnInit {
   constat: Constat
   pdftoShow : any
+  idInsCh: number;
+  idInsDch: number;
 
   constructor(private constatService: ConstatService,
      private pdfTemplate : PdfTemplateService) {
@@ -26,6 +29,15 @@ export class PagePdfViewrComponent implements OnInit {
     this.constat = new Constat()
     let id = localStorage.getItem('id'); 
     this.constat = await this.constatService.getById(+id)
+    let role = localStorage.getItem(PagesComponent.role)
+    if (role == "chargeur") {
+      this.constat.etat = "old"
+      if (this.constat.inspecteurChargement == null) { this.idInsCh = -1 }
+      else { this.idInsCh = this.constat.inspecteurChargement.id }
+      if (this.constat.inspecteurDechargement == null) { this.idInsDch = -1 }
+      else { this.idInsDch = this.constat.inspecteurDechargement.id }
+      this.constatService.editConstat(this.constat, this.constat.voyage.id, this.constat.chargeur.id, this.constat.unite.id, this.idInsCh, this.idInsDch)
+    }
     this.generatePdf()
   }
 
