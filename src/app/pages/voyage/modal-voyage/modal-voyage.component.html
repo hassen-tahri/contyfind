@@ -12,7 +12,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="inputEtat" class="label">Etat</label>
-                        <ng-select required placeholder="Etat" name="etat" [(ngModel)]="voyage.etat">
+                        <ng-select required placeholder="Etat" name="etat" [(ngModel)]="voyage.etat" appendTo="body">
                             <ng-option [value]="'Chargement'">chargement</ng-option>
                             <ng-option [value]="'En cours'">En cours</ng-option>
                             <ng-option [value]="'Dechargement'">Dechargement</ng-option>
@@ -29,6 +29,7 @@
                         bindValue="id"
                         [(ngModel)]="selectedBateau"
                         name="bateau"
+                        appendTo="body"
                         >
                        </ng-select> 
                     </div>
@@ -67,6 +68,7 @@
                         bindValue="id"
                         [(ngModel)]="selectedPortChargement"
                         name="portChargement"
+                        appendTo="body"
                         >
                        </ng-select> 
                     </div>
@@ -81,7 +83,8 @@
                         bindValue="id"
                         [(ngModel)]="selectedPortDechargement"
                         name="portDechargement"
-                        status="basic">
+                        status="basic"
+                        appendTo="body">
                        </ng-select> 
                     </div>
                 </div>

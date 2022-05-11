@@ -1,17 +1,15 @@
 <div class="row">
     <nb-card class="col-md-4">
-        <nb-card-body>
                 <nb-calendar-range [(range)]="range"   (rangeChange)="handleRangeChange($event)"></nb-calendar-range>
-        </nb-card-body>
     </nb-card>
     <nb-card class="col-md-8">
         <nb-card>
             <nb-card-header>
                 <div class="row">
-                    <div class="col-md-6">
-                        <button nbButton hero status="success" (click)="openWindow()">Ajouter un voyage</button>
+                    <div class="col-md-4">
+                        <button nbButton hero fullWidth status="success" (click)="openWindow()">Ajouter</button>
                     </div>
-                    <div class="col-md-6" style="text-align:right;">
+                    <div class="col-md-8"  style="text-align:right;">
                         <nb-button-group status="warning" hero (valueChange)="updateSelectGroupValue($event)">
                             <button nbButtonToggle value="All">En cours</button>
                             <button nbButtonToggle value="Archive">Archivés</button>
