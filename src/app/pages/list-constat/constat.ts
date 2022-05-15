@@ -9,7 +9,7 @@ export class Constat {
 
     remorqueCode: number
 
-    plombCode: number
+    plombCode: string
 
     remarqueChargement: string
 
@@ -40,5 +40,7 @@ export class Constat {
     inspecteurChargement: Inspecteur
 
     inspecteurDechargement: Inspecteur
+
+    dateCreation : Date
 
 }

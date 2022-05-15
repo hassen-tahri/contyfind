@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NbToastrService, NbWindowService } from '@nebular/theme';
 import { ViewCell } from 'ng2-smart-table';
 import { ButtonViewConstatChargeur } from '../chargeur/chargeur.component';
+import { UserService } from '../utilisateur/user.service';
 import { InspecteurService } from './inspecteur.service';
 import { ModalInspecteurComponent } from './modal-inspecteur/modal-inspecteur.component';
 import { ShowInspecteurComponent } from './show-inspecteur/show-inspecteur.component';
@@ -47,7 +48,8 @@ export class InspecteurComponent implements OnInit {
 
   constructor(private inspecteurService : InspecteurService,
     private windowService: NbWindowService,
-    private toastrService : NbToastrService) { }
+    private toastrService : NbToastrService,
+    private userService : UserService) { }
 
   source : any;
   async ngOnInit() {
@@ -131,19 +133,20 @@ export class InspecteurComponent implements OnInit {
    localStorage.removeItem('id');
    localStorage.setItem('id' , event.data.id);
    localStorage.setItem('e', '1');
-   this.windowService.open(ModalInspecteurComponent, {title: 'Modifier les informations de cet inspecteur'});
+   this.windowService.open(ModalInspecteurComponent, {title: 'Modifier inspecteur'});
    }
    if (event.action === 'showAction') {
      localStorage.removeItem('e');
      localStorage.removeItem('id');
      localStorage.setItem('id' , event.data.id);
-     this.windowService.open(ShowInspecteurComponent, {title: 'Afficher les informations de cet inspecteur'});
+     this.windowService.open(ShowInspecteurComponent, {title: 'Afficher inspecteur'});
    }
  }
 
  async onDeleteConfirm(event) {
   if (window.confirm(`Vous etes sure de supprimer cet inspecteur`)) {
     event.confirm.resolve( await this.inspecteurService.deleteInspecteur(event.data.id),
+    await this.userService.deleteUser(event.data.user.id),
     this.source.filter(p => p !== event.data),
     this.toastrService.warning("Succès","Inspecteur supprimé")
     );

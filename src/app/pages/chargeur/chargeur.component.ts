@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService, NbWindowService } from '@nebular/theme';
 import { ViewCell } from 'ng2-smart-table';
+import { UserService } from '../utilisateur/user.service';
+import { Chargeur } from './chargeur';
 import { ChargeurService } from './chargeur.service';
 import { ModalChargeurComponent } from './modal-chargeur/modal-chargeur.component';
 import { ShowChargeurComponent } from './show-chargeur/show-chargeur.component';
@@ -44,7 +46,8 @@ export class ChargeurComponent implements OnInit {
   constructor(
     private chargeurService: ChargeurService,
     private windowService: NbWindowService,
-    private toastrService: NbToastrService) { }
+    private toastrService: NbToastrService,
+    private userService : UserService) { }
 
   source: any;
 
@@ -137,25 +140,31 @@ export class ChargeurComponent implements OnInit {
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
       localStorage.setItem('e', '1');
-      this.windowService.open(ModalChargeurComponent, { title: 'Modifier les informations de ce chargeur' });
+      this.windowService.open(ModalChargeurComponent, { title: 'Modifier hargeur' });
     }
     if (event.action === 'showAction') {
       localStorage.removeItem('e');
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
-      this.windowService.open(ShowChargeurComponent, { title: 'Afficher les informations de ce chargeur' });
+      this.windowService.open(ShowChargeurComponent, { title: 'Afficher chargeur' });
     }
   }
 
   async onDeleteConfirm(event) {
     if (window.confirm(`Vous etes sure de supprimer ce chargeur`)) {
-      event.confirm.resolve(await this.chargeurService.deleteChargeur(event.data.id),
+      event.confirm.resolve(
+        this.deleteIfUser(event.data),
+        await this.chargeurService.deleteChargeur(event.data.id),
         this.source.filter(p => p !== event.data),
         this.toastrService.warning("Succès", "chargeur supprimé")
       );
     } else {
       event.confirm.reject();
     }
+  }
+
+  async deleteIfUser(chargeur: Chargeur) {
+    if (chargeur.user) { await this.userService.deleteUser(chargeur.user.id) }
   }
 
 }

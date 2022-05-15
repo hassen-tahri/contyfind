@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbAlertModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
+import { NbAccordionModule, NbAlertModule, NbAutocompleteModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonViewConstatChargeur, ChargeurComponent } from './chargeur/chargeur.component';
 import { ModalChargeurComponent } from './chargeur/modal-chargeur/modal-chargeur.component';
 import { ShowChargeurComponent } from './chargeur/show-chargeur/show-chargeur.component';
-import { ConstatComponent } from './constat/constat.component';
+import { ConstatComponent, ImageViewerInTable } from './constat/constat.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalDommageItemComponent } from './constat/modal-dommage-item/modal-dommage-item.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -61,6 +61,7 @@ import { CustomDashboardComponent } from './custom-dashboard/custom-dashboard.co
 import { ShowDommageItemComponent } from './constat/show-dommage-item/show-dommage-item.component';
 import { ModalScanComponent } from './constat/modal-scan/modal-scan.component';
 import { TestImageComponent } from './test-image/test-image.component';
+import { ClipboardModule } from 'ngx-clipboard';
 
 
 
@@ -99,6 +100,8 @@ import { TestImageComponent } from './test-image/test-image.component';
     NbFormFieldModule,
     PdfViewerModule,
     NbSelectModule,
+    NbAutocompleteModule,
+    ClipboardModule
     
     
     
@@ -154,7 +157,8 @@ import { TestImageComponent } from './test-image/test-image.component';
     CustomDashboardComponent,
     ShowDommageItemComponent,
     ModalScanComponent,
-    TestImageComponent
+    TestImageComponent,
+    ImageViewerInTable
   ],
 })
 export class PagesModule {

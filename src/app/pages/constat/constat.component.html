@@ -19,14 +19,25 @@
         </nb-card-header>
         <nb-card-header>
 
-            <div *ngIf="isScanned">
-                <div style="text-align:center">
+            <div >
+                <div style="text-align:center ;" *ngIf="isScanned">
                     <div>
-                        <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+                        <webcam [height]="500" [width]="309"  [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
                          [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
                          (initError)="handleInitError($event)"></webcam>
                         <br/>
                             <button class="actionBtn" nbButton fullWidth hero  status="warning" (click)="triggerSnapshot()">Valider</button>
+                            <br>
+                            <br>
+                            <div class="input-group">
+                                <input type="text" class="form-control" [(ngModel)]="resultScan" placeholder="" name="copyinput" />
+                                <span class="input-group-append">
+                                    <button nbButton status="success" ngxClipboard [cbContent]="resultScan" (cbOnSuccess)="isCopied1 = true"
+                                        (cbOnError)="onCopyFailure()" [class.btn-success]="isCopied1">
+                                        copy
+                                    </button>
+                                </span>
+                            </div>
                         <br>
                     </div>
                 </div>
@@ -165,11 +176,15 @@
                                      <button class="col-sm-4" nbButton hero outline  status="success" (click)="reloadTable($event)" ><nb-icon icon="repeat"></nb-icon></button>
                             </div>
                             <br>
-                            <div>
+                            <label  class="label" style="text-align: center;">Liste des dommages</label>
                             <ng2-smart-table class="form-group" [settings]="settings" [source]="listDommageItemChargement"
-                            (deleteConfirm)="onDeleteConfirm($event)"  (custom)="onCostum($event)">
+                            (deleteConfirm)="onDeleteConfirm($event)">
                             </ng2-smart-table>
-                        </div>
+                            <br>
+                            <label  class="label center" style="text-align: center;">Liste des images</label>
+                            <ng2-smart-table class="form-group" [settings]="settings2" [source]="imgList"
+                            (deleteConfirm)="onDeleteConfirmImage($event)"  (custom)="onCostum($event)">
+                            </ng2-smart-table>
                            </div>
 
 
@@ -245,8 +260,15 @@
                             </div>
                                 <br>
                             <div>
+                            <label  class="label" style="text-align: center;">Liste des dommages</label>
                             <ng2-smart-table class="form-group" [settings]="settings" [source]="listDommageItemDeChargement"
                             (deleteConfirm)="onDeleteConfirm($event)"  (custom)="onCostum($event)">
+                            </ng2-smart-table>
+
+                            <br>
+                            <label  class="label center" style="text-align: center;">Liste des images</label>
+                            <ng2-smart-table class="form-group" [settings]="settings2" [source]="imgList"
+                            (deleteConfirm)="onDeleteConfirmImage($event)"  (custom)="onCostum($event)">
                             </ng2-smart-table>
                             </div>
                             </div>

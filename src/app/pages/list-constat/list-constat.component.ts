@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbCalendarRange, NbDateService, NbToastrService, NbWindowService } from '@nebular/theme';
+import { InspecteurService } from '../inspecteur/inspecteur.service';
 import { PagePdfViewrComponent } from '../page-pdf-viewr/page-pdf-viewr.component';
 import { PagesComponent } from '../pages.component';
 import { PdfPageCreatorComponent } from '../pdf-page-creator/pdf-page-creator.component';
@@ -18,7 +19,7 @@ import { ConstatService } from './constat.service';
 export class ListConstatComponent implements OnInit {
 
 
-  source: any
+  source = []
   range: NbCalendarRange<Date>;
   pipe = new DatePipe('en-US');
   now = Date.now();
@@ -26,6 +27,7 @@ export class ListConstatComponent implements OnInit {
   checked: any
   SelectGroupValue = [];
   role: string
+  idInspecteur
 
 
   constructor(private windowService: NbWindowService,
@@ -33,7 +35,8 @@ export class ListConstatComponent implements OnInit {
     private constatService: ConstatService,
     private router: Router,
     protected dateService: NbDateService<Date>,
-    private cdGButon: ChangeDetectorRef
+    private cdGButon: ChangeDetectorRef,
+    private inspecteurService : InspecteurService
   ) {
     this.range = {
       start: this.dateService.addDay(this.monthStart, 3),
@@ -57,6 +60,8 @@ export class ListConstatComponent implements OnInit {
     this.range.end = new Date(this.now)
     this.source = await this.constatService.getByDateChargementInRange(this.myFormattedDate, this.myFormattedDate)
     console.log(this.myFormattedDate)
+    let idUser = localStorage.getItem(PagesComponent.userId)
+    this.idInspecteur = (await this.inspecteurService.getByUserId(+idUser)).id
   }
 
   settings = {
@@ -177,7 +182,9 @@ export class ListConstatComponent implements OnInit {
     this.SelectGroupValue = value;
     this.cdGButon.markForCheck();
     if (this.SelectGroupValue[0] === "All") { this.source = await this.constatService.getAll() }
-    if (this.SelectGroupValue[0] === "owner") { this.source = await this.constatService.getByInspecteurCh(9) }
+    if (this.SelectGroupValue[0] === "owner") 
+    { this.source = await this.constatService.getByInspecteurCh(this.idInspecteur) 
+    this.source.concat(await this.constatService.getByInspecteurDch(this.idInspecteur) )}
   }
 
 

@@ -89,8 +89,8 @@ export class ConstatService {
   }
 
 
-  async deleteImage(id: number) {
-    return this.httpclient.delete(this.url + '/image/' + id).toPromise();
+  async deleteImage(name : string) {
+    return this.httpclient.delete(this.url + '/image/' + name).toPromise();
   }
 
   async getimages(id: number) {

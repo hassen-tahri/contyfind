@@ -1,6 +1,7 @@
+<nb-card> 
+    <nb-card-body>
 <form class="form-group" #form="ngForm" #monFormulairej=ngForm autocomplete="off">
-    <nb-card>
-        <nb-card-body>
+
 
 
             <div class="row">
@@ -51,27 +52,29 @@
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label for="inputWebsite" class="label">Unité</label>
-                    <input type="number" class="form-control" nbInput placeholder="Unité" min="0" name="unite" [(ngModel)]="dommageItem.unite" />
+                    <input type="number" class="form-control" [disabled]="dommageItem.longeur || dommageItem.largeur"  nbInput placeholder="Unité" min="0" name="unite" [(ngModel)]="dommageItem.unite" />
                 </div>
 
                 <div class="form-group col-sm-4">
                     <label for="inputWebsite" class="label">Longeur</label>
-                    <input type="number" class="form-control" nbInput placeholder="Longeur" min="0" name="Longeur" [(ngModel)]="dommageItem.longeur"/>
+                    <input type="number" class="form-control"  nbInput placeholder="Longeur" [disabled]="dommageItem.unite" min="0" name="Longeur" [(ngModel)]="dommageItem.longeur"/>
                 </div>
 
                 <div class="form-group col-sm-4">
                     <label for="inputWebsite" class="label">Largeur</label>
-                    <input type="number" class="form-control" nbInput placeholder="Largeur" min="0" name="Largeur" [(ngModel)]="dommageItem.largeur"/>
+                    <input type="number" class="form-control" #Largeur="ngModel" nbInput placeholder="Largeur" [disabled]="dommageItem.unite" min="0" name="Largeur" [(ngModel)]="dommageItem.largeur"/>
                 </div>
             </div>
+            
 
 
-        </nb-card-body>
-        <nb-card-footer>
-            <div style="text-align:right;">
-                <button nbButton hero status="success" type="submit"  (click)="onSave()" [disabled]=!monFormulairej.valid>{{A}}</button>
-                <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
-            </div>
-        </nb-card-footer>
-    </nb-card>
+
 </form>
+</nb-card-body>
+<nb-card-footer>
+    <div style="text-align:right;">
+        <button nbButton hero status="success" type="submit"  (click)="onSave()" [disabled]=!monFormulairej.valid>{{A}}</button>
+        <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+    </div>
+</nb-card-footer>
+</nb-card>

@@ -82,7 +82,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Documentation',
-    icon: 'clipboard',
+    icon: 'book',
     link: '/pages/documentation',
     data: 'admin',
 

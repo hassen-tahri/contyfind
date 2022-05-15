@@ -1,6 +1,7 @@
+<nb-card>
+    <nb-card-body >
 <form class="form-group"  #form="ngForm"   #monFormulairej = ngForm autocomplete="off">
-    <nb-card>
-        <nb-card-body >
+
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -62,11 +63,11 @@
                 </div>
             </div>
 
-        </nb-card-body>
-        <nb-card-footer>
-            <div style="text-align:right;">
-                <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
-            </div>
-        </nb-card-footer>
-    </nb-card>
 </form>
+</nb-card-body>
+<nb-card-footer>
+    <div style="text-align:right;">
+        <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Return</button>
+    </div>
+</nb-card-footer>
+</nb-card>

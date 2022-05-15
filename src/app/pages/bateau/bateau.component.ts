@@ -60,7 +60,7 @@ export class BateauComponent implements OnInit {
         type: 'string',
       },
       matricule: {
-        title: 'matricule',
+        title: 'IMO',
         type: 'string',
       },
     }

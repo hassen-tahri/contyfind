@@ -11,11 +11,11 @@ import { LayoutService } from '../../../@core/utils';
         <ngx-header></ngx-header>
       </nb-layout-header>
 
-      <nb-sidebar class="menu-sidebar" tag="menu-sidebar" (mouseover)="expandSidebar()" responsive>
+      <nb-sidebar class="menu-sidebar" tag="menu-sidebar" (click)="expandSidebar()" responsive>
         <ng-content select="nb-menu"></ng-content>
       </nb-sidebar>
 
-      <nb-layout-column (mouseover)="compactSidebar()">
+      <nb-layout-column (click)="compactSidebar()">
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
 

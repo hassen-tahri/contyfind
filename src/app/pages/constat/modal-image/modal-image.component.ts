@@ -1,7 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NbToastrService, NbWindowRef } from '@nebular/theme';
-import { canvas } from 'leaflet';
-import { FileUploader } from 'ng2-file-upload';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { ConstatService } from '../../list-constat/constat.service';
@@ -71,22 +69,31 @@ export class ModalImageComponent implements OnInit {
     this.errors.push(error);
   }
 
-  handleImage(webcamImage: WebcamImage) {
+async handleImage(webcamImage: WebcamImage) {
     let idC = localStorage.getItem("ccId")
     this.webcamImage = webcamImage;
-    this.base64Image = this.webcamImage.imageAsBase64
-    var blob = this.dataURItoBlob(this.base64Image);
-    var fd = new FormData(document.forms[0]);
-    fd.append("canvasImage", blob);
-    this.constatService.uploadimage(+idC, fd);
-    localStorage.removeItem("ccId")
-    //this.windowRef.close();
-    this.toastrService.success("Succès", "image enregistrée");
-
-
-
-
+    this.retrievedImage = 'data:image/jpeg;base64,' + this.webcamImage.imageAsBase64;
+    const file = this.dataURItoBlob(this.retrievedImage)
+    const formData = new FormData();
+    formData.append('imageFile', file,  this.calculateImageName()) 
+    this.constatService.uploadimage(+idC, formData);
+     localStorage.removeItem("ccId")
+    this.windowRef.close();
+    this.toastrService.success("Succès", "Image enregistrée");
   }
+
+  calculateImageName() {
+    return ("img" + this.getRandomInt(10) + String.fromCharCode(this.getRandomArbitrary(65,90)) + this.getRandomInt(100) + String.fromCharCode(this.getRandomArbitrary(64,90)) + this.getRandomInt(1000) + String.fromCharCode(this.getRandomArbitrary(65,90)) + String.fromCharCode(this.getRandomArbitrary(65,90)) + String.fromCharCode(this.getRandomArbitrary(65,90)) + this.getRandomInt(50) + ".jpeg")
+  }
+
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+  
 
    dataURItoBlob(dataURI) {
     // convert base64/URLEncoded data component to raw binary data held in a string
@@ -114,7 +121,7 @@ export class ModalImageComponent implements OnInit {
 
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
+    //console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 

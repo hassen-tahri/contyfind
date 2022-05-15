@@ -172,13 +172,13 @@ export class VoyageComponent implements OnInit {
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
       localStorage.setItem('e', '1');
-      this.windowService.open(ModalVoyageComponent, { title: 'Modifier les informations de ce voyage' });
+      this.windowService.open(ModalVoyageComponent, { title: 'Modifier voyage' });
     }
     if (event.action === 'showAction') {
       localStorage.removeItem('e');
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
-      this.windowService.open(ShowVoyageComponent, { title: 'Afficher les informations de ce voyage' });
+      this.windowService.open(ShowVoyageComponent, { title: 'Afficher voyage' });
     }
   }
 

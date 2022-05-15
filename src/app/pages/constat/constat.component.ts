@@ -31,6 +31,42 @@ import { GoogleCloudVisionService } from '../template-pdf/google-cloud-vision.se
 import { Mail } from '../mailing/mail';
 import { Chargeur } from '../chargeur/chargeur';
 import { MailService } from '../mailing/mail.service';
+import { HttpClient } from '@angular/common/http';
+import { ClipboardService } from 'ngx-clipboard';
+import { ViewCell } from 'ng2-smart-table';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'ngx-ImageViewerInTable',
+  template:
+    '<div>' +
+    '<div style="border-style: outset; width: 118px; height : 115px;  position: relative; display:flex; align-items:center; justify-content:center;">' +
+    '<img  width="210px" style="align-content: center; max-width: 100%; max-height: 100%; " height="auto" [src]="retrievedImage">' +
+    '</div>' +
+    '</div>'
+
+})
+export class ImageViewerInTable implements ViewCell, OnInit {
+  renderValue: string;
+
+  @Input() value: string | number;
+  @Input() rowData: any;
+
+  @Output() save: EventEmitter<any> = new EventEmitter();
+  res: any;
+  retrieveResonse: any;
+  base64Data: any;
+  retrievedImage: string;
+
+  constructor() {
+  }
+  ngOnInit() {
+    this.renderValue = this.value.toString().toUpperCase();
+    this.retrieveResonse = this.rowData;
+    this.base64Data = this.retrieveResonse.picByte;
+    this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+  }
+}
 
 @Component({
   selector: 'ngx-constat',
@@ -102,6 +138,12 @@ export class ConstatComponent implements OnInit {
   public base64Image: string;
   public visionresponse: string;
   public objvisionresponse: string;
+  selectedUnitetest: number;
+
+  //img smart table
+  imgList ;
+
+
 
 
 
@@ -118,11 +160,15 @@ export class ConstatComponent implements OnInit {
     private dommageItemService: DommageItemService,
     private pdfTemplate: PdfTemplateService,
     private vision: GoogleCloudVisionService,
-    private mailService: MailService) {
+    private mailService: MailService,
+    protected httpclient: HttpClient,
+    private _clipboardService: ClipboardService) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
   async ngOnInit() {
+
+
     //scan 
     WebcamUtil.getAvailableVideoInputs()
       .then((mediaDevices: MediaDeviceInfo[]) => {
@@ -229,6 +275,7 @@ export class ConstatComponent implements OnInit {
       this.isSaved = true
       this.constat.etat = "new"
       this.constat.phase = this.phase
+      this.constat.dateCreation = new Date(Date.now()) 
       this.calculateInspecteur()
       let uniteToInsert
       if (this.isNewType) {
@@ -240,11 +287,9 @@ export class ConstatComponent implements OnInit {
       }
       this.constat = await this.constatService.addConstat(this.constat, this.selectedVoyage, this.selectedChargeur, uniteToInsert, this.inspecteurCh.id, this.inspecteurDCh.id)
       //mailing
-      this.mail = new Mail()
-      this.mail.subject = "Nouveau Constat : "+this.constat.voyage.portChargement+"_"+this.constat.dateChargement
-      this.mail.message = "Merci de consulter votre espace afin de visualiser le nouveau constat "+this.constat.chargeur.intitule+"_"+this.constat.voyage.portChargement+"_"+this.constat.dateChargement
-      this.mail.email = this.constat.chargeur.email
-      this.mailService.sendMail(this.mail)
+     // this.forwordConstat()
+
+
 
       localStorage.setItem("ccId", this.constat.id.toString())
       this.toastrService.success("Succès", "Constat Ajoutée")
@@ -285,6 +330,11 @@ export class ConstatComponent implements OnInit {
     this.listDommageItemChargement.filter(p => p !== event.data)
     this.listDommageItemDeChargement = await this.dommageItemService.getByConstatIdAndPhase(this.constat.id, "dechargement")
     this.listDommageItemDeChargement.filter(p => p !== event.data)
+
+
+    this.imgList = await this.constatService.getimages(this.constat.id);
+
+
   }
 
   onCostum(event): any {
@@ -293,13 +343,14 @@ export class ConstatComponent implements OnInit {
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
       localStorage.setItem('e', '1');
-      this.windowService.open(ModalDommageItemComponent, { title: 'Modifier ce dommage' });
+      localStorage.setItem("ccId", this.constat.id.toString())
+      this.windowService.open(ModalDommageItemComponent, { title: 'Modifier dommage' });
     }
     if (event.action === 'showAction') {
       localStorage.removeItem('e');
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
-      this.windowService.open(ShowDommageItemComponent, { title: 'Afficher les informations de ce voyage' });
+      this.windowService.open(ShowDommageItemComponent, { title: 'Afficher dommage' });
     }
   }
 
@@ -358,6 +409,8 @@ export class ConstatComponent implements OnInit {
     if (!!this.selectedType) {
       this.disabledTypeInput = false
       this.selectedNewUniteObject = await this.uniteService.add(this.selectedNewUniteObject, this.selectedType)
+      //msg
+      this.toastrService.success((await this.typeService.getById(this.selectedType)).intitule +" "+this.selectedNewUniteObject.matricule ,"Unité ajoutée avec succé")
     }
     this.isNewType = true
     return ({ matricule: term, type: this.selectedType, });
@@ -399,7 +452,7 @@ export class ConstatComponent implements OnInit {
 
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
+   // console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 
@@ -432,10 +485,6 @@ export class ConstatComponent implements OnInit {
         this.resultScan = "rien"
       } else {
         this.resultScan = texts
-        this.isScanned = false
-        this.selectedUnite = new Unite()
-        this.selectedUnite.matricule = this.resultScan
-        this.selectedUnite.type.id = this.selectedType
       }
 
     }, error => {
@@ -447,6 +496,20 @@ export class ConstatComponent implements OnInit {
 
   compareFn(item, selected) {
     return item.value === selected.value;
+  }
+
+  forwordConstat() {
+    var win = window.open('', '_blank');
+    this.mail = new Mail()
+    this.mail.subject = "Nouveau Constat : " + this.constat.voyage.portChargement.intitule + "_" + this.constat.dateChargement
+    this.mail.message = "Merci de consulter votre espace afin de visualiser le nouveau constat " + this.constat.chargeur.intitule + "_" + this.constat.voyage.portChargement + "_" + this.constat.dateChargement
+    this.mail.email = this.constat.chargeur.email
+    this.httpclient.post(PagesComponent.urlConfig + "email", this.mail).subscribe(async function (response) {
+      const documentDefinition = await this.pdfTemplate.getDocumentDefinition(this.constat);
+      const pdfDocGenerator = pdfMake.createPdf(documentDefinition).open();
+    pdfMake.createPdf(pdfDocGenerator).print({}, win);
+     this.mail.pathToAttachment = response
+    });
   }
 
 
@@ -501,5 +564,49 @@ export class ConstatComponent implements OnInit {
       },
     },
   }
+
+//smart table image
+  settings2 = {
+    noDataMessage: "vide",
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    pager: {
+      display: true,
+      perPage: 8,
+    },
+    actions: {
+      position: 'right',
+      add: false,
+      edit: false,
+      delete: true,
+      custom: [
+      ],
+    },
+    columns: {
+      img: {
+        title : 'Image',
+        type: 'custom',
+        renderComponent: ImageViewerInTable,
+        filter: false,
+        show: false,
+        addable: false,
+        editable: false,
+      }
+    },
+  }
+
+ async onDeleteConfirmImage(event) {
+    if (window.confirm(`Vous etes sure de supprimer cette image`)) {
+      event.confirm.resolve(await this.constatService.deleteImage(event.data.name),
+        this.imgList.filter(p => p !== event.data),
+        this.toastrService.warning("Succès", "Image supprimée")
+      );
+    } else {
+      event.confirm.reject();
+    }
+  }
+  
 
 }
