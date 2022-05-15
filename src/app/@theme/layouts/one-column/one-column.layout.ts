@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NbSidebarService } from '@nebular/theme';
+import { LayoutService } from '../../../@core/utils';
 
 @Component({
   selector: 'ngx-one-column-layout',
@@ -9,11 +11,11 @@ import { Component } from '@angular/core';
         <ngx-header></ngx-header>
       </nb-layout-header>
 
-      <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+      <nb-sidebar class="menu-sidebar" tag="menu-sidebar" (mouseover)="expandSidebar()" responsive>
         <ng-content select="nb-menu"></ng-content>
       </nb-sidebar>
 
-      <nb-layout-column>
+      <nb-layout-column (mouseover)="compactSidebar()">
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
 
@@ -23,4 +25,24 @@ import { Component } from '@angular/core';
     </nb-layout>
   `,
 })
-export class OneColumnLayoutComponent {}
+export class OneColumnLayoutComponent {
+  constructor(private sidebarService: NbSidebarService,
+    private layoutService: LayoutService,
+   ) {}
+   
+   expandSidebar(): boolean {
+    this.sidebarService.expand('menu-sidebar');
+    this.layoutService.changeLayoutSize();
+
+    return false;
+  }
+
+
+
+  compactSidebar(): boolean {
+    this.sidebarService.collapse('menu-sidebar');
+    this.layoutService.changeLayoutSize();
+
+    return false;
+  }
+}
