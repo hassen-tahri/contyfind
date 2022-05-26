@@ -61,6 +61,8 @@ export class ModalVoyageComponent implements OnInit {
       else {
         this.voyage.archive = false
         console.log(this.voyage)
+        this.decalageDate(this.voyage.dateChargement)
+        this.decalageDate(this.voyage.dateDechargement)
         this.voyageService.addVoyage(this.voyage, this.selectedBateau, this.selectedPortChargement, this.selectedPortDechargement)
         localStorage.removeItem('e');
         localStorage.removeItem('id');
@@ -77,6 +79,8 @@ export class ModalVoyageComponent implements OnInit {
         this.toastrService.danger("Le port de chargement doit etre différent du port de déchargement", "Alert port");
       }
       else {
+        this.decalageDate(this.voyage.dateChargement)
+        this.decalageDate(this.voyage.dateDechargement)
         this.voyageService.editVoyage(this.voyage, this.voyage.id, this.selectedBateau, this.selectedPortChargement, this.selectedPortDechargement)
         localStorage.removeItem('e');
         localStorage.removeItem('id');
@@ -86,6 +90,10 @@ export class ModalVoyageComponent implements OnInit {
         this.toastrService.success("Succès", "Voyage modifiée");
       }
     }
+  }
+
+  decalageDate(date: Date) {
+    if (!!date) { date.setDate(date.getDate() + 1) }
   }
 
   fermer() {
