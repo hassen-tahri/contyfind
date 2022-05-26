@@ -129,7 +129,7 @@ export class ChargeurComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    this.windowService.open(ModalChargeurComponent, { title: 'Ajouter un chargeur' },);
+    this.windowService.open(ModalChargeurComponent, { title: 'Ajouter' },);
   }
 
 

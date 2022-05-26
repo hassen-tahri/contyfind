@@ -122,7 +122,7 @@ export class InspecteurComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    this.windowService.open(ModalInspecteurComponent, {title: 'Ajouter un inspecteur'},);
+    this.windowService.open(ModalInspecteurComponent, {title: 'Ajouter'},);
   }
 
 

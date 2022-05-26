@@ -66,7 +66,7 @@ export class PortComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    this.windowService.open(ModalPortComponent, { title: 'Ajouter un port' },
+    this.windowService.open(ModalPortComponent, { title: 'Ajouter' },
     );
   }
 

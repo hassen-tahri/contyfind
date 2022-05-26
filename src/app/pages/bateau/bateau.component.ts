@@ -70,7 +70,7 @@ export class BateauComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    this.windowService.open(ModalBateauComponent, { title: 'Ajouter un bateau' },
+    this.windowService.open(ModalBateauComponent, { title: 'Ajouter' },
     );
   }
 

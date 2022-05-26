@@ -30,6 +30,7 @@ import { ProfilInspecteurComponent } from './profil-inspecteur/profil-inspecteur
 import { DocumentationComponent } from './documentation/documentation.component';
 import { CustomDashboardComponent } from './custom-dashboard/custom-dashboard.component';
 import { TestImageComponent } from './test-image/test-image.component';
+import { ForRoutingComponent } from './for-routing/for-routing.component';
 
 
 const routes: Routes = [{
@@ -133,6 +134,10 @@ const routes: Routes = [{
     {
       path: 'image',
       component: TestImageComponent,
+    },
+    {
+      path: 'refresh',
+      component: ForRoutingComponent,
     },
     
     

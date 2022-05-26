@@ -66,7 +66,7 @@ export class DommageComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    this.windowService.open(ModalDommageComponent, { title: 'Ajouter un dommage' },
+    this.windowService.open(ModalDommageComponent, { title: 'Ajouter' },
     );
   }
 

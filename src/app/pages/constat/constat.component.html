@@ -171,8 +171,8 @@
                             <!--partie dommage -->
                             <div *ngIf="isSaved"> 
                             <div class="row">
-                                     <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)" [disabled]="dechargementOnly">Ajouter Dommage</button>
-                                     <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()" [disabled]="dechargementOnly">Ajouter image</button> 
+                                     <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)" [disabled]="dechargementOnly">Ajouter</button>
+                                     <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()" [disabled]="dechargementOnly">Ajouter</button> 
                                      <button class="col-sm-4" nbButton hero outline  status="success" (click)="reloadTable($event)" ><nb-icon icon="repeat"></nb-icon></button>
                             </div>
                             <br>
@@ -196,7 +196,7 @@
                             <br>
                             <br>
                         </nb-card-body>
-                        <button class="nb-shuffle"  style="text-align:right;" (click)="filpCalculatePhase()" nbButton hero status="danger">switch</button>
+                        <button   style="text-align:right;" (click)="filpCalculatePhase()" nbButton hero status="danger">switch</button>
                     </nb-card>
 
                 </nb-card-front>
@@ -254,8 +254,8 @@
                             <!--partie dommage -->
                         <div *ngIf="isSaved"> 
                            <div class="row">
-                            <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)">Ajouter Dommage</button>
-                            <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()">Ajouter image</button> 
+                            <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)">Ajouter</button>
+                            <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()">Ajouter</button> 
                             <button class="col-sm-4" nbButton hero outline  status="success" (click)="reloadTable($event)" ><nb-icon icon="repeat"></nb-icon></button>
                             </div>
                                 <br>
@@ -279,7 +279,7 @@
                             <br>
                             <br>
                         </nb-card-body>
-                     <button class="nb-shuffle"  (click)="filpCalculatePhase()" nbButton hero status="info">switch</button>
+                     <button   (click)="filpCalculatePhase()" nbButton hero status="info">switch</button>
                     </nb-card>
                 </nb-card-back>
             </nb-flip-card>

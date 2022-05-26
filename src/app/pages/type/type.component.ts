@@ -67,7 +67,7 @@ export class TypeComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
-    this.windowService.open(ModalTypeComponent, { title: 'Ajouter une categorie' },
+    this.windowService.open(ModalTypeComponent, { title: 'Ajouter' },
     );
   }
 

@@ -62,6 +62,7 @@ import { ShowDommageItemComponent } from './constat/show-dommage-item/show-domma
 import { ModalScanComponent } from './constat/modal-scan/modal-scan.component';
 import { TestImageComponent } from './test-image/test-image.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { ForRoutingComponent } from './for-routing/for-routing.component';
 
 
 
@@ -158,7 +159,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     ShowDommageItemComponent,
     ModalScanComponent,
     TestImageComponent,
-    ImageViewerInTable
+    ImageViewerInTable,
+    ForRoutingComponent
   ],
 })
 export class PagesModule {

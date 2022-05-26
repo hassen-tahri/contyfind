@@ -32,7 +32,7 @@ export class CustomDashboardComponent implements OnInit {
       .subscribe(() => this.resizeChart());
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+   // throw new Error('Method not implemented.');
   }
 
   ngAfterViewInit() {

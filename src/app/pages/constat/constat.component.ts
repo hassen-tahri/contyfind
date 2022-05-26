@@ -285,6 +285,10 @@ export class ConstatComponent implements OnInit {
       else {
         uniteToInsert = this.selectedUnite
       }
+      if(this.constat.dateChargement.getDate() != this.voyage.dateChargement.getDate())
+      {this.decalageDate(this.constat.dateChargement)}
+      if(this.constat.dateDechargement.getDate() != this.voyage.dateDechargement.getDate())
+      {this.decalageDate(this.constat.dateDechargement)}
       this.constat = await this.constatService.addConstat(this.constat, this.selectedVoyage, this.selectedChargeur, uniteToInsert, this.inspecteurCh.id, this.inspecteurDCh.id)
       //mailing
      // this.forwordConstat()
@@ -298,6 +302,10 @@ export class ConstatComponent implements OnInit {
       console.log(this.constat)
       this.constat.phase = this.phase
       localStorage.setItem("ccId", this.constat.id.toString())
+      if(this.constat.dateChargement.getDate() != this.voyage.dateChargement.getDate())
+      {this.decalageDate(this.constat.dateChargement)}
+      if(this.constat.dateDechargement.getDate() != this.voyage.dateDechargement.getDate())
+      {this.decalageDate(this.constat.dateDechargement)}
       await this.constatService.editConstat(this.constat, this.selectedVoyage, this.selectedChargeur, this.selectedUnite, this.inspecteurCh.id, this.inspecteurDCh.id)
       this.toastrService.success("Succès", "Dechargement enregistré");
     }
@@ -322,7 +330,7 @@ export class ConstatComponent implements OnInit {
     localStorage.setItem('e', '0');
     localStorage.setItem("ccId", this.constat.id.toString())
     localStorage.setItem("phase",this.phase)
-    this.windowService.open(ModalDommageItemComponent, { title: 'Ajouter un dommage' });
+    this.windowService.open(ModalDommageItemComponent, { title: 'Ajouter' });
   }
 
   async reloadTable(event) {
@@ -400,7 +408,7 @@ export class ConstatComponent implements OnInit {
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
     localStorage.setItem("ccId", this.constat.id.toString())
-    this.windowService.open(ModalImageComponent, { title: 'Ajouter une image' });
+    this.windowService.open(ModalImageComponent, { title: 'Ajouter' });
   }
 
   addNewUnite = async (term) => {
@@ -606,6 +614,10 @@ export class ConstatComponent implements OnInit {
     } else {
       event.confirm.reject();
     }
+  }
+
+  decalageDate(date: Date) {
+    if (!!date) { date.setDate(date.getDate() + 1) }
   }
   
 
