@@ -222,6 +222,8 @@ export class ConstatComponent implements OnInit {
       this.constat = await this.constatService.getById(+id)
       console.log(this.constat)
       localStorage.setItem("ccId", this.constat.id.toString())
+      this.constat.dateChargement = new Date(this.constat.dateChargement)
+      this.constat.dateDechargement = new Date(this.constat.dateDechargement)
       this.selectedChargeur = this.constat.chargeur.id
       this.selectedVoyage = this.constat.voyage.id
       this.selectedUnite = this.constat.unite.id
@@ -285,9 +287,9 @@ export class ConstatComponent implements OnInit {
       else {
         uniteToInsert = this.selectedUnite
       }
-      if(this.constat.dateChargement.getDate() != this.voyage.dateChargement.getDate())
+      if(new Date(this.constat.dateChargement).getDate() != new Date(this.voyage.dateChargement).getDate())
       {this.decalageDate(this.constat.dateChargement)}
-      if(this.constat.dateDechargement.getDate() != this.voyage.dateDechargement.getDate())
+      if(new Date(this.constat.dateDechargement).getDate() != new Date(this.voyage.dateDechargement).getDate())
       {this.decalageDate(this.constat.dateDechargement)}
       this.constat = await this.constatService.addConstat(this.constat, this.selectedVoyage, this.selectedChargeur, uniteToInsert, this.inspecteurCh.id, this.inspecteurDCh.id)
       //mailing
@@ -302,9 +304,9 @@ export class ConstatComponent implements OnInit {
       console.log(this.constat)
       this.constat.phase = this.phase
       localStorage.setItem("ccId", this.constat.id.toString())
-      if(this.constat.dateChargement.getDate() != this.voyage.dateChargement.getDate())
+      if(new Date(this.constat.dateChargement).getDate() != new Date(this.voyage.dateChargement).getDate())
       {this.decalageDate(this.constat.dateChargement)}
-      if(this.constat.dateDechargement.getDate() != this.voyage.dateDechargement.getDate())
+      if(new Date(this.constat.dateDechargement).getDate() != new Date(this.voyage.dateDechargement).getDate())
       {this.decalageDate(this.constat.dateDechargement)}
       await this.constatService.editConstat(this.constat, this.selectedVoyage, this.selectedChargeur, this.selectedUnite, this.inspecteurCh.id, this.inspecteurDCh.id)
       this.toastrService.success("Succès", "Dechargement enregistré");

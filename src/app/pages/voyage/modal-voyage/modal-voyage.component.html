@@ -41,7 +41,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputdch" class="label">Date chargement</label>
-                        <input nbInput class="form-control" placeholder="Date chargement"
+                        <input nbInput class="form-control" placeholder="Date chargement" required
                         [nbDatepicker]="formpicker1" name="dateChargement"  [(ngModel)]="voyage.dateChargement"> 
                       <nb-datepicker #formpicker1></nb-datepicker>
                     </div>
@@ -50,7 +50,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputddch" class="label">Date Dechargement</label>
-                        <input nbInput class="form-control" placeholder="Date Dechargement"
+                        <input nbInput class="form-control" placeholder="Date Dechargement" required
                         [nbDatepicker]="formpicker2" name="dateDechargement" [(ngModel)]="voyage.dateDechargement">
                       <nb-datepicker #formpicker2></nb-datepicker>
                     </div>
