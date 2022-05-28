@@ -29,7 +29,15 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="inputEmail" class="label">Email</label>
-                        <input type="email" nbInput fullWidth id="Email" placeholder="Email" name="Email" required [(ngModel)]="chargeur.email">
+                        <input type="email" class="form-control" nbInput fullWidth id="Email" placeholder="Email" name="Email" required [(ngModel)]="chargeur.email" pattern=".+@.+\..+" #Email="ngModel">
+                        <ng-container *ngIf="Email.invalid && Email.touched">
+                            <p style="top: 7px; position: relative;"  class="caption status-danger" *ngIf="Email.errors?.required">
+                              Vous devez indiquer l'adresse e-mail
+                            </p>
+                            <p style="top: 7px; position: relative;"  class="caption status-danger" *ngIf="Email.errors?.pattern">
+                              L'adresse e-mail n'est pas valide
+                            </p>
+                          </ng-container>
                     </div>
                 </div>
 
