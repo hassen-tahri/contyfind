@@ -43,6 +43,8 @@ export class ModalPortComponent implements OnInit {
       localStorage.removeItem('id');
       this.windowRef.close();
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/pages/esurveys']));
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate(['/pages/port']));
       this.toastrService.success("Succès", "Port ajouté");
     }

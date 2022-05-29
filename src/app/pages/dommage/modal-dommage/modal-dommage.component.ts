@@ -43,6 +43,8 @@ export class ModalDommageComponent implements OnInit {
       localStorage.removeItem('id');
       this.windowRef.close();
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/pages/esurveys']));
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate(['/pages/dommage']));
       this.toastrService.success("Succès", "Dommage ajouté");
     }

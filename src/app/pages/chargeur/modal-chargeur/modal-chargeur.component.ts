@@ -90,6 +90,8 @@ export class ModalChargeurComponent implements OnInit {
           localStorage.removeItem('id');
           this.windowRef.close();
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+          this.router.navigate(['/pages/esurveys']));
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
             this.router.navigate(['/pages/chargeur']));
           this.toastrService.success("Succès", "Chargeur ajouté");
         }
@@ -100,6 +102,8 @@ export class ModalChargeurComponent implements OnInit {
         localStorage.removeItem('e');
         localStorage.removeItem('id');
         this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/esurveys']));
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/pages/chargeur']));
         this.toastrService.success("Succès", "Chargeur ajouté");

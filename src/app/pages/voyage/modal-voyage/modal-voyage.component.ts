@@ -62,13 +62,15 @@ export class ModalVoyageComponent implements OnInit {
       }
       else {
         this.voyage.archive = false
-        console.log(this.voyage)
+       // console.log(this.voyage)
         this.decalageDate(this.voyage.dateChargement)
         this.decalageDate(this.voyage.dateDechargement)
         this.voyageService.addVoyage(this.voyage, this.selectedBateau, this.selectedPortChargement, this.selectedPortDechargement)
         localStorage.removeItem('e');
         localStorage.removeItem('id');
         this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/esurveys']));
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/pages/voyage']));
         this.toastrService.success("Succès", "Voyage Ajoutée")

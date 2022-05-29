@@ -43,6 +43,8 @@ export class ModalBateauComponent implements OnInit {
       localStorage.removeItem('id');
       this.windowRef.close();
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/pages/esurveys']));
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate(['/pages/bateau']));
       this.toastrService.success("Succès", "Bateau ajouté");
     }

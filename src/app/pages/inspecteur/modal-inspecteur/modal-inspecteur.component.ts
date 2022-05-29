@@ -58,11 +58,13 @@ export class ModalInspecteurComponent implements OnInit {
         this.userService.addUser(this.user)
         await this.delay(500)
         this.user = await this.userService.getByPseudo(this.user.pseudo)
-        console.log(this.user.id)
+      //  console.log(this.user.id)
         this.inspecteurService.addInspecteur(this.inspecteur, this.user.id)
         localStorage.removeItem('e');
         localStorage.removeItem('id');
         this.windowRef.close();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/pages/esurveys']));
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/pages/inspecteur']));
         this.toastrService.success("Succès", "Inspecteur ajouté");
@@ -98,7 +100,7 @@ export class ModalInspecteurComponent implements OnInit {
     if (this.inspecteur.nom != undefined && this.inspecteur.prenom != undefined && this.A === 'Ajouter') {
       this.user.pseudo = this.inspecteur.prenom.substring(0, 3) + "." + this.inspecteur.nom
       this.user.mpd = this.inspecteur.nom.substring(0, 2) + String.fromCharCode(this.getRandomInt(65, 90)) + "esu" + this.getRandomInt(0, 1000) + this.inspecteur.prenom.substring(0, 2)
-      console.log(ev.target.value)
+     // console.log(ev.target.value)
     }
   }
 
