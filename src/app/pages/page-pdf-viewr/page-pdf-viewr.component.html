@@ -1,16 +1,25 @@
-<pdf-viewer 
-[src]="pdftoShow" 
-[render-text]="true" 
-[original-size]="false" 
-style="width: 500px; height: 600px"
-[rotation]="0"
-[show-all]="true"
-[fit-to-page]="false"
-[zoom]="1"
-[zoom-scale]="'page-width'"
-[stick-to-page]="false"
-[render-text]="true"
-[external-link-target]="'blank'"
-[autoresize]="true"
-[show-borders]="true">
-</pdf-viewer>
+<nb-card class="scrollWindow">
+    <pdf-viewer
+    [src]="pdftoShow" 
+    [render-text]="true" 
+    [original-size]="false" 
+    style="  max-width: 100%; min-width: 350px; height: 600px"
+    [rotation]="0" 
+    [show-all]="true" 
+    [fit-to-page]="false" 
+    [zoom]="zoomValue" 
+    [zoom-scale]="'page-width'"
+    [stick-to-page]="false" 
+    [render-text]="true" 
+    [external-link-target]="'blank'" 
+    [autoresize]="true"
+    [show-borders]="true">
+    </pdf-viewer>
+    <nb-card-footer>
+        <div class="container-btn" style="text-align: center;">
+        <button nbButton hero status="success" (click)="zoomIn()"><nb-icon icon="plus"></nb-icon></button>
+        <button nbButton hero status="danger" (click)="zoomOut()"><nb-icon icon="minus"></nb-icon></button>
+        <button nbButton hero status="warning" (click)="resetZoom()"><nb-icon icon="flip-2"></nb-icon></button>
+    </div>
+    </nb-card-footer>
+</nb-card>
