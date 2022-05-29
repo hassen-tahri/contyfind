@@ -136,7 +136,7 @@ const routes: Routes = [{
       component: TestImageComponent,
     },
     {
-      path: 'refresh',
+      path: 'esurveys',
       component: ForRoutingComponent,
     },
     

@@ -59,7 +59,7 @@ export class ListConstatComponent implements OnInit {
     this.range.start = new Date(this.now)
     this.range.end = new Date(this.now)
     this.source = await this.constatService.getByDateChargementInRange(this.myFormattedDate, this.myFormattedDate)
-    console.log(this.myFormattedDate)
+   // console.log(this.myFormattedDate)
     let idUser = localStorage.getItem(PagesComponent.userId)
     this.idInspecteur = (await this.inspecteurService.getByUserId(+idUser)).id
   }
@@ -147,7 +147,7 @@ export class ListConstatComponent implements OnInit {
       localStorage.removeItem('e');
       localStorage.removeItem('id');
       localStorage.setItem('id', event.data.id);
-      this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
+      this.windowService.open(PagePdfViewrComponent, { title: 'Constat' });
     }
   }
 

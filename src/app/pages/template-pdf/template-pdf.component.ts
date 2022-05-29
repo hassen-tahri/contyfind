@@ -134,7 +134,7 @@ export class TemplatePdfComponent implements OnInit {
       this.base64Image = this.webcamImage.imageAsBase64
       this.vision.getText(this.base64Image).subscribe((result) => {
         this.base64Image = "data:image/jpg;base64," + this.base64Image;
-      console.log(result['responses'][0])
+    //  console.log(result['responses'][0])
         const texts = result['responses'][0]['fullTextAnnotation']['text']
         //const texts = result['responses'][0]['textAnnotations'];
 
@@ -149,7 +149,7 @@ export class TemplatePdfComponent implements OnInit {
         }
         
     }, error => {
-      console.log("ERROR -> " + JSON.stringify(error));
+     // console.log("ERROR -> " + JSON.stringify(error));
       this.textShow = "ERROR"
     });
   }

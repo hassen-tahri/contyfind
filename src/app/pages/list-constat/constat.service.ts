@@ -76,9 +76,9 @@ export class ConstatService {
     return this.httpclient.post(this.url + '/' + id + '/image/upload', uploadImageData, { observe: 'response' })
       .subscribe((response) => {
         if (response.status === 200) {
-          console.log('Image uploaded successfully');
+         // console.log('Image uploaded successfully');
         } else {
-          console.log('Image not uploaded successfully');
+         // console.log('Image not uploaded successfully');
         }
       }
       );

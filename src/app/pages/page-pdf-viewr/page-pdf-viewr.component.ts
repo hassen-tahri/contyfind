@@ -32,7 +32,6 @@ export class PagePdfViewrComponent implements OnInit {
     this.constat = await this.constatService.getById(+id)
     let role = localStorage.getItem(PagesComponent.role)
     this.zoomValue = 1
-    console.log(this.zoomValue)
     if (role == "chargeur") {
       this.constat.etat = "old"
       if (this.constat.inspecteurChargement == null) { this.idInsCh = -1 }

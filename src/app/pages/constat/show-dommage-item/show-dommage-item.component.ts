@@ -21,7 +21,7 @@ export class ShowDommageItemComponent implements OnInit {
     let id = localStorage.getItem('id');
     this.dommageItem =  await this.dommageItemService.getById(+id)
     this.desciption = this.dommageItem.dommage.intitule
-    console.log(this.dommageItem)
+   // console.log(this.dommageItem)
   }
 
   fermer() {

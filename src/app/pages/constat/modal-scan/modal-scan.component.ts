@@ -74,7 +74,7 @@ export class ModalScanComponent implements OnInit {
 
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
+   // console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 

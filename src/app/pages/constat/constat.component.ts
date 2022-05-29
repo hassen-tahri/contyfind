@@ -220,7 +220,7 @@ export class ConstatComponent implements OnInit {
       this.A = 'Commencer';
       let id = localStorage.getItem('id')
       this.constat = await this.constatService.getById(+id)
-      console.log(this.constat)
+      //console.log(this.constat)
       localStorage.setItem("ccId", this.constat.id.toString())
       this.constat.dateChargement = new Date(this.constat.dateChargement)
       this.constat.dateDechargement = new Date(this.constat.dateDechargement)
@@ -301,7 +301,7 @@ export class ConstatComponent implements OnInit {
       this.toastrService.success("Succès", "Constat Ajoutée")
     } if (e === '1') {
       this.A = "Enregistrer"
-      console.log(this.constat)
+     // console.log(this.constat)
       this.constat.phase = this.phase
       localStorage.setItem("ccId", this.constat.id.toString())
       if(new Date(this.constat.dateChargement).getDate() != new Date(this.voyage.dateChargement).getDate())
@@ -383,14 +383,14 @@ export class ConstatComponent implements OnInit {
 
   async calculateInspecteur() {
     if (this.phase === "chargement") {
-      console.log("louel")
+     // console.log("louel")
       this.inspecteurDCh = new Inspecteur()
       this.inspecteurDCh.id = -1
       this.inspecteurCh = await this.inspecteurService.getByUserId(+localStorage.getItem(PagesComponent.userId))
       this.inspecteurCh.nom = this.inspecteurCh.nom + " " + this.inspecteurCh.prenom
     }
     if (this.phase === "dechargement") {
-      console.log("etehni")
+     // console.log("etehni")
       this.inspecteurCh = new Inspecteur()
       this.inspecteurCh.id = -1
       this.inspecteurDCh = await this.inspecteurService.getByUserId(+localStorage.getItem(PagesComponent.userId))
@@ -429,7 +429,7 @@ export class ConstatComponent implements OnInit {
   async viewPdf() {
     localStorage.removeItem('id');
     localStorage.setItem('id', this.constat.id.toString());
-    this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
+    this.windowService.open(PagePdfViewrComponent, { title: 'Constat' });
   }
 
   async downloadPdf() {

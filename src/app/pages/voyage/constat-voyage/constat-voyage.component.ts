@@ -171,7 +171,7 @@ export class ConstatVoyageComponent implements OnInit {
     localStorage.removeItem('e');
     localStorage.removeItem('id');
     localStorage.setItem('id', event.data.id);
-    this.windowService.open(PagePdfViewrComponent, { title: 'pdf constat' });
+    this.windowService.open(PagePdfViewrComponent, { title: 'Constat' });
    }
  }
 
