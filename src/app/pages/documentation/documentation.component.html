@@ -1,7 +1,7 @@
 <nb-card>
     <nb-card-body>
         <pdf-viewer 
-        [src]="" 
+        [src]="pdftoShow" 
         [render-text]="true" 
         [original-size]="false" 
         style=" height: 600px" 
@@ -13,8 +13,7 @@
         [stick-to-page]="false"
         [external-link-target]="'blank'" 
         [autoresize]="true" 
-        [show-borders]="true"
-       >
+        [show-borders]="true">
         </pdf-viewer>
     </nb-card-body>
 </nb-card>

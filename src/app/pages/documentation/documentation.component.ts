@@ -11,8 +11,7 @@ export class DocumentationComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    (window as any).pdfWorkerSrc = '../../../../assets/docs/guide.pdf';
-   this.pdftoShow = '../../../../assets/docs/guide.pdf'
+   this.pdftoShow = 'https://hassen-tahri.github.io/docs/guide.pdf'
   }
 
 
