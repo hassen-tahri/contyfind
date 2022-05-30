@@ -31,6 +31,7 @@ import { DocumentationComponent } from './documentation/documentation.component'
 import { CustomDashboardComponent } from './custom-dashboard/custom-dashboard.component';
 import { TestImageComponent } from './test-image/test-image.component';
 import { ForRoutingComponent } from './for-routing/for-routing.component';
+import { TutoPagesComponent } from './tuto-pages/tuto-pages.component';
 
 
 const routes: Routes = [{
@@ -138,6 +139,10 @@ const routes: Routes = [{
     {
       path: 'esurveys',
       component: ForRoutingComponent,
+    },
+    {
+      path: 'tuto',
+      component: TutoPagesComponent,
     },
     
     

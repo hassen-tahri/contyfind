@@ -1,7 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators';
-import { LayoutService } from '../../@core/utils';
+import { ChargeurService } from '../chargeur/chargeur.service';
+import { InspecteurService } from '../inspecteur/inspecteur.service';
+import { ConstatService } from '../list-constat/constat.service';
+import { VoyageService } from '../voyage/voyage.service';
+
 
 @Component({
   selector: 'ngx-custom-dashboard',
@@ -9,147 +13,187 @@ import { LayoutService } from '../../@core/utils';
   styleUrls: ['./custom-dashboard.component.scss']
 })
 export class CustomDashboardComponent implements OnInit {
-  type = 'Mois';
-  types = ['Semaine', 'Mois', 'Année'];
-  option: any = {};
-  echartsIntance: any;
-  private alive = true;
+
+  chargeurs = []
+  inspecteurs = []
   options: any = {};
+  options1: any = {};
+  formationCategorieOptions: any = {};
+  formationTypesOptions: any = {};
+  demandeEtatOptions: any = {};
+  clientTypesOptions: any = {};
+  themeSubscription: any;
 
-  @Input() linesData: { firstLine: number[]; secondLine: number[] } = {
-    firstLine: [],
-    secondLine: [],
-  };
+  now = new Date(Date.now());
+  firstDateOfWeek: Date
+  firstDateOfWeek2: Date
+  pipe = new DatePipe('en-US'); // Use your own locale
+  nbrVoyageLundi: any;
+  nbrVoyageMardi: any;
+  nbrVoyageMercredi: any;
+  nbrVoyageVendreudi: any;
+  nbrVoyageJeudi: any;
+  nbrVoyageSamedi: any;
+  nbrVoyageDimanche: any;
+  nbrAllVoyage
+  nbrAllConstat
+  nbrConstatCh
+  nbrconstatDch
 
 
+  constructor(private chargeurService : ChargeurService,
+              private inspecteurService : InspecteurService,
+              private constatService : ConstatService,
+              private theme: NbThemeService, 
+              private voyageService : VoyageService) { }
 
-  constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
-    this.layoutService.onSafeChangeLayoutSize()
-      .pipe(
-        takeWhile(() => this.alive),
-      )
-      .subscribe(() => this.resizeChart());
+
+  async ngOnInit() {
+   this.inspecteurs = await this.inspecteurService.getAll()
+   this.chargeurs = await this.chargeurService.getAll()
+   this.nbrAllVoyage = await this.voyageService.countAll()
+   this.nbrAllConstat = await this.constatService.countAll()
+   this.nbrConstatCh = await this.constatService.countByPhase("chargement")
+   this.nbrconstatDch = await this.constatService.countByPhase("dechargement")
   }
-  ngOnInit(): void {
-   // throw new Error('Method not implemented.');
+
+  async getNbrByChargeurChargement(id : number)
+  {return await this.constatService.countByChargeurAndPhase(id,"chargement")}
+
+  async getNbrByChargeurDeChargement(id : number)
+  {return await this.constatService.countByChargeurAndPhase(id,"dechargement")}
+
+  getFirstdayOfWeek(dateNow: Date) {
+    switch (dateNow.getDay()) {
+
+      case 0:
+        dateNow.setDate(dateNow.getDate() - 6)
+        break;
+      case 1:
+        break;
+      case 2:
+        dateNow.setDate(dateNow.getDate() - 1)
+        break;
+      case 3:
+        dateNow.setDate(dateNow.getDate() - 2)
+        break;
+      case 4:
+        dateNow.setDate(dateNow.getDate() - 3)
+        break;
+      case 5:
+        dateNow.setDate(dateNow.getDate() - 4)
+        break;
+      case 6:
+        dateNow.setDate(dateNow.getDate() - 5)
+        break;
+    }
+    return dateNow
   }
 
-  ngAfterViewInit() {
-    this.theme.getJsTheme()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(config => {
-        const profitBarAnimationEchart: any = config.variables.profitBarAnimationEchart;
 
-        this.setChartOption(profitBarAnimationEchart);
+  async ngAfterViewInit() {
+    this.firstDateOfWeek = this.getFirstdayOfWeek(this.now)
+    //preparation Data
+    //-------------------------------------------------------------- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    this.nbrVoyageLundi = await this.voyageService.countByDate(this.pipe.transform(this.firstDateOfWeek, 'yyyy-MM-dd'))
+    this.nbrVoyageMardi = await this.voyageService.countByDate(this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'yyyy-MM-dd'))
+    this.nbrVoyageMercredi = await this.voyageService.countByDate(this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'yyyy-MM-dd'))
+    this.nbrVoyageJeudi = await this.voyageService.countByDate(this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'yyyy-MM-dd'))
+    this.nbrVoyageVendreudi = await this.voyageService.countByDate(this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'yyyy-MM-dd'))
+    this.nbrVoyageSamedi = await this.voyageService.countByDate(this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'yyyy-MM-dd'))
+    this.nbrVoyageDimanche = await this.voyageService.countByDate(this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'yyyy-MM-dd'))
+
+
+    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+      const colors = config.variables;
+      const echarts: any = config.variables.echarts;
+
+      //config charts voyage
+      this.options = {
+        backgroundColor: echarts.bg,
+        color: [colors.primaryLight],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['Lundi\n' + this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() - 6), 'dd-MM-yyyy'),
+            'Mardi\n' + this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'dd-MM-yyyy'),
+            'Mercredi\n' + this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'dd-MM-yyyy'),
+            'Jeudi\n' + this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'dd-MM-yyyy'),
+            'Vendredi\n' + this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'dd-MM-yyyy'),
+            'Samedi\n' + this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'dd-MM-yyyy'),
+            'Dimanche\n' + this.pipe.transform(this.firstDateOfWeek.setDate(this.firstDateOfWeek.getDate() + 1), 'dd-MM-yyyy')],
+            axisTick: {
+              alignWithLabel: true,
+            },
+            axisLine: {
+              lineStyle: {
+                color: echarts.axisLineColor,
+              },
+            },
+            axisLabel: {
+              textStyle: {
+                color: echarts.textColor,
+              },
+            },
+          },
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            axisLine: {
+              lineStyle: {
+                color: echarts.axisLineColor,
+              },
+            },
+            splitLine: {
+              lineStyle: {
+                color: echarts.splitLineColor,
+              },
+            },
+            axisLabel: {
+              textStyle: {
+                color: echarts.textColor,
+              },
+            },
+          },
+        ],
+        series: [
+          {
+            name: 'nombre',
+            type: 'bar',
+            barWidth: '60%',
+            data: [this.nbrVoyageLundi, this.nbrVoyageMardi, this.nbrVoyageMercredi, this.nbrVoyageJeudi, this.nbrVoyageVendreudi, this.nbrVoyageSamedi, this.nbrVoyageDimanche],
+          },
+        ],
+      };
     });
   }
 
-  setChartOption(chartVariables) {
-    this.options = {
-      color: [
-        chartVariables.firstAnimationBarColor,
-        chartVariables.secondAnimationBarColor,
-      ],
-      grid: {
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-      },
-      legend: {
-        data: ['transactions', 'orders'],
-        borderWidth: 0,
-        borderRadius: 0,
-        itemWidth: 15,
-        itemHeight: 15,
-        textStyle: {
-          color: chartVariables.textColor,
-        },
-      },
-      tooltip: {
-        axisPointer: {
-          type: 'shadow',
-        },
-        textStyle: {
-          color: chartVariables.tooltipTextColor,
-          fontWeight: chartVariables.tooltipFontWeight,
-          fontSize: chartVariables.tooltipFontSize,
-        },
-        position: 'top',
-        backgroundColor: chartVariables.tooltipBg,
-        borderColor: chartVariables.tooltipBorderColor,
-        borderWidth: chartVariables.tooltipBorderWidth,
-        formatter: params => `$ ${Math.round(parseInt(params.value, 10))}`,
-        extraCssText: chartVariables.tooltipExtraCss,
-      },
-      xAxis: [
-        {
-          data: this.linesData.firstLine.map((_, index) => index),
-          silent: false,
-          axisLine: {
-            show: false,
-          },
-          axisLabel: {
-            show: false,
-          },
-          axisTick: {
-            show: false,
-          },
-        },
-      ],
-      yAxis: [
-        {
-          axisLine: {
-            show: false,
-          },
-          axisLabel: {
-            show: false,
-          },
-          axisTick: {
-            show: false,
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: chartVariables.splitLineStyleColor,
-              opacity: chartVariables.splitLineStyleOpacity,
-              width: chartVariables.splitLineStyleWidth,
-            },
-          },
-        },
-      ],
-      series: [
-        {
-          name: 'transactions',
-          type: 'bar',
-          data: this.linesData.firstLine,
-          animationDelay: idx => idx * 10,
-        },
-        {
-          name: 'orders',
-          type: 'bar',
-          data: this.linesData.secondLine,
-          animationDelay: idx => idx * 10 + 100,
-        },
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: idx => idx * 5,
-    };
-  }
 
-  onChartInit(echarts) {
-    this.echartsIntance = echarts;
-  }
-
-  resizeChart() {
-    if (this.echartsIntance) {
-      this.echartsIntance.resize();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.alive = false;
-  }
 
 }

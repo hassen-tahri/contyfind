@@ -96,5 +96,14 @@ export class ConstatService {
   async getimages(id: number) {
     return this.httpclient.get(this.url + '/' + id + '/image/getAll').toPromise();
   }
+
+  async countByChargeurAndPhase(id : number , phase : string)
+  { return this.httpclient.get(this.url + '/countByChargeurAndPhase/' + id + '/phase/'+phase).toPromise();}
+
+  async countAll()
+  {return this.httpclient.get(this.url + '/countAll/').toPromise();}
+
+  async countByPhase(phase :string)
+  {return this.httpclient.get(this.url + '/countByPhase/'+phase).toPromise();}
   
 }

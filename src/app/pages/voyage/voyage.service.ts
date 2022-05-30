@@ -47,4 +47,10 @@ export class VoyageService {
     return this.httpclient.get<Voyage[]>(this.url+"/RangeChargement/"+dateDeb+"/"+dateFin).toPromise();
   }
 
+  async countByDate(date : string)
+  {  return this.httpclient.get(this.url + '/CountByDateChargement/' + date).toPromise(); }
+
+  async countAll()
+  {  return this.httpclient.get(this.url + '/CountAll/').toPromise(); }
+
 }

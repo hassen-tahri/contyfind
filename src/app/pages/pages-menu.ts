@@ -92,5 +92,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/image',
     hidden : true
   },
+  {
+    title: 'Tuto',
+    icon: 'book',
+    link: '/pages/tuto',
+    data: 'admin',
+
+  },
 
 ];

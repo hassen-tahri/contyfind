@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbAlertModule, NbAutocompleteModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbMenuModule, NbPopoverModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
+import { NbAccordionModule, NbAlertModule, NbAutocompleteModule, NbButtonGroupModule, NbButtonModule, NbCalendarRangeModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbListModule, NbMenuModule, NbPopoverModule, NbProgressBarModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToastrModule, NbToggleModule, NbTooltipModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -49,7 +49,6 @@ import { ModalUniteComponent } from './unite/modal-unite/modal-unite.component';
 import { ShowUniteComponent } from './unite/show-unite/show-unite.component';
 import { PdfPageCreatorComponent } from './pdf-page-creator/pdf-page-creator.component';
 import { ModalImageComponent } from './constat/modal-image/modal-image.component';
-import { FileUploadModule } from 'ng2-file-upload';
 import { ConstatForchargeurComponent } from './constat-forchargeur/constat-forchargeur.component';
 import { ProfilChargeurComponent } from './profil-chargeur/profil-chargeur.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -63,6 +62,8 @@ import { ModalScanComponent } from './constat/modal-scan/modal-scan.component';
 import { TestImageComponent } from './test-image/test-image.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ForRoutingComponent } from './for-routing/for-routing.component';
+import { TutoPagesComponent } from './tuto-pages/tuto-pages.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 
 
@@ -102,7 +103,12 @@ import { ForRoutingComponent } from './for-routing/for-routing.component';
     PdfViewerModule,
     NbSelectModule,
     NbAutocompleteModule,
-    ClipboardModule
+    ClipboardModule,
+    NbProgressBarModule,
+    NbListModule,
+    NgxEchartsModule,
+
+
     
     
     
@@ -160,7 +166,8 @@ import { ForRoutingComponent } from './for-routing/for-routing.component';
     ModalScanComponent,
     TestImageComponent,
     ImageViewerInTable,
-    ForRoutingComponent
+    ForRoutingComponent,
+    TutoPagesComponent,
   ],
 })
 export class PagesModule {

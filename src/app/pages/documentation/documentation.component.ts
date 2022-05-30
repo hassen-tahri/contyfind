@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 @Component({
   selector: 'ngx-documentation',
@@ -9,18 +7,15 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 })
 export class DocumentationComponent implements OnInit {
   pdftoShow : any
-  constructor() {     pdfMake.vfs = pdfFonts.pdfMake.vfs;}
+  pdfSrc: any;
+  constructor() {}
 
   ngOnInit(): void {
-   this.pdftoShow = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf'
-   //this.generatePdf()
+    (window as any).pdfWorkerSrc = '../../../../assets/docs/guide.pdf';
+   this.pdftoShow = '../../../../assets/docs/guide.pdf'
   }
 
-  generatePdf() {
-    const pdfDocGenerator = pdfMake.createPdf('https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf');
-    pdfDocGenerator.getBuffer((buffer) => {
-      this.pdftoShow = buffer
-    });
-  }
+
+
 
 }

@@ -1,35 +1,57 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
 @import '../../@theme/styles/themes';
 
 @include nb-install-component() {
+  overflow: auto;
 
-  nb-card {
-    position: relative;
-    overflow: hidden;
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > * {
+      flex: 1;
+    }
+
+    &:first-child {
+      border-top: none;
+    }
   }
 
-  nb-card-header {
+  .delta {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-top: nb-theme(card-header-with-select-padding-top);
-    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
-    margin-bottom: -1px;
-  }
 
-  ngx-traffic-chart {
-    flex: 1;
-  }
-
-  ::ng-deep {
-    .echart {
-      display: block;
-      height: 100%;
-      width: 100%;
+    &.down {
+      color: nb-theme(color-danger-default);
     }
 
-    canvas {
-      border-bottom-left-radius: nb-theme(card-border-radius);
-      border-bottom-right-radius: nb-theme(card-border-radius);
+    &.up {
+      color: nb-theme(color-success-default);
     }
+  }
+
+  @include media-breakpoint-down(is) {
+    ngx-traffic-bar {
+      display: none;
+    }
+  }
+
+  ngx-echarts-pie,
+  ngx-echarts-bar,
+  ngx-echarts-line,
+  ngx-echarts-multiple-xaxis,
+  ngx-echarts-area-stack,
+  ngx-echarts-bar-animation,
+  ngx-echarts-radar {
+    display: block;
+    height: nb-theme(card-height-medium);
+    width: 100%;
+  }
+
+  ::ng-deep .echart {
+    height: 100%;
+    width: 100%;
   }
 }
