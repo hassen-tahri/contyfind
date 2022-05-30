@@ -94,7 +94,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Tuto',
-    icon: 'book',
+    icon: 'monitor',
     link: '/pages/tuto',
     data: 'admin',
 
