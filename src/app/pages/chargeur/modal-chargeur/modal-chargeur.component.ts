@@ -84,8 +84,8 @@ export class ModalChargeurComponent implements OnInit {
           await this.delay(1000)
           this.user = await this.userService.getByPseudo(this.user.pseudo)
           this.chargeurService.addChargeur(this.chargeur, this.user.id)
-          this.mail = this.calculateMail(this.user, this.chargeur)
-          this.mailService.sendMail(this.mail)
+         // this.mail = this.calculateMail(this.user, this.chargeur)
+         // this.mailService.sendMail(this.mail)
           localStorage.removeItem('e');
           localStorage.removeItem('id');
           this.windowRef.close();
@@ -133,8 +133,8 @@ export class ModalChargeurComponent implements OnInit {
           await this.delay(1000)
           this.user = await this.userService.getByPseudo(this.user.pseudo)
           this.chargeurService.editChargeur(this.chargeur, this.user.id)
-          this.mail = this.calculateMail(this.user, this.chargeur)
-          this.mailService.sendMail(this.mail)
+         // this.mail = this.calculateMail(this.user, this.chargeur)
+         // this.mailService.sendMail(this.mail)
           localStorage.removeItem('e');
           localStorage.removeItem('id');
           this.windowRef.close();

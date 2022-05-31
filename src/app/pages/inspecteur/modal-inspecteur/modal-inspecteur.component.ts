@@ -68,8 +68,8 @@ export class ModalInspecteurComponent implements OnInit {
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/pages/inspecteur']));
         this.toastrService.success("Succès", "Inspecteur ajouté");
-        this.mail = this.calculateMail(this.user, this.inspecteur)
-        this.mailService.sendMail(this.mail)
+       // this.mail = this.calculateMail(this.user, this.inspecteur)
+       // this.mailService.sendMail(this.mail)
       }
     }
     if (e === '1') {
