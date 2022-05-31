@@ -28,13 +28,8 @@ export class PagesComponent {
 
 
   menu = MENU_ITEMS;
-  //url Vm
-  public static urlConfig = 'http://34.155.78.73:9099/';
-  public static urlDomaine = 'http://34.155.78.73/';
-  //localhost
-  //public static urlConfig = 'http://localhost:9099/';
-  //public static urlConfig = 'https://springesurveys.herokuapp.com/';
- // public static urlDomaine = 'http://localhost:4200/';
+  public static urlConfig = 'https://esurveys-back.herokuapp.com/';
+  public static urlDomaine = 'https://esurveys.herokuapp.com/';
   roleItem: any
   constructor(
     private accessChecker: NbAccessChecker,
