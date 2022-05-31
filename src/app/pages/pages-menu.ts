@@ -93,11 +93,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     hidden : true
   },
   {
-    title: 'Tuto',
+    title: 'Tutoriel',
     icon: 'monitor',
     link: '/pages/tuto',
     data: 'admin',
-
   },
 
 ];
