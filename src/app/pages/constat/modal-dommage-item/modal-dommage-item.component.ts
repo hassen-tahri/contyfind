@@ -92,7 +92,6 @@ export class ModalDommageItemComponent implements OnInit {
       this.toastrService.success("Succès", "dommage ajouté");
     }
     if (e === '1') {
-      this.dommageItem.phase = phase
       this.dommageItem.detail = this.detailNgModel
       this.dommageItem.dommageValue = this.dommageNgModel
       this.dommageItemService.edit(this.dommageItem, this.dommageItem.dommage.id , +idC)
