@@ -153,8 +153,8 @@ export class ChargeurComponent implements OnInit {
   async onDeleteConfirm(event) {
     if (window.confirm(`Vous etes sure de supprimer ce chargeur`)) {
       event.confirm.resolve(
-        this.deleteIfUser(event.data),
         await this.chargeurService.deleteChargeur(event.data.id),
+        this.deleteIfUser(event.data),
         this.source.filter(p => p !== event.data),
         this.toastrService.warning("Succès", "chargeur supprimé")
       );
